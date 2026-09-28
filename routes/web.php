@@ -18,7 +18,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [
         AuthController::class,
         'registerStep1'
-    ])->name('register.step1');
+    ])->name('register.step1.process');
 
 
     /*
@@ -48,7 +48,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/register/tahap-3', [
         AuthController::class,
         'showRegisterStep3'
-    ])->name('register.step3');
+    ])->name('register.step3.process');
 
 
     Route::post('/register/selesai', [

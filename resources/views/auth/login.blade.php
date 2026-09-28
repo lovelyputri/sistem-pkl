@@ -10,153 +10,239 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         html, body {
             width: 100%;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        body {
+            height: 100%;
             font-family: 'Inter', sans-serif;
-            color: #1e3a8a;
+            color: #0f172a;
+            overflow-x: hidden;
         }
 
-        /* ==============================
-           HALAMAN FULL SCREEN
-           Background SATU warna biru muda
-        ============================== */
-        .login-page {
+        .login-wrapper {
             width: 100%;
             min-height: 100vh;
             position: relative;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e4efff 100%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
             overflow: hidden;
-            background: #eaf4ff;
+            padding: 30px 70px 0;
+            gap: 30px;
         }
 
-        /* ==============================
-           ILUSTRASI - BESAR & KE KIRI
-           Boleh ketutup card login (z-index 1)
-        ============================== */
-        .illustration-bg {
+        /* ==========================================
+           ANIMASI CSS
+        ========================================== */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-14px) rotate(4deg); }
+        }
+
+        @keyframes floatMedium {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-3deg); }
+        }
+
+        @keyframes alertShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        @keyframes cardGlow {
+            0%, 100% {
+                box-shadow:
+                    0 25px 50px -12px rgba(30, 58, 138, 0.12),
+                    0 0 0 0 rgba(37, 99, 235, 0);
+            }
+            50% {
+                box-shadow:
+                    0 25px 50px -12px rgba(30, 58, 138, 0.18),
+                    0 0 0 6px rgba(37, 99, 235, 0.05);
+            }
+        }
+
+        @keyframes ringPulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+
+        @keyframes shimmerLine {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes dotBlink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ==========================================
+           IKON-IKON DEKORATIF MELAYANG
+        ========================================== */
+        .floating-badge {
             position: absolute;
-            bottom: -50px;
-            left: -150px;
-            width: 1300px;
-            height: 850px;
-            background-image: url('{{ asset('images/login.png') }}');
-            background-size: contain;
-            background-position: left bottom;
-            background-repeat: no-repeat;
-            z-index: 1;
+            z-index: 2;
+            background: #ffffff;
+            padding: 10px 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             pointer-events: none;
         }
 
-        /* ==============================
-           KONTEN UTAMA 2 KOLOM
-        ============================== */
-        .login-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            min-height: 100vh;
+        .floating-badge .badge-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
             display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* ==============================
-           KIRI: Teks & Fitur
-        ============================== */
-        .login-left {
-            flex: 1 1 55%;
-            padding: 40px 20px 0 60px;
+        .floating-badge span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .badge-1 { top: 14%; left: 42%; animation: floatSlow 5s ease-in-out infinite; }
+        .badge-1 .badge-icon { background: #dbeafe; color: #2563eb; }
+
+        .badge-2 { top: 48%; left: 36%; animation: floatMedium 4s ease-in-out infinite 1s; }
+        .badge-2 .badge-icon { background: #dcfce7; color: #16a34a; }
+
+        .badge-3 { bottom: 18%; left: 48%; animation: floatSlow 6s ease-in-out infinite 0.5s; }
+        .badge-3 .badge-icon { background: #fef3c7; color: #d97706; }
+
+        /* ==========================================
+           GAMBAR ILUSTRASI
+        ========================================== */
+        .bg-illustration {
+            position: absolute;
+            bottom: 0;
+            left: 0px;
+            height: 65vh;
+            max-height: 560px;
+            width: auto;
+            max-width: 48%;
+            object-fit: contain;
+            object-position: bottom left;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ==========================================
+           AREA KIRI: TEKS & FITUR
+        ========================================== */
+        .left-content {
+            position: relative;
+            z-index: 5;
+            flex: 1;
+            max-width: 460px;
+            padding: 0;
+            margin-top: 0;
+            align-self: flex-start;
             display: flex;
             flex-direction: column;
-            position: relative;
-            z-index: 3;
+            justify-content: flex-start;
         }
 
-        /* Logo */
         .brand {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 32px;
-            position: relative;
-            z-index: 4;
+            gap: 12px;
+            margin-bottom: 22px;
         }
 
-        .brand-logo-img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: #2563eb;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
         .brand-text h2 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
-            color: #1e3a8a;
+            color: #0f172a;
             line-height: 1.1;
         }
 
         .brand-text p {
-            font-size: 12px;
-            color: #64748b;
-            font-weight: 500;
-            margin-top: 3px;
+            font-size: 11px;
+            color: #475569;
+            font-weight: 600;
+            margin-top: 2px;
         }
 
-        /* Judul */
-        .left-title {
-            font-size: 38px;
+        .main-title {
+            font-size: 30px;
             font-weight: 800;
-            color: #1e3a8a;
-            line-height: 1.22;
-            margin-bottom: 16px;
-            max-width: 460px;
-            position: relative;
-            z-index: 4;
+            color: #0f172a;
+            line-height: 1.25;
+            margin-bottom: 12px;
         }
 
-        .left-title span {
-            color: #2563eb;
-        }
+        .main-title span { color: #2563eb; }
 
-        .left-desc {
-            font-size: 14.5px;
-            color: #64748b;
-            line-height: 1.7;
-            margin-bottom: 26px;
-            max-width: 440px;
+        .main-desc {
+            font-size: 12.5px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            max-width: 400px;
             font-weight: 500;
-            position: relative;
-            z-index: 4;
         }
 
-        /* ==============================
-           FITUR - TANPA CARD
-        ============================== */
+        /* ==========================================
+           FEATURE LIST
+        ========================================== */
         .feature-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            max-width: 400px;
-            position: relative;
-            z-index: 4;
+            gap: 8px;
+            max-width: 360px;
         }
 
         .feature-item {
             display: flex;
             align-items: flex-start;
-            gap: 13px;
-            background: transparent;
-            border: none;
-            padding: 0;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            border-radius: 12px;
+            padding: 8px 12px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.06);
+            transition: all 0.25s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.65);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+            transform: translateY(-2px);
         }
 
         .feature-icon {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: #ffffff;
             border: 1.5px solid #bfdbfe;
             border-radius: 10px;
@@ -165,103 +251,176 @@
             justify-content: center;
             color: #2563eb;
             flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);
         }
 
-        .feature-text h4 {
+        .feature-info h4 {
             font-size: 13.5px;
             font-weight: 700;
-            color: #1e3a8a;
-            margin-bottom: 3px;
+            color: rgb(0, 30, 101);
+            margin-bottom: 2px;
         }
 
-        .feature-text p {
+        .feature-info p {
             font-size: 11.5px;
-            color: #64748b;
-            line-height: 1.5;
+            color: #2e3745;
+            line-height: 1.45;
             font-weight: 500;
         }
 
-        /* ==============================
-           KANAN: Card Login TRANSPARAN
-        ============================== */
-        .login-right {
-            flex: 1 1 45%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 60px 30px 20px;
+        /* ==========================================
+           AREA KANAN: KARTU LOGIN
+        ========================================== */
+        .right-content {
             position: relative;
             z-index: 5;
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding: 0;
         }
 
         .login-card {
             width: 100%;
-            max-width: 480px;
-            /* TRANSPARAN - glassmorphism */
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(255, 255, 255, 0.75);
-            border-radius: 24px;
-            padding: 45px 42px 40px;
-            box-shadow: 0 20px 60px rgba(30, 58, 138, 0.12);
+            max-width: 470px;
+            min-height: 640px;
+            border-radius: 30px;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+
+            background-color: #ffffff;
+            background-image:
+                radial-gradient(rgba(37, 99, 235, 0.055) 1px, transparent 1px);
+            background-size: 18px 18px;
+
+            border: 1px solid #e6efff;
+            box-shadow: 0 25px 50px -12px rgba(30, 58, 138, 0.12);
+
+            animation: cardGlow 4s ease-in-out infinite;
         }
 
-        /* Card Header */
-        .login-header {
+        .login-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(
+                90deg,
+                #2563eb 0%,
+                #60a5fa 25%,
+                #a5c8ff 50%,
+                #60a5fa 75%,
+                #2563eb 100%
+            );
+            background-size: 200% 100%;
+            border-radius: 30px 30px 0 0;
+            animation: shimmerLine 3s linear infinite;
+            z-index: 2;
+        }
+
+        .login-card::after {
+            content: "";
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.10) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 36px;
         }
 
-        .login-header-icon {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 18px;
-            background: rgba(229, 240, 253, 0.9);
+        .card-header-icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 14px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-        }
-
-        .login-header-icon img {
-            width: 55%;
-            height: 55%;
-            object-fit: contain;
-        }
-
-        .login-header h1 {
-            font-size: 25px;
-            font-weight: 800;
-            color: #1e3a8a;
-            margin-bottom: 8px;
-        }
-
-        .login-header p {
-            font-size: 14px;
             color: #2563eb;
-            font-weight: 500;
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.15),
+                inset 0 -2px 6px rgba(37, 99, 235, 0.08);
+            position: relative;
         }
 
-        /* Form */
-        .form-group { margin-bottom: 20px; }
+        .card-header-icon::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(37, 99, 235, 0.35);
+            animation: ringPulse 2.5s ease-out infinite;
+        }
+
+        .card-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .card-header p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .alert-error {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            animation: alertShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .alert-error svg { flex-shrink: 0; }
+
+        .form-group { margin-bottom: 18px; }
 
         .form-group label {
             display: block;
-            font-size: 14.5px;
+            font-size: 13px;
             font-weight: 700;
-            color: #1e3a8a;
-            margin-bottom: 10px;
+            color: #1e293b;
+            margin-bottom: 6px;
         }
 
-        .input-wrapper { position: relative; }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
         .input-icon {
             position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
+            left: 16px;
             color: #2563eb;
             display: flex;
             align-items: center;
@@ -270,308 +429,385 @@
 
         .form-control {
             width: 100%;
-            height: 58px;
-            border: 1.5px solid rgba(168, 199, 250, 0.7);
+            height: 50px;
+            border: 1.5px solid #bfdbfe;
             border-radius: 12px;
-            padding: 0 50px 0 52px;
-            font-size: 14px;
-            color: #1e3a8a;
-            background: rgba(255, 255, 255, 0.85);
-            font-family: 'Inter', sans-serif;
-            transition: all 0.2s;
-            font-weight: 500;
-        }
-
-        .form-control::placeholder {
-            color: #2563eb;
-            font-weight: 500;
-            opacity: 0.85;
+            padding: 0 44px 0 46px;
+            font-size: 13.5px;
+            color: #0f172a;
+            background: #ffffff;
+            transition: all 0.2s ease;
         }
 
         .form-control:focus {
             outline: none;
             border-color: #2563eb;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         .password-toggle {
             position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
+            right: 16px;
             background: none;
             border: none;
-            color: #2563eb;
+            color: #64748b;
             cursor: pointer;
             display: flex;
             align-items: center;
-            padding: 0;
         }
 
-        /* Options */
-        .login-options {
+        .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 4px;
-            margin-bottom: 26px;
+            margin-top: 8px;
+            margin-bottom: 24px;
         }
 
-        .remember {
+        .remember-me {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13.5px;
-            color: #1e3a8a;
-            font-weight: 500;
+            gap: 8px;
+            font-size: 13px;
+            color: #64748b;
             cursor: pointer;
         }
 
-        .remember input {
-            width: 20px;
-            height: 20px;
+        .remember-me input {
+            width: 17px;
+            height: 17px;
             accent-color: #2563eb;
             cursor: pointer;
-            border-radius: 5px;
         }
 
-        .forgot-password {
-            font-size: 13.5px;
+        .forgot-link {
+            font-size: 13px;
             font-weight: 700;
-            color: #1e3a8a;
+            color: #0f172a;
             text-decoration: none;
         }
 
-        .forgot-password:hover { color: #2563eb; }
-
-        /* Tombol */
-        .btn-login {
+        .btn-submit {
             width: 100%;
-            height: 58px;
+            height: 50px;
             background: #2563eb;
             border: none;
             border-radius: 12px;
             color: #ffffff;
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: background 0.2s;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+            transition: all 0.2s ease;
         }
 
-        .btn-login:hover { background: #1d4ed8; }
+        .btn-submit:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
 
-        /* Divider */
-        .register-divider {
+        .card-footer {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-top: 28px;
+            gap: 8px;
+            margin-top: 26px;
             font-size: 13px;
-            color: #2563eb;
-            font-weight: 500;
-            white-space: nowrap;
+            color: #64748b;
         }
 
-        .register-divider::before,
-        .register-divider::after {
+        .card-footer::before,
+        .card-footer::after {
             content: "";
             flex: 1;
-            height: 1.5px;
-            background: rgba(168, 199, 250, 0.6);
+            height: 1px;
+            background: #e2e8f0;
         }
 
-        .register-divider a {
-            color: #1e3a8a;
+        .card-footer a {
+            color: #0f172a;
             font-weight: 700;
             text-decoration: none;
         }
 
-        /* Alert */
-        .alert {
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 500;
-        }
-        .alert-danger {
-            background: #fef2f2;
-            color: #dc2626;
-            border: 1px solid #fecaca;
-        }
-        .alert-success {
-            background: #f0fdf4;
-            color: #16a34a;
-            border: 1px solid #bbf7d0;
-        }
-
-        /* ==============================
+        /* ==========================================
            RESPONSIVE
-        ============================== */
-        @media (max-width: 1200px) {
-            .login-left { padding: 32px 20px 0 40px; }
-            .login-right { padding: 30px 40px 30px 10px; }
-            .left-title { font-size: 32px; }
-            .login-card { padding: 40px 35px; }
-            .illustration-bg { width: 1100px; height: 720px; left: -130px; }
-        }
-
-        @media (max-width: 950px) {
-            html, body { overflow: auto; }
-            .login-page { overflow: visible; }
-            .login-content {
+        ========================================== */
+        @media (max-width: 1024px) {
+            .login-wrapper {
                 flex-direction: column;
+                padding: 30px 20px;
+                align-items: center;
+            }
+            .bg-illustration, .floating-badge { display: none; }
+            .left-content {
+                max-width: 100%;
+                width: 100%;
+                align-items: center;
+                text-align: center;
+            }
+            .right-content {
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+            }
+            .login-card {
+                max-width: 100%;
                 min-height: auto;
             }
-            .login-left {
-                flex: 0 0 auto;
-                min-height: 500px;
-                padding: 30px 25px 320px;
-            }
-            .illustration-bg {
-                width: 100%;
-                height: 320px;
-                left: 0;
-                bottom: 0;
-                background-position: center bottom;
-            }
-            .login-right {
-                flex: 1 1 auto;
-                padding: 30px 20px 40px;
-                width: 100%;
-            }
-            .login-card { max-width: 100%; }
         }
 
-        @media (max-width: 600px) {
-            .login-left { padding: 22px 20px 220px; min-height: 420px; }
-            .illustration-bg { height: 220px; }
-            .left-title { font-size: 24px; }
-            .left-desc { font-size: 13px; }
-            .feature-list { display: none; }
-            .login-card { padding: 30px 22px; border-radius: 20px; }
-            .login-header h1 { font-size: 21px; }
-            .login-header-icon { width: 70px; height: 70px; }
+        /* ==========================================
+           SLIDE PAGE TRANSITION (TAMBAHAN)
+        ========================================== */
+
+        /* Halaman masuk dari kanan (dipakai saat balik ke login dari register/lupa password) */
+        @keyframes slideInFromRight {
+            0% {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Halaman masuk dari kiri (dipakai saat balik ke login dari arah kiri) */
+        @keyframes slideInFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Halaman keluar ke kiri (saat klik Register / Lupa Password) */
+        @keyframes slideOutToLeft {
+            0% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-60px);
+            }
+        }
+
+        /* Halaman keluar ke kanan (saat balik ke login) */
+        @keyframes slideOutToRight {
+            0% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(60px);
+            }
+        }
+
+        /* Container transisi */
+        .page-transition-wrap {
+            width: 100%;
+            min-height: 100vh;
+            will-change: transform, opacity;
+        }
+
+        /* State: masuk dari kanan */
+        body.enter-from-right .page-transition-wrap {
+            animation: slideInFromRight 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* State: masuk dari kiri */
+        body.enter-from-left .page-transition-wrap {
+            animation: slideInFromLeft 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* State: keluar ke kiri */
+        body.leave-to-left .page-transition-wrap {
+            animation: slideOutToLeft 0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
+        }
+
+        /* State: keluar ke kanan */
+        body.leave-to-right .page-transition-wrap {
+            animation: slideOutToRight 0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards;
+        }
+
+        /* Efek hover pada link transisi */
+        .transition-link {
+            transition: transform 0.2s ease, color 0.2s ease;
+            display: inline-block;
+        }
+
+        .transition-link:hover {
+            transform: translateX(2px);
+            color: #2563eb !important;
+        }
+
+        .transition-link:active {
+            transform: scale(0.96);
         }
     </style>
 </head>
 <body>
 
-<div class="login-page">
+<!-- WRAPPER TRANSISI (TAMBAHAN) -->
+<div class="page-transition-wrap">
 
-    {{-- Ilustrasi besar di belakang (boleh ketutup card login) --}}
-    <div class="illustration-bg"></div>
+<div class="login-wrapper">
 
-    {{-- Konten utama --}}
-    <div class="login-content">
+    <!-- IKON-IKON DEKORATIF MELAYANG -->
+    <div class="floating-badge badge-1">
+        <div class="badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h.01M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/></svg>
+        </div>
+        <span>Realtime Sync</span>
+    </div>
 
-        {{-- KIRI --}}
-        <div class="login-left">
+    <div class="floating-badge badge-2">
+        <div class="badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span>Terproteksi 100%</span>
+    </div>
 
-            <div class="brand">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="brand-logo-img">
-                <div class="brand-text">
-                    <h2>GUSPELOR.NET</h2>
-                    <p>Sistem Pengelolaan PKL</p>
+    <div class="floating-badge badge-3">
+        <div class="badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <span>Akses Otomatis</span>
+    </div>
+
+    <!-- ILUSTRASI GAMBAR -->
+    <img src="{{ asset('images/login.png') }}" alt="Ilustrasi GUSPELOR.NET" class="bg-illustration">
+
+    <!-- SISI KIRI -->
+    <div class="left-content">
+        
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                    <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                    <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h2>GUSPELOR.NET</h2>
+                <p>Sistem Pengelolaan PKL</p>
+            </div>
+        </div>
+
+        <h1 class="main-title">
+            Kelola PKL dengan<br>
+            <span>mudah, efektif, dan</span><br>
+            <span>terstruktur</span>
+        </h1>
+
+        <p class="main-desc">
+            GUSPELOR.NET membantu sekolah, siswa, dan pembimbing dalam mengelola kegiatan PKL dengan lebih terintegrasi, transparan, dan efisien
+        </p>
+
+        <div class="feature-list">
+            
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <div class="feature-info">
+                    <h4>Manajemen Terpadu</h4>
+                    <p>Kelola siswa, guru pembimbing, absensi, jurnal, dan data PKL dalam satu sistem.</p>
                 </div>
             </div>
 
-            <h1 class="left-title">
-                Kelola PKL dengan <span>mudah, efektif,</span> dan terstruktur
-            </h1>
-
-            <p class="left-desc">
-                GUSPELOR.NET membantu sekolah, siswa, dan pembimbing dalam mengelola kegiatan PKL dengan lebih terintegrasi, transparan, dan efisien
-            </p>
-
-            <div class="feature-list">
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Manajemen Terpadu</h4>
-                        <p>Kelola siswa, guru pembimbing, absensi, jurnal, dan data PKL dalam satu sistem.</p>
-                    </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
                 </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            <path d="M9 12l2 2 4-4"></path>
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Aman & Terpercaya</h4>
-                        <p>Data tersimpan aman hanya dapat diakses oleh yang berwenang.</p>
-                    </div>
+                <div class="feature-info">
+                    <h4>Aman & Terpercaya</h4>
+                    <p>Data tersimpan aman hanya dapat diakses oleh yang berwenang.</p>
                 </div>
+            </div>
 
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                            <polyline points="3 20 18 5 21 8"></polyline>
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Laporan Real-Time</h4>
-                        <p>Pantau aktivitas dan dapatkan laporan secara real-time kapan saja.</p>
-                    </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                        <polyline points="3 20 18 5 21 8"></polyline>
+                    </svg>
                 </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Efisien & Praktis</h4>
-                        <p>Otomatis proses administrasi PKL sehingga lebih efisien dan praktis.</p>
-                    </div>
+                <div class="feature-info">
+                    <h4>Laporan Real-Time</h4>
+                    <p>Pantau aktivitas dan dapatkan laporan secara real-time kapan saja.</p>
                 </div>
+            </div>
 
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+                <div class="feature-info">
+                    <h4>Efisien & Praktis</h4>
+                    <p>Otomatis proses administrasi PKL sehingga lebih efisien dan praktis.</p>
+                </div>
             </div>
 
         </div>
 
-        {{-- KANAN: Card Login Transparan --}}
-        <div class="login-right">
-            <div class="login-card">
+    </div>
 
-                <div class="login-header">
-                    <div class="login-header-icon">
-                        <img src="{{ asset('images/logo.png') }}" alt="Logo">
+    <!-- SISI KANAN (CARD LOGIN) -->
+    <div class="right-content">
+        <div class="login-card">
+
+            <div>
+                <div class="card-header">
+                    <div class="card-header-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                            <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                        </svg>
                     </div>
                     <h1>Selamat datang kembali !</h1>
                     <p>Silahkan masuk untuk melanjutkan ke dashboard</p>
                 </div>
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">{{ $errors->first() }}</div>
+                @if (session('error'))
+                    <div class="alert-error">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>{{ session('error') }}</span>
+                    </div>
                 @endif
 
-                @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                @if ($errors->any())
+                    <div class="alert-error">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span>{{ $errors->first() }}</span>
+                    </div>
                 @endif
 
                 <form method="POST" action="{{ route('login.process') }}">
@@ -581,21 +817,12 @@
                         <label for="username">Username</label>
                         <div class="input-wrapper">
                             <span class="input-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                     <circle cx="12" cy="7" r="4"></circle>
                                 </svg>
                             </span>
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                class="form-control"
-                                value="{{ old('username') }}"
-                                placeholder="Masukkan email atau username"
-                                autocomplete="username"
-                                required
-                            >
+                            <input type="text" id="username" name="username" class="form-control" value="{{ old('username') }}" placeholder="Masukkan email atau username" required>
                         </div>
                     </div>
 
@@ -603,22 +830,14 @@
                         <label for="password">Password</label>
                         <div class="input-wrapper">
                             <span class="input-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                 </svg>
                             </span>
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                class="form-control"
-                                placeholder="Masukkan password"
-                                autocomplete="current-password"
-                                required
-                            >
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
                             <button type="button" class="password-toggle" onclick="togglePassword()">
-                                <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
@@ -626,38 +845,33 @@
                         </div>
                     </div>
 
-                    <div class="login-options">
-                        <label class="remember">
+                    <div class="form-options">
+                        <label class="remember-me">
                             <input type="checkbox" name="remember" value="1">
                             <span>Ingat saya</span>
                         </label>
-                        <a href="{{ route('password.request') }}" class="forgot-password">
-                            Lupa Password?
-                        </a>
+                        <a href="{{ route('password.request') }}" class="forgot-link transition-link" data-transition="forward">Lupa Password?</a>
                     </div>
 
-                    <button type="submit" class="btn-login">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                            <polyline points="10 17 15 12 10 7"></polyline>
-                            <line x1="15" y1="12" x2="3" y2="12"></line>
-                        </svg>
+                    <button type="submit" class="btn-submit">
                         Masuk
                     </button>
 
                 </form>
-
-                <div class="register-divider">
-                    <span>Belum punya akun?</span>
-                    <a href="{{ route('register') }}">Daftar sekarang</a>
-                </div>
-
             </div>
-        </div>
 
+            <div class="card-footer">
+                <span>Belum punya akun?</span>
+                <a href="{{ route('register') }}" class="transition-link" data-transition="forward">Daftar sekarang</a>
+            </div>
+
+        </div>
     </div>
 
 </div>
+
+</div>
+<!-- END WRAPPER TRANSISI -->
 
 <script>
     function togglePassword() {
@@ -672,6 +886,65 @@
             icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
         }
     }
+
+    // ==========================================
+    // SLIDE PAGE TRANSITION (TAMBAHAN)
+    // ==========================================
+    (function () {
+        const KEY = 'pageTransition';
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // 1) Cek apakah halaman ini harus masuk dari kanan/kiri
+            const incoming = sessionStorage.getItem(KEY);
+            if (incoming === 'forward') {
+                // halaman baru masuk dari KANAN
+                document.body.classList.add('enter-from-right');
+            } else if (incoming === 'back') {
+                // halaman baru masuk dari KIRI
+                document.body.classList.add('enter-from-left');
+            }
+            // bersihkan agar tidak kepakai lagi saat refresh
+            sessionStorage.removeItem(KEY);
+
+            // 2) Handle klik link transisi
+            const links = document.querySelectorAll('[data-transition]');
+            links.forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    const href = link.getAttribute('href');
+                    if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
+
+                    e.preventDefault();
+
+                    const dir = link.getAttribute('data-transition'); // "forward" atau "back"
+
+                    // Simpan arah ke sessionStorage buat halaman berikutnya
+                    sessionStorage.setItem(KEY, dir);
+
+                    // Jalankan animasi keluar
+                    if (dir === 'forward') {
+                        document.body.classList.add('leave-to-left');
+                    } else {
+                        document.body.classList.add('leave-to-right');
+                    }
+
+                    // Redirect setelah animasi selesai
+                    setTimeout(function () {
+                        window.location.href = href;
+                    }, 430);
+                });
+            });
+
+            // 3) Kalau user pakai tombol BACK browser, tetap animasi masuk dari kiri
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    // dari bfcache (back/forward browser)
+                    document.body.classList.remove('leave-to-left', 'leave-to-right');
+                    document.body.classList.add('enter-from-left');
+                }
+            });
+        });
+    })();
 </script>
 
 </body>

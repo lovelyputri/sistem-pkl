@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | LOGIN
+    |--------------------------------------------------------------------------
+    */
+
     public function showLogin()
     {
         return view('auth.login');
@@ -31,7 +37,7 @@ class AuthController extends Controller
         ], [
 
             'username.required' =>
-                'Username wajib diisi.',
+                'Email wajib diisi.',
 
             'password.required' =>
                 'Password wajib diisi.',
@@ -39,7 +45,20 @@ class AuthController extends Controller
         ]);
 
 
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN MENGGUNAKAN EMAIL
+        |--------------------------------------------------------------------------
+        |
+        | Input pada form masih bernama "username",
+        | tetapi nilainya digunakan sebagai email.
+        |
+        */
+
+        if (!Auth::attempt([
+            'email' => $credentials['username'],
+            'password' => $credentials['password'],
+        ], $request->boolean('remember'))) {
 
             return back()
                 ->withInput(
@@ -47,7 +66,7 @@ class AuthController extends Controller
                 )
                 ->withErrors([
                     'username' =>
-                        'Username atau password salah.',
+                        'Email atau password salah.',
                 ]);
         }
 
@@ -58,19 +77,24 @@ class AuthController extends Controller
         if (Auth::user()->role === 'admin') {
 
             return redirect('/admin/dashboard');
-
         }
 
 
         if (Auth::user()->role === 'guru') {
 
             return redirect('/guru/dashboard');
-
         }
 
 
         return redirect('/siswa/dashboard');
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
 
     public function logout(Request $request)
     {
@@ -84,6 +108,12 @@ class AuthController extends Controller
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTER TAHAP 1
+    |--------------------------------------------------------------------------
+    */
+
     public function showRegister()
     {
         return view('auth.register');
@@ -92,9 +122,21 @@ class AuthController extends Controller
 
     public function registerStep1(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDASI DATA DIRI
+        |--------------------------------------------------------------------------
+        */
+
         $data = $request->validate([
 
             'nama_lengkap' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'tempat_lahir' => [
                 'required',
                 'string',
                 'max:255',
@@ -122,13 +164,6 @@ class AuthController extends Controller
                 'max:20',
             ],
 
-            'username' => [
-                'required',
-                'string',
-                'max:50',
-                'unique:users,username',
-            ],
-
             'email' => [
                 'required',
                 'email',
@@ -142,24 +177,96 @@ class AuthController extends Controller
                 'confirmed',
             ],
 
+        ], [
+
+            'nama_lengkap.required' =>
+                'Nama lengkap wajib diisi.',
+
+            'tempat_lahir.required' =>
+                'Tempat lahir wajib diisi.',
+
+            'nisn.required' =>
+                'NISN wajib diisi.',
+
+            'tanggal_lahir.required' =>
+                'Tanggal lahir wajib diisi.',
+
+            'jenis_kelamin.required' =>
+                'Jenis kelamin wajib dipilih.',
+
+            'no_telepon.required' =>
+                'Nomor telepon wajib diisi.',
+
+            'email.required' =>
+                'Email wajib diisi.',
+
+            'email.email' =>
+                'Format email tidak valid.',
+
+            'email.unique' =>
+                'Email sudah terdaftar.',
+
+            'password.required' =>
+                'Password wajib diisi.',
+
+            'password.min' =>
+                'Password minimal 8 karakter.',
+
+            'password.confirmed' =>
+                'Konfirmasi password tidak cocok.',
+
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | CEK NISN
+        |--------------------------------------------------------------------------
+        */
+
+        if (Siswa::where('nisn', $data['nisn'])->exists()) {
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'nisn' =>
+                        'NISN tersebut sudah terdaftar.',
+                ]);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SIMPAN DATA TAHAP 1
+        |--------------------------------------------------------------------------
+        */
 
         session([
             'register.step1' => $data,
         ]);
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | PINDAH KE TAHAP 2
+        |--------------------------------------------------------------------------
+        */
+
         return redirect()->route('register.step2');
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTER TAHAP 2
+    |--------------------------------------------------------------------------
+    */
 
     public function showRegisterStep2()
     {
         if (!session()->has('register.step1')) {
 
             return redirect()->route('register');
-
         }
 
 
@@ -169,6 +276,12 @@ class AuthController extends Controller
 
     public function registerStep2(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDASI DATA SEKOLAH
+        |--------------------------------------------------------------------------
+        */
+
         $data = $request->validate([
 
             'nama_sekolah' => [
@@ -206,18 +319,58 @@ class AuthController extends Controller
                 'after_or_equal:tanggal_mulai_pkl',
             ],
 
+        ], [
+
+            'nama_sekolah.required' =>
+                'Nama sekolah wajib diisi.',
+
+            'jurusan.required' =>
+                'Jurusan wajib diisi.',
+
+            'kelas.required' =>
+                'Kelas wajib diisi.',
+
+            'tempat_pkl.required' =>
+                'Tempat PKL wajib diisi.',
+
+            'tanggal_mulai_pkl.required' =>
+                'Tanggal mulai PKL wajib diisi.',
+
+            'tanggal_selesai_pkl.required' =>
+                'Tanggal selesai PKL wajib diisi.',
+
+            'tanggal_selesai_pkl.after_or_equal' =>
+                'Tanggal selesai PKL tidak boleh sebelum tanggal mulai PKL.',
+
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | SIMPAN DATA TAHAP 2
+        |--------------------------------------------------------------------------
+        */
 
         session([
             'register.step2' => $data,
         ]);
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | PINDAH KE TAHAP 3
+        |--------------------------------------------------------------------------
+        */
+
         return redirect()->route('register.step3');
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | REGISTER TAHAP 3
+    |--------------------------------------------------------------------------
+    */
 
     public function showRegisterStep3()
     {
@@ -227,7 +380,6 @@ class AuthController extends Controller
         ) {
 
             return redirect()->route('register');
-
         }
 
 
@@ -235,27 +387,47 @@ class AuthController extends Controller
     }
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | SELESAIKAN REGISTER
+    |--------------------------------------------------------------------------
+    */
+
     public function registerFinish()
     {
+        /*
+        |--------------------------------------------------------------------------
+        | AMBIL DATA SESSION
+        |--------------------------------------------------------------------------
+        */
+
         $step1 = session('register.step1');
 
         $step2 = session('register.step2');
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | CEK SESSION
+        |--------------------------------------------------------------------------
+        */
+
         if (!$step1 || !$step2) {
 
             return redirect()->route('register');
-
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | BUAT USER
+        |--------------------------------------------------------------------------
+        */
 
         $user = User::create([
 
             'name' =>
                 $step1['nama_lengkap'],
-
-            'username' =>
-                $step1['username'],
 
             'email' =>
                 $step1['email'],
@@ -269,7 +441,14 @@ class AuthController extends Controller
         ]);
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | BUAT DATA SISWA
+        |--------------------------------------------------------------------------
+        */
+
         Siswa::create([
+
             'user_id' =>
                 $user->id,
 
@@ -309,11 +488,29 @@ class AuthController extends Controller
         ]);
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | HAPUS SESSION REGISTER
+        |--------------------------------------------------------------------------
+        */
+
         session()->forget('register');
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN OTOMATIS
+        |--------------------------------------------------------------------------
+        */
+
         Auth::login($user);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | MASUK DASHBOARD SISWA
+        |--------------------------------------------------------------------------
+        */
 
         return redirect('/siswa/dashboard')
             ->with(
@@ -321,6 +518,13 @@ class AuthController extends Controller
                 'Pendaftaran berhasil!'
             );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LUPA PASSWORD
+    |--------------------------------------------------------------------------
+    */
 
     public function showForgotPassword()
     {
