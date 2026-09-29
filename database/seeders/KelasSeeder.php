@@ -11,17 +11,17 @@ class KelasSeeder extends Seeder
     {
         Kelas::insert([
             [
-                'nama_kelas' => 'Kelas 10',
+                'nama_kelas' => '10',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kelas' => 'Kelas 11',
+                'nama_kelas' => '11',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nama_kelas' => 'Kelas 12',
+                'nama_kelas' => '12',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

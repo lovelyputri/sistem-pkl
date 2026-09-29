@@ -4,20 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Siswa extends Model
 {
     protected $fillable = [
         'user_id',
+        'guru_id',
         'sekolah_id',
         'jurusan_id',
         'kelas_id',
         'nama_lengkap',
+        'tempat_lahir',
         'nisn',
         'tanggal_lahir',
         'jenis_kelamin',
         'no_telepon',
-        'tempat_pkl',
         'tanggal_mulai_pkl',
         'tanggal_selesai_pkl',
     ];
@@ -33,6 +35,11 @@ class Siswa extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function guru(): BelongsTo
+    {
+        return $this->belongsTo(Guru::class);
+    }
+
     public function sekolah(): BelongsTo
     {
         return $this->belongsTo(Sekolah::class);
@@ -46,5 +53,15 @@ class Siswa extends Model
     public function kelas(): BelongsTo
     {
         return $this->belongsTo(Kelas::class);
+    }
+
+    public function jurnals(): HasMany
+    {
+        return $this->hasMany(Jurnal::class);
+    }
+
+    public function absensis(): HasMany
+    {
+        return $this->hasMany(Absensi::class);
     }
 }

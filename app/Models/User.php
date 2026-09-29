@@ -12,10 +12,10 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
-        'name',
         'email',
         'password',
         'role',
+        'status',
     ];
 
     protected $hidden = [
@@ -26,7 +26,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
@@ -34,5 +33,10 @@ class User extends Authenticatable
     public function siswa(): HasOne
     {
         return $this->hasOne(Siswa::class);
+    }
+
+    public function guru(): HasOne
+    {
+        return $this->hasOne(Guru::class);
     }
 }

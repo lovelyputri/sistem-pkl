@@ -241,7 +241,7 @@
             color: #2563eb;
         }
 
-        /* ===== ACTIONS (FIXED - SEJAJAR) ===== */
+        /* ===== ACTIONS (SEJAJAR) ===== */
         .verify-actions {
             display: flex;
             align-items: center;
@@ -253,10 +253,12 @@
 
         .btn-back-gray,
         .btn-finish {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: inline-flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
             height: 46px;
             padding: 0 26px;
             border-radius: 30px;
@@ -267,15 +269,24 @@
             white-space: nowrap;
             transition: all 0.2s ease;
             box-sizing: border-box;
+            cursor: pointer;
         }
 
-        /* KUNCI: SVG jadi block biar sejajar tengah */
+        /* KUNCI: SVG block biar sejajar tengah */
         .btn-back-gray svg,
         .btn-finish svg {
-            display: block;
-            flex-shrink: 0;
+            display: block !important;
+            flex-shrink: 0 !important;
             width: 16px;
             height: 16px;
+            position: relative;
+            top: 1px;
+        }
+
+        .btn-back-gray span,
+        .btn-finish span {
+            display: inline-block;
+            line-height: 1;
         }
 
         .btn-back-gray {
@@ -304,6 +315,167 @@
             box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
         }
 
+        /* ===== TOAST ===== */
+        #toastContainer {
+            position: fixed !important;
+            top: 20px !important;
+            right: 20px !important;
+            z-index: 999999 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            max-width: 400px !important;
+            pointer-events: none !important;
+        }
+
+        .toast {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            background: #ffffff !important;
+            border-radius: 14px !important;
+            padding: 14px 16px !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18) !important;
+            border-left: 4px solid #2563eb !important;
+            pointer-events: auto !important;
+            animation: toastIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            min-width: 300px !important;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(60px) scale(0.95); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0); }
+            to   { opacity: 0; transform: translateX(60px); }
+        }
+
+        .toast.hiding { animation: toastOut 0.25s ease forwards !important; }
+
+        .toast-icon {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .toast-body { flex: 1; min-width: 0; }
+        .toast-title {
+            font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 2px;
+        }
+        .toast-message {
+            font-size: 12px; color: #475569; font-weight: 500;
+            line-height: 1.4; word-wrap: break-word;
+        }
+        .toast-close {
+            background: none; border: none; color: #94a3b8;
+            cursor: pointer; padding: 2px; display: flex;
+            align-items: center; flex-shrink: 0;
+        }
+        .toast-close:hover { color: #dc2626; }
+
+        .toast.success { border-left-color: #16a34a !important; }
+        .toast.success .toast-icon { background: #dcfce7; color: #16a34a; }
+        .toast.error { border-left-color: #dc2626 !important; }
+        .toast.error .toast-icon { background: #fee2e2; color: #dc2626; }
+        .toast.warning { border-left-color: #d97706 !important; }
+        .toast.warning .toast-icon { background: #fef3c7; color: #d97706; }
+        .toast.info { border-left-color: #2563eb !important; }
+        .toast.info .toast-icon { background: #dbeafe; color: #2563eb; }
+
+        .toast-progress {
+            position: absolute; bottom: 0; left: 0;
+            height: 2px; background: currentColor; opacity: 0.4;
+            animation: toastProgress 3.5s linear forwards;
+        }
+        @keyframes toastProgress {
+            from { width: 100%; }
+            to   { width: 0%; }
+        }
+
+        /* ===== MODAL ===== */
+        #modalOverlay {
+            position: fixed !important;
+            inset: 0 !important;
+            background: rgba(15, 23, 42, 0.55) !important;
+            backdrop-filter: blur(4px) !important;
+            z-index: 999998 !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 20px !important;
+        }
+        #modalOverlay.active {
+            display: flex !important;
+            animation: fadeIn 0.2s ease !important;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 32px 28px 24px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(15px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-icon {
+            width: 68px; height: 68px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .modal-icon.success { background: #dcfce7; color: #16a34a; }
+        .modal-icon.error { background: #fee2e2; color: #dc2626; }
+        .modal-icon.warning { background: #fef3c7; color: #d97706; }
+        .modal-icon.info { background: #dbeafe; color: #2563eb; }
+
+        .modal-title {
+            font-size: 19px; font-weight: 800;
+            color: #0f172a; margin-bottom: 8px;
+        }
+        .modal-message {
+            font-size: 13px; color: #64748b; font-weight: 500;
+            line-height: 1.55; margin-bottom: 20px;
+        }
+        .modal-btn-row {
+            display: flex;
+            gap: 10px;
+        }
+        .modal-btn {
+            flex: 1;
+            height: 48px; border-radius: 12px;
+            border: none; font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            color: #ffffff; background: #2563eb;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+        .modal-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+        .modal-btn.secondary {
+            background: #ffffff;
+            color: #334155;
+            border: 1.5px solid #e2e8f0;
+            box-shadow: none;
+        }
+        .modal-btn.secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+        .modal-btn.success { background: #16a34a; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3); }
+        .modal-btn.success:hover { background: #15803d; }
+        .modal-btn.warning {
+            background: #d97706;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+        }
+        .modal-btn.warning:hover { background: #b45309; }
+
         /* RESPONSIVE */
         @media (max-width: 1100px) {
             .register-wrapper { flex-direction: column; padding: 30px 20px; }
@@ -316,6 +488,8 @@
             .verify-actions { flex-direction: column-reverse; }
             .btn-finish { max-width: 100%; width: 100%; }
             .btn-back-gray { width: 100%; justify-content: center; }
+            #toastContainer { top: 12px !important; right: 12px !important; left: 12px !important; max-width: none !important; }
+            .toast { min-width: auto !important; }
         }
 
         /* ===== SLIDE PAGE TRANSITION ===== */
@@ -329,11 +503,17 @@
         body.enter-from-left  .page-transition-wrap { animation: slideInFromLeft  0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
         body.leave-to-left    .page-transition-wrap { animation: slideOutToLeft   0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards; }
         body.leave-to-right   .page-transition-wrap { animation: slideOutToRight  0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards; }
-        .transition-link { transition: transform 0.2s ease, color 0.2s ease; display: inline-block; }
-        .transition-link:hover { transform: translateX(2px); color: #2563eb !important; }
     </style>
 </head>
 <body>
+
+<!-- TOAST CONTAINER -->
+<div id="toastContainer"></div>
+
+<!-- MODAL OVERLAY -->
+<div id="modalOverlay">
+    <div class="modal-box" id="modalBox"></div>
+</div>
 
 <div class="page-transition-wrap">
 <div class="register-wrapper">
@@ -424,7 +604,6 @@
             <!-- ISI VERIFIKASI -->
             <div class="verify-wrap">
 
-                <!-- GAMBAR REGISTER3 -->
                 <img src="{{ asset('images/register3.png') }}" alt="Verifikasi" class="verify-img">
 
                 <h2 class="verify-title">Pendaftaran Berhasil!</h2>
@@ -433,7 +612,6 @@
                     Akun kamu sedang dalam proses <strong>verifikasi oleh admin</strong>.
                 </p>
 
-                <!-- INFO BOX BIRU -->
                 <div class="info-box-blue">
                     <div class="ib-icon">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -448,7 +626,6 @@
                     </div>
                 </div>
 
-                <!-- INFO BOX PUTIH -->
                 <div class="info-box-white">
                     <h5>Apa yang terjadi selanjutnya?</h5>
                     <ul>
@@ -476,17 +653,22 @@
                     </ul>
                 </div>
 
-                <!-- ACTIONS (SEJAJAR) -->
+                <!-- ACTIONS -->
                 <div class="verify-actions">
-                    <a href="{{ route('register.step2') }}" class="btn-back-gray">
+                    <a href="{{ route('register.step2') }}"
+                       class="btn-back-gray"
+                       id="btnBack"
+                       data-transition="back">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12"/>
                             <polyline points="12 19 5 12 12 5"/>
                         </svg>
-                        <span>Kembali ke Data Sekolah</span>
+                        <span>Kembali</span>
                     </a>
 
-                    <a href="{{ route('login') }}" class="btn-finish">
+                    <a href="{{ route('login') }}"
+                       class="btn-finish"
+                       id="btnFinish">
                         <span>Selesai</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="20 6 9 17 4 12"/>
@@ -502,38 +684,270 @@
 </div>
 </div>
 
-<script>
-    // ==========================================
-    // SLIDE PAGE TRANSITION
-    // ==========================================
-    (function () {
-        const KEY = 'pageTransition';
-        document.addEventListener('DOMContentLoaded', function () {
-            const incoming = sessionStorage.getItem(KEY);
-            if (incoming === 'forward') document.body.classList.add('enter-from-right');
-            else if (incoming === 'back') document.body.classList.add('enter-from-left');
-            sessionStorage.removeItem(KEY);
 
-            document.querySelectorAll('a[data-transition]').forEach(function (link) {
-                link.addEventListener('click', function (e) {
-                    const href = link.getAttribute('href');
-                    if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
-                    e.preventDefault();
-                    const dir = link.getAttribute('data-transition');
-                    sessionStorage.setItem(KEY, dir);
-                    document.body.classList.add(dir === 'forward' ? 'leave-to-left' : 'leave-to-right');
-                    setTimeout(function () { window.location.href = href; }, 430);
+<script>
+
+// ==========================================
+// TOAST SYSTEM
+// ==========================================
+const Toast = {
+    _closeCurrent: function() {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        container.querySelectorAll('.toast').forEach(function(el) {
+            el.classList.add('hiding');
+            setTimeout(function() { el.remove(); }, 250);
+        });
+    },
+
+    show: function(type, title, message, duration) {
+        duration = duration || 3500;
+        try {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            this._closeCurrent();
+
+            const icons = {
+                success: '<polyline points="20 6 9 17 4 12"/>',
+                error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+                info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.innerHTML =
+                '<div class="toast-icon">' +
+                    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                        (icons[type] || icons.info) +
+                    '</svg>' +
+                '</div>' +
+                '<div class="toast-body">' +
+                    '<div class="toast-title">' + title + '</div>' +
+                    '<div class="toast-message">' + message + '</div>' +
+                '</div>' +
+                '<button class="toast-close" type="button">' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                        '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' +
+                    '</svg>' +
+                '</button>' +
+                '<div class="toast-progress"></div>';
+
+            setTimeout(function() { container.appendChild(toast); }, 50);
+
+            const removeToast = function() {
+                if (!toast.parentElement) return;
+                toast.classList.add('hiding');
+                setTimeout(function() { toast.remove(); }, 250);
+            };
+
+            const timeout = setTimeout(removeToast, duration);
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                clearTimeout(timeout);
+                removeToast();
+            });
+        } catch(err) { console.error('Toast error:', err); }
+    },
+
+    success: function(t, m) { this.show('success', t, m); },
+    error:   function(t, m) { this.show('error', t, m); },
+    warning: function(t, m) { this.show('warning', t, m); },
+    info:    function(t, m) { this.show('info', t, m); }
+};
+
+
+// ==========================================
+// MODAL SYSTEM (dengan tombol custom)
+// ==========================================
+const Modal = {
+    show: function(options) {
+        try {
+            const overlay = document.getElementById('modalOverlay');
+            const box = document.getElementById('modalBox');
+            if (!overlay || !box) return;
+
+            const type = options.type || 'info';
+            const title = options.title || '';
+            const message = options.message || '';
+            const buttons = options.buttons || [{ text: 'OK', class: type }];
+
+            const icons = {
+                success: '<polyline points="20 6 9 17 4 12" stroke-width="3"/>',
+                error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+                info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+            };
+
+            let buttonsHTML = '<div class="modal-btn-row">';
+            buttons.forEach(function(btn, i) {
+                const cls = btn.class || type;
+                buttonsHTML +=
+                    '<button type="button" class="modal-btn ' + cls + '" data-btn-index="' + i + '">' +
+                        btn.text +
+                    '</button>';
+            });
+            buttonsHTML += '</div>';
+
+            box.innerHTML =
+                '<div class="modal-icon ' + type + '">' +
+                    '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                        (icons[type] || icons.info) +
+                    '</svg>' +
+                '</div>' +
+                '<div class="modal-title">' + title + '</div>' +
+                '<div class="modal-message">' + message + '</div>' +
+                buttonsHTML;
+
+            overlay.classList.add('active');
+
+            const closeModal = function() {
+                overlay.classList.remove('active');
+            };
+
+            box.querySelectorAll('.modal-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const idx = parseInt(btn.getAttribute('data-btn-index'), 10);
+                    const handler = buttons[idx] && buttons[idx].onClick;
+                    closeModal();
+                    if (typeof handler === 'function') handler();
                 });
             });
 
-            window.addEventListener('pageshow', function (event) {
-                if (event.persisted) {
-                    document.body.classList.remove('leave-to-left', 'leave-to-right');
-                    document.body.classList.add('enter-from-left');
-                }
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeModal();
+            });
+
+        } catch(err) { console.error('Modal error:', err); }
+    }
+};
+
+
+// ==========================================
+// SLIDE PAGE TRANSITION
+// ==========================================
+(function () {
+    const KEY = 'pageTransition';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const incoming = sessionStorage.getItem(KEY);
+        if (incoming === 'forward') document.body.classList.add('enter-from-right');
+        else if (incoming === 'back') document.body.classList.add('enter-from-left');
+        sessionStorage.removeItem(KEY);
+
+        // Link dengan data-transition (generic)
+        document.querySelectorAll('a[data-transition]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
+                e.preventDefault();
+                const dir = link.getAttribute('data-transition');
+                sessionStorage.setItem(KEY, dir);
+                document.body.classList.add(dir === 'forward' ? 'leave-to-left' : 'leave-to-right');
+                setTimeout(function () { window.location.href = href; }, 430);
             });
         });
-    })();
+
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                document.body.classList.remove('leave-to-left', 'leave-to-right');
+                document.body.classList.add('enter-from-left');
+            }
+        });
+    });
+})();
+
+
+// ==========================================
+// HALAMAN VERIFIKASI — INTERAKSI
+// ==========================================
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ====== TOAST SAMBUTAN ======
+    setTimeout(function () {
+        Toast.success(
+            'Pendaftaran Berhasil! 🎉',
+            'Akun kamu sedang diverifikasi oleh admin'
+        );
+    }, 500);
+
+    setTimeout(function () {
+        Toast.info(
+            'Cek Email / WhatsApp',
+            'Kami akan mengabari setelah verifikasi selesai'
+        );
+    }, 4500);
+
+
+    // ====== TOMBOL KEMBALI — modal konfirmasi ======
+    const btnBack = document.getElementById('btnBack');
+    if (btnBack) {
+        btnBack.addEventListener('click', function (e) {
+            e.preventDefault();
+            const href = btnBack.getAttribute('href');
+            const dir = btnBack.getAttribute('data-transition') || 'back';
+
+            Modal.show({
+                type: 'warning',
+                title: 'Kembali ke Data Sekolah?',
+                message: 'Kamu akan kembali ke langkah sebelumnya. Data yang sudah diisi akan tetap tersimpan.',
+                buttons: [
+                    {
+                        text: 'Batal',
+                        class: 'secondary',
+                        onClick: function () {
+                            Toast.info('Tetap di Halaman', 'Kamu tidak jadi kembali');
+                        }
+                    },
+                    {
+                        text: 'Ya, Kembali',
+                        class: 'warning',
+                        onClick: function () {
+                            sessionStorage.setItem('pageTransition', dir);
+                            document.body.classList.add('leave-to-right');
+                            Toast.info('Kembali...', 'Memuat halaman Data Sekolah');
+                            setTimeout(function () {
+                                window.location.href = href;
+                            }, 430);
+                        }
+                    }
+                ]
+            });
+        });
+    }
+
+
+    // ====== TOMBOL SELESAI — modal sukses + redirect ======
+    const btnFinish = document.getElementById('btnFinish');
+    if (btnFinish) {
+        btnFinish.addEventListener('click', function (e) {
+            e.preventDefault();
+            const href = btnFinish.getAttribute('href');
+
+            Modal.show({
+                type: 'success',
+                title: 'Pendaftaran Selesai! 🎉',
+                message: 'Terima kasih sudah mendaftar. Kamu akan diarahkan ke halaman login. Cek email / WhatsApp kamu secara berkala untuk info verifikasi.',
+                buttons: [
+                    {
+                        text: 'Ke Halaman Login',
+                        class: 'success',
+                        onClick: function () {
+                            Toast.success('Berhasil!', 'Mengarahkan ke halaman login...');
+                            sessionStorage.setItem('pageTransition', 'forward');
+                            document.body.classList.add('leave-to-left');
+                            setTimeout(function () {
+                                window.location.href = href;
+                            }, 600);
+                        }
+                    }
+                ]
+            });
+        });
+    }
+
+});
+
 </script>
 
 </body>

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Jurusan;
@@ -24,17 +23,24 @@ class AuthController extends Controller
 
     /**
      * Proses login.
+     *
+     * Input pada form tetap bernama "username",
+     * tetapi isinya adalah email.
      */
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'username' => ['required'],
+            'username' => ['required', 'email'],
             'password' => ['required'],
         ], [
             'username.required' => 'Email wajib diisi.',
+            'username.email' => 'Format email tidak valid.',
             'password.required' => 'Password wajib diisi.',
         ]);
 
+        /*
+         * Mengecek email dan password.
+         */
         if (!Auth::attempt([
             'email' => $credentials['username'],
             'password' => $credentials['password'],
@@ -47,16 +53,59 @@ class AuthController extends Controller
                 ]);
         }
 
+        /*
+         * Regenerasi session setelah login berhasil.
+         */
         $request->session()->regenerate();
 
-        if (Auth::user()->role === 'admin') {
+        $user = Auth::user();
+
+        /*
+         * Siswa yang masih menunggu persetujuan admin
+         * tidak boleh masuk dashboard.
+         */
+        if ($user->role === 'siswa' && $user->status === 'pending') {
+
+            Auth::logout();
+
+            return back()
+                ->withInput($request->only('username'))
+                ->withErrors([
+                    'username' => 'Akun kamu masih menunggu persetujuan admin.',
+                ]);
+        }
+
+        /*
+         * Siswa yang ditolak admin tidak boleh login.
+         */
+        if ($user->role === 'siswa' && $user->status === 'rejected') {
+
+            Auth::logout();
+
+            return back()
+                ->withInput($request->only('username'))
+                ->withErrors([
+                    'username' => 'Pendaftaran akun kamu ditolak oleh admin.',
+                ]);
+        }
+
+        /*
+         * Admin.
+         */
+        if ($user->role === 'admin') {
             return redirect('/admin/dashboard');
         }
 
-        if (Auth::user()->role === 'guru') {
+        /*
+         * Guru.
+         */
+        if ($user->role === 'guru') {
             return redirect('/guru/dashboard');
         }
 
+        /*
+         * Siswa yang sudah approved.
+         */
         return redirect('/siswa/dashboard');
     }
 
@@ -83,14 +132,15 @@ class AuthController extends Controller
 
     /**
      * Proses register tahap 1.
-     * Menyimpan data diri sementara ke session.
+     *
+     * Data siswa disimpan sementara ke session.
      */
     public function registerStep1(Request $request)
     {
         $data = $request->validate([
             'nama_lengkap' => ['required', 'string', 'max:255'],
-            'tempat_lahir' => ['required', 'string', 'max:255'],
             'nisn' => ['required', 'string', 'max:30'],
+            'tempat_lahir' => ['required', 'string', 'max:255'],
             'tanggal_lahir' => ['required', 'date'],
             'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
             'no_telepon' => ['required', 'string', 'max:20'],
@@ -98,8 +148,8 @@ class AuthController extends Controller
             'password' => ['required', 'min:8', 'confirmed'],
         ], [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
             'nisn.required' => 'NISN wajib diisi.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
             'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
             'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
             'no_telepon.required' => 'Nomor telepon wajib diisi.',
@@ -111,7 +161,9 @@ class AuthController extends Controller
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-        // Mengecek apakah NISN sudah digunakan.
+        /*
+         * Mengecek apakah NISN sudah digunakan.
+         */
         if (Siswa::where('nisn', $data['nisn'])->exists()) {
             return back()
                 ->withInput()
@@ -120,7 +172,9 @@ class AuthController extends Controller
                 ]);
         }
 
-        // Menyimpan data tahap 1 ke session.
+        /*
+         * Menyimpan data tahap 1 ke session.
+         */
         session([
             'register.step1' => $data,
         ]);
@@ -137,12 +191,90 @@ class AuthController extends Controller
             return redirect()->route('register');
         }
 
-        return view('auth.register-step2');
+        $sekolahs = Sekolah::orderBy('nama_sekolah')->get();
+        $kelas = Kelas::orderBy('nama_kelas')->get();
+        $jurusans = Jurusan::orderBy('nama_jurusan')->get();
+
+        /*
+         * Data sekolah untuk custom dropdown.
+         */
+        $sekolahData = $sekolahs
+            ->pluck('nama_sekolah')
+            ->values()
+            ->toArray();
+
+        /*
+         * Data kelas untuk custom dropdown.
+         *
+         * Contoh:
+         * 10 -> Kelas X (10)
+         * 11 -> Kelas XI (11)
+         * 12 -> Kelas XII (12)
+         */
+        $kelasData = [];
+        $kelasValues = [];
+
+        foreach ($kelas as $item) {
+
+            $label = match ($item->nama_kelas) {
+                '10' => 'Kelas X (10)',
+                '11' => 'Kelas XI (11)',
+                '12' => 'Kelas XII (12)',
+                default => 'Kelas ' . $item->nama_kelas,
+            };
+
+            $kelasData[] = $label;
+            $kelasValues[$label] = $item->nama_kelas;
+        }
+
+        /*
+         * Data jurusan untuk custom dropdown.
+         */
+        $jurusanData = [];
+        $jurusanValues = [];
+
+        foreach ($jurusans as $item) {
+
+            $label = match ($item->nama_jurusan) {
+
+                'Teknik Komputer dan Jaringan'
+                    => 'Teknik Komputer dan Jaringan (TKJ)',
+
+                'Rekayasa Perangkat Lunak'
+                    => 'Rekayasa Perangkat Lunak (RPL)',
+
+                'Multimedia'
+                    => 'Multimedia (MM)',
+
+                'Akuntansi'
+                    => 'Akuntansi (AKL)',
+
+                'Bisnis Digital'
+                    => 'Bisnis Digital (BD)',
+
+                default => $item->nama_jurusan,
+            };
+
+            $jurusanData[] = $label;
+            $jurusanValues[$label] = $item->nama_jurusan;
+        }
+
+        return view('auth.register-step2', compact(
+            'sekolahs',
+            'kelas',
+            'jurusans',
+            'sekolahData',
+            'kelasData',
+            'kelasValues',
+            'jurusanData',
+            'jurusanValues'
+        ));
     }
 
     /**
      * Proses register tahap 2.
-     * Menyimpan data sekolah dan PKL sementara ke session.
+     *
+     * Data sekolah dan PKL disimpan sementara ke session.
      */
     public function registerStep2(Request $request)
     {
@@ -157,21 +289,20 @@ class AuthController extends Controller
                 'after_or_equal:tanggal_mulai',
             ],
             'alamat_sekolah' => ['required', 'string', 'max:500'],
-            'nama_pembimbing' => ['required', 'string', 'max:255'],
-            'no_telepon_pembimbing' => ['required', 'string', 'max:20'],
         ], [
             'asal_sekolah.required' => 'Asal sekolah wajib dipilih.',
             'kelas.required' => 'Kelas wajib dipilih.',
             'jurusan.required' => 'Jurusan wajib dipilih.',
             'tanggal_mulai.required' => 'Tanggal mulai PKL wajib diisi.',
             'tanggal_selesai.required' => 'Tanggal selesai PKL wajib diisi.',
-            'tanggal_selesai.after_or_equal' => 'Tanggal selesai PKL tidak boleh sebelum tanggal mulai PKL.',
+            'tanggal_selesai.after_or_equal'
+                => 'Tanggal selesai PKL tidak boleh sebelum tanggal mulai PKL.',
             'alamat_sekolah.required' => 'Alamat sekolah wajib diisi.',
-            'nama_pembimbing.required' => 'Nama pembimbing wajib diisi.',
-            'no_telepon_pembimbing.required' => 'Nomor telepon pembimbing wajib diisi.',
         ]);
 
-        // Menyimpan data tahap 2 ke session.
+        /*
+         * Menyimpan data tahap 2 ke session.
+         */
         session([
             'register.step2' => $data,
         ]);
@@ -196,14 +327,19 @@ class AuthController extends Controller
 
     /**
      * Menyelesaikan proses registrasi.
+     *
+     * Akun siswa dibuat dengan status "pending".
+     * Siswa belum boleh login sebelum admin menyetujui.
      */
     public function registerFinish()
     {
         $step1 = session('register.step1');
         $step2 = session('register.step2');
 
-        // Jika session registrasi tidak lengkap,
-        // kembali ke halaman register.
+        /*
+         * Jika session registrasi tidak lengkap,
+         * kembali ke halaman register.
+         */
         if (!$step1 || !$step2) {
             return redirect()->route('register');
         }
@@ -213,46 +349,57 @@ class AuthController extends Controller
             $user = DB::transaction(function () use ($step1, $step2) {
 
                 /*
-                 * Mencari sekolah berdasarkan nama yang
-                 * dikirim dari view.
-                 *
-                 * Kalau belum ada, otomatis dibuat.
+                 * Mencari atau membuat sekolah.
                  */
-                $sekolah = Sekolah::firstOrCreate([
-                    'nama_sekolah' => $step2['asal_sekolah'],
-                ]);
+                $sekolah = Sekolah::firstOrCreate(
+                    [
+                        'nama_sekolah' => $step2['asal_sekolah'],
+                    ],
+                    [
+                        'alamat' => $step2['alamat_sekolah'],
+                    ]
+                );
 
                 /*
-                 * Mencari jurusan berdasarkan nama yang
-                 * dikirim dari view.
-                 *
-                 * Kalau belum ada, otomatis dibuat.
+                 * Jika sekolah sudah ada tetapi alamatnya kosong,
+                 * isi alamat sekolah tersebut.
+                 */
+                if (
+                    empty($sekolah->alamat) &&
+                    !empty($step2['alamat_sekolah'])
+                ) {
+                    $sekolah->update([
+                        'alamat' => $step2['alamat_sekolah'],
+                    ]);
+                }
+
+                /*
+                 * Mencari atau membuat jurusan.
                  */
                 $jurusan = Jurusan::firstOrCreate([
                     'nama_jurusan' => $step2['jurusan'],
                 ]);
 
                 /*
-                 * Mencari kelas berdasarkan nama yang
-                 * dikirim dari view.
-                 *
-                 * Contohnya:
-                 * Kelas 10
-                 * Kelas 11
-                 * Kelas 12
+                 * Mencari atau membuat kelas.
                  */
                 $kelas = Kelas::firstOrCreate([
                     'nama_kelas' => $step2['kelas'],
                 ]);
 
                 /*
-                 * Membuat akun user.
+                 * Membuat akun siswa.
+                 *
+                 * Status awal = pending.
+                 *
+                 * Artinya siswa masih menunggu
+                 * persetujuan dari admin.
                  */
                 $user = User::create([
-                    'name' => $step1['nama_lengkap'],
                     'email' => $step1['email'],
                     'password' => Hash::make($step1['password']),
                     'role' => 'siswa',
+                    'status' => 'pending',
                 ]);
 
                 /*
@@ -261,17 +408,23 @@ class AuthController extends Controller
                 Siswa::create([
                     'user_id' => $user->id,
 
+                    /*
+                     * Guru pembimbing belum ditentukan
+                     * pada saat siswa melakukan registrasi.
+                     */
+                    'guru_id' => null,
+
                     'sekolah_id' => $sekolah->id,
                     'jurusan_id' => $jurusan->id,
                     'kelas_id' => $kelas->id,
 
                     'nama_lengkap' => $step1['nama_lengkap'],
                     'nisn' => $step1['nisn'],
+                    'tempat_lahir' => $step1['tempat_lahir'],
                     'tanggal_lahir' => $step1['tanggal_lahir'],
                     'jenis_kelamin' => $step1['jenis_kelamin'],
                     'no_telepon' => $step1['no_telepon'],
 
-                    'tempat_pkl' => $step2['alamat_sekolah'],
                     'tanggal_mulai_pkl' => $step2['tanggal_mulai'],
                     'tanggal_selesai_pkl' => $step2['tanggal_selesai'],
                 ]);
@@ -280,28 +433,35 @@ class AuthController extends Controller
             });
 
             /*
-             * Kalau semua proses berhasil,
-             * hapus session registrasi.
+             * Registrasi berhasil.
+             * Hapus data sementara dari session.
              */
             session()->forget('register');
 
             /*
-             * Login otomatis setelah registrasi.
+             * Jangan login otomatis.
+             *
+             * Siswa harus menunggu Admin melakukan approve.
              */
-            Auth::login($user);
-
-            return redirect('/siswa/dashboard')
-                ->with('success', 'Pendaftaran berhasil!');
+            return redirect()
+                ->route('login')
+                ->with(
+                    'success',
+                    'Pendaftaran berhasil. Silakan tunggu persetujuan admin sebelum login.'
+                );
 
         } catch (\Throwable $e) {
 
             /*
-             * Kalau terjadi error, data yang sudah dibuat
-             * dalam transaction akan dibatalkan.
+             * Jika terjadi error, data session tetap ada
+             * sehingga siswa bisa mencoba kembali.
              */
             return redirect()
                 ->route('register.step3')
-                ->with('error', 'Pendaftaran gagal. Silakan periksa kembali data Anda.');
+                ->with(
+                    'error',
+                    'Pendaftaran gagal. Silakan periksa kembali data Anda.'
+                );
         }
     }
 

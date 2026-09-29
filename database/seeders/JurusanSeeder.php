@@ -16,7 +16,7 @@ class JurusanSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nama_jurusan' => 'Teknik Komputer dan jaringan',
+                'nama_jurusan' => 'Teknik Komputer dan Jaringan',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

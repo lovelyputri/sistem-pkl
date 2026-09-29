@@ -350,76 +350,123 @@
             border-radius: 50% !important;
         }
 
-        /* PANEL PILIH BULAN / TAHUN */
+        /* ===== PANEL PILIH BULAN & TAHUN ===== */
         .rp-month-year {
             position: absolute;
-            top: 44px;
+            top: 52px;
             left: 0;
             right: 0;
             background: #ffffff;
-            border-radius: 14px;
-            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.22);
             border: 1px solid #e2e8f0;
-            padding: 14px;
-            z-index: 5;
+            padding: 16px;
+            z-index: 20;
             display: none;
-            animation: rpDropdown 0.18s ease;
         }
-        .rp-month-year.active { display: block; }
+        .rp-month-year.active {
+            display: block;
+            animation: rpDropdown 0.2s ease;
+        }
 
         .rp-my-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             border-bottom: 1px solid #f1f5f9;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
         .rp-my-title {
             font-size: 13.5px;
             font-weight: 800;
             color: #2563eb;
+            letter-spacing: 0.2px;
         }
-        .rp-my-nav {
+        .rp-my-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: none;
+            background: #f1f5f9;
+            color: #64748b;
+            cursor: pointer;
             display: flex;
-            gap: 4px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
         }
-        .rp-my-nav button {
-            background: none; border: none;
-            color: #2563eb; cursor: pointer;
-            padding: 4px 8px; border-radius: 6px;
-            display: flex; align-items: center;
+        .rp-my-close:hover {
+            background: #fee2e2;
+            color: #dc2626;
         }
-        .rp-my-nav button:hover { background: #eff6ff; }
+
+        .rp-my-yearnav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 6px 8px;
+            margin-bottom: 14px;
+        }
+        .rp-my-yearlabel {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: 0.5px;
+        }
+        .rp-my-yearbtn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: #ffffff;
+            color: #2563eb;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.1);
+            transition: all 0.2s ease;
+        }
+        .rp-my-yearbtn:hover {
+            background: #eff6ff;
+            transform: scale(1.05);
+        }
 
         .rp-month-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
         .rp-month-item {
-            height: 38px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12.5px;
             font-weight: 700;
             color: #334155;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.15s ease;
-            border: none;
-            background: none;
+            transition: all 0.18s ease;
+            border: 1.5px solid transparent;
+            background: #f8fafc;
         }
         .rp-month-item:hover {
             background: #eff6ff;
             color: #2563eb;
+            border-color: #dbeafe;
+            transform: translateY(-1px);
         }
         .rp-month-item.active {
             background: #2563eb;
             color: #ffffff;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            border-color: #2563eb;
+            box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
         }
 
-        /* PANEL INFO (KANAN) */
         .rp-info {
             width: 210px;
             border-left: 1px solid #e2e8f0;
@@ -491,29 +538,279 @@
         .info-notice p { font-size: 12px; color: #334155; font-weight: 600; line-height: 1.45; }
 
         .form-actions {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             margin-top: 24px;
+            gap: 12px;
         }
+
         .btn-back {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 22px; border-radius: 12px;
-            background: #ffffff; border: 1.5px solid #e2e8f0;
-            color: #334155; font-size: 13.5px; font-weight: 700;
-            text-decoration: none; transition: all 0.2s ease;
+            display: inline-flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            height: 46px;
+            padding: 0 22px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            color: #334155;
+            font-size: 13.5px;
+            font-weight: 700;
+            line-height: 1;
+            text-decoration: none;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+            white-space: nowrap;
         }
+
+        .btn-back svg {
+            display: block !important;
+            flex-shrink: 0 !important;
+            width: 16px;
+            height: 16px;
+            position: relative;
+            top: 1px;
+        }
+
+        .btn-back span { display: inline-block; line-height: 1; }
+
         .btn-back:hover { background: #f8fafc; border-color: #cbd5e1; }
+
         .btn-next {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 12px 28px; border-radius: 12px;
-            background: #2563eb; border: none; color: #fff;
-            font-size: 13.5px; font-weight: 700; cursor: pointer;
+            display: inline-flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
+            height: 46px;
+            padding: 0 28px;
+            border-radius: 12px;
+            background: #2563eb;
+            border: none;
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            box-sizing: border-box;
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
+
+        .btn-next svg {
+            display: block !important;
+            flex-shrink: 0 !important;
+            width: 16px;
+            height: 16px;
+            position: relative;
+            top: 1px;
+        }
+
         .btn-next:hover {
-            background: #1d4ed8; transform: translateY(-1px);
+            background: #1d4ed8;
+            transform: translateY(-1px);
             box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
         }
+
+        .btn-next.loading {
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+        /* ===== TOAST ===== */
+        #toastContainer {
+            position: fixed !important;
+            top: 20px !important;
+            right: 20px !important;
+            z-index: 999999 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            max-width: 400px !important;
+            pointer-events: none !important;
+        }
+
+        .toast {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            background: #ffffff !important;
+            border-radius: 14px !important;
+            padding: 14px 16px !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18) !important;
+            border-left: 4px solid #2563eb !important;
+            pointer-events: auto !important;
+            animation: toastIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+            position: relative !important;
+            overflow: hidden !important;
+            min-width: 300px !important;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(60px) scale(0.95); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
+        }
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0); }
+            to   { opacity: 0; transform: translateX(60px); }
+        }
+
+        .toast.hiding { animation: toastOut 0.25s ease forwards !important; }
+
+        .toast-icon {
+            width: 32px; height: 32px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .toast-body { flex: 1; min-width: 0; }
+        .toast-title {
+            font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 2px;
+        }
+        .toast-message {
+            font-size: 12px; color: #475569; font-weight: 500;
+            line-height: 1.4; word-wrap: break-word;
+        }
+        .toast-close {
+            background: none; border: none; color: #94a3b8;
+            cursor: pointer; padding: 2px; display: flex;
+            align-items: center; flex-shrink: 0;
+        }
+        .toast-close:hover { color: #dc2626; }
+
+        .toast.success { border-left-color: #16a34a !important; }
+        .toast.success .toast-icon { background: #dcfce7; color: #16a34a; }
+        .toast.error { border-left-color: #dc2626 !important; }
+        .toast.error .toast-icon { background: #fee2e2; color: #dc2626; }
+        .toast.warning { border-left-color: #d97706 !important; }
+        .toast.warning .toast-icon { background: #fef3c7; color: #d97706; }
+        .toast.info { border-left-color: #2563eb !important; }
+        .toast.info .toast-icon { background: #dbeafe; color: #2563eb; }
+
+        .toast-progress {
+            position: absolute; bottom: 0; left: 0;
+            height: 2px; background: currentColor; opacity: 0.4;
+            animation: toastProgress 3.5s linear forwards;
+        }
+        @keyframes toastProgress {
+            from { width: 100%; }
+            to   { width: 0%; }
+        }
+
+        /* ===== MODAL ERROR ===== */
+        #modalOverlay {
+            position: fixed !important;
+            inset: 0 !important;
+            background: rgba(15, 23, 42, 0.55) !important;
+            backdrop-filter: blur(4px) !important;
+            z-index: 999998 !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 20px !important;
+        }
+        #modalOverlay.active {
+            display: flex !important;
+            animation: fadeIn 0.2s ease !important;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-box {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 32px 28px 24px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: modalIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(15px); }
+            to   { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-icon {
+            width: 68px; height: 68px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+        }
+        .modal-icon.success { background: #dcfce7; color: #16a34a; }
+        .modal-icon.error { background: #fee2e2; color: #dc2626; }
+        .modal-icon.warning { background: #fef3c7; color: #d97706; }
+        .modal-icon.info { background: #dbeafe; color: #2563eb; }
+
+        .modal-title {
+            font-size: 19px; font-weight: 800;
+            color: #0f172a; margin-bottom: 8px;
+        }
+        .modal-message {
+            font-size: 13px; color: #64748b; font-weight: 500;
+            line-height: 1.55; margin-bottom: 20px;
+        }
+        .modal-list {
+            text-align: left;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .modal-list-item {
+            font-size: 12.5px; color: #991b1b; font-weight: 600;
+            padding: 5px 0; display: flex;
+            align-items: flex-start; gap: 8px; line-height: 1.4;
+        }
+        .modal-list-item::before {
+            content: "•"; color: #dc2626; font-weight: 900; flex-shrink: 0;
+        }
+        .modal-btn {
+            width: 100%; height: 48px; border-radius: 12px;
+            border: none; font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            color: #ffffff; background: #2563eb;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+        .modal-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
+        .modal-btn.error { background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3); }
+        .modal-btn.error:hover { background: #b91c1c; }
+        .modal-btn.success { background: #16a34a; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3); }
+        .modal-btn.success:hover { background: #15803d; }
+
+        /* ===== FORM STATES ===== */
+        .form-group.has-error .form-control,
+        .form-group.has-error .custom-select-trigger {
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+        }
+        .form-group.has-success .form-control,
+        .form-group.has-success .custom-select-trigger {
+            border-color: #16a34a !important;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
+        }
+        .form-group.has-error .input-icon { color: #dc2626 !important; }
+        .form-group.has-success .input-icon { color: #16a34a !important; }
+
+        .error-message {
+            font-size: 11.5px; color: #dc2626; font-weight: 600;
+            margin-top: 6px; display: none;
+            align-items: center; gap: 5px;
+        }
+        .form-group.has-error .error-message { display: flex; }
+
+        .success-message {
+            font-size: 11.5px; color: #16a34a; font-weight: 600;
+            margin-top: 6px; display: none;
+            align-items: center; gap: 5px;
+        }
+        .form-group.has-success .success-message { display: flex; }
 
         /* ===== POPUP "TIDAK DITEMUKAN" ===== */
         .modal-notfound {
@@ -627,6 +924,8 @@
             .form-grid { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: span 1; }
             .register-card { padding: 24px 20px; }
+            #toastContainer { top: 12px !important; right: 12px !important; left: 12px !important; max-width: none !important; }
+            .toast { min-width: auto !important; }
         }
 
         /* SLIDE PAGE TRANSITION */
@@ -640,11 +939,19 @@
         body.enter-from-left  .page-transition-wrap { animation: slideInFromLeft  0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
         body.leave-to-left    .page-transition-wrap { animation: slideOutToLeft   0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards; }
         body.leave-to-right   .page-transition-wrap { animation: slideOutToRight  0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards; }
-        .transition-link { transition: transform 0.2s ease, color 0.2s ease; display: inline-block; }
+
+        .transition-link { transition: transform 0.2s ease, color 0.2s ease; }
         .transition-link:hover { transform: translateX(2px); color: #2563eb !important; }
     </style>
 </head>
+
 <body>
+
+<div id="toastContainer"></div>
+
+<div id="modalOverlay">
+    <div class="modal-box" id="modalBox"></div>
+</div>
 
 <div class="page-transition-wrap">
 <div class="register-wrapper">
@@ -652,19 +959,28 @@
     <!-- BADGE -->
     <div class="floating-badge badge-1">
         <div class="badge-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h.01M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 20h.01M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            </svg>
         </div>
         <span>Realtime Sync</span>
     </div>
+
     <div class="floating-badge badge-2">
         <div class="badge-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
         </div>
         <span>Terproteksi 100%</span>
     </div>
+
     <div class="floating-badge badge-3">
         <div class="badge-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
         </div>
         <span>Akses Otomatis</span>
     </div>
@@ -672,6 +988,7 @@
     <!-- SISI KIRI -->
     <div class="left-content">
         <div class="left-text-group">
+
             <div class="brand">
                 <div class="brand-icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -681,6 +998,7 @@
                         <line x1="12" y1="20" x2="12.01" y2="20"></line>
                     </svg>
                 </div>
+
                 <div class="brand-text">
                     <h2>GUSPELOR.NET</h2>
                     <p>Sistem Pengelolaan PKL</p>
@@ -699,6 +1017,7 @@
                 Lengkapi data dirimu dengan benar<br>
                 untuk mempermudah verifikasi oleh admin.
             </p>
+
         </div>
 
         <div class="illustration-box">
@@ -711,22 +1030,30 @@
         <div class="register-card">
 
             <div class="stepper">
+
                 <div class="step-item completed">
                     <div class="step-circle">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
                     </div>
                     <span class="step-label">Data Diri</span>
                 </div>
+
                 <div class="step-line completed"></div>
+
                 <div class="step-item active">
                     <div class="step-circle">2</div>
                     <span class="step-label">Data Sekolah</span>
                 </div>
+
                 <div class="step-line"></div>
+
                 <div class="step-item">
                     <div class="step-circle">3</div>
                     <span class="step-label">Verifikasi</span>
                 </div>
+
             </div>
 
             <div class="card-header-title">
@@ -735,9 +1062,13 @@
                         <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
                         <path d="M6 12H4a2 2 0 0 0-2 2v8"></path>
                         <path d="M18 9h2a2 2 0 0 1 2 2v11"></path>
-                        <path d="M10 6h4"></path><path d="M10 10h4"></path><path d="M10 14h4"></path><path d="M10 18h4"></path>
+                        <path d="M10 6h4"></path>
+                        <path d="M10 10h4"></path>
+                        <path d="M10 14h4"></path>
+                        <path d="M10 18h4"></path>
                     </svg>
                 </div>
+
                 <div class="header-text">
                     <h3>Data Sekolah</h3>
                     <p>Lengkapi informasi dirimu dengan benar</p>
@@ -752,205 +1083,425 @@
                     <!-- ASAL SEKOLAH -->
                     <div class="form-group">
                         <label>Asal Sekolah</label>
+
                         <div class="custom-select" id="selAsalSekolah">
+
                             <button type="button" class="custom-select-trigger" data-placeholder="Pilih asal sekolah">
+
                                 <span class="input-icon">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8"/><path d="M18 9h2a2 2 0 0 1 2 2v11"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/>
+                                        <path d="M6 12H4a2 2 0 0 0-2 2v8"/>
+                                        <path d="M18 9h2a2 2 0 0 1 2 2v11"/>
+                                        <path d="M10 6h4"/>
+                                        <path d="M10 10h4"/>
+                                        <path d="M10 14h4"/>
+                                        <path d="M10 18h4"/>
+                                    </svg>
                                 </span>
+
                                 <span class="cs-label">Pilih asal sekolah</span>
+
                                 <span class="cs-arrow">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <polyline points="6 9 12 15 18 9"/>
+                                    </svg>
                                 </span>
+
                             </button>
+
                             <div class="custom-select-panel">
+
                                 <div class="cs-search">
-                                    <span class="cs-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                                    <span class="cs-search-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"/>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                        </svg>
+                                    </span>
+
                                     <input type="text" placeholder="Cari sekolah..." data-search>
                                 </div>
+
                                 <div class="cs-list" data-list></div>
+
                                 <div class="cs-footer" data-notfound="sekolah">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="12" y1="8" x2="12" y2="16"/>
+                                        <line x1="8" y1="12" x2="16" y2="12"/>
+                                    </svg>
                                     Sekolah tidak ditemukan?
                                 </div>
+
                             </div>
+
                             <input type="hidden" name="asal_sekolah" value="{{ old('asal_sekolah') }}">
+
                         </div>
                     </div>
+
 
                     <!-- KELAS -->
                     <div class="form-group">
+
                         <label>Kelas</label>
+
                         <div class="custom-select" id="selKelas">
+
                             <button type="button" class="custom-select-trigger" data-placeholder="Pilih kelas">
+
                                 <span class="input-icon">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                                    </svg>
                                 </span>
+
                                 <span class="cs-label">Pilih kelas</span>
+
                                 <span class="cs-arrow">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <polyline points="6 9 12 15 18 9"/>
+                                    </svg>
                                 </span>
+
                             </button>
+
                             <div class="custom-select-panel">
+
                                 <div class="cs-search">
-                                    <span class="cs-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                                    <span class="cs-search-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"/>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                        </svg>
+                                    </span>
+
                                     <input type="text" placeholder="Cari kelas..." data-search>
                                 </div>
+
                                 <div class="cs-list" data-list></div>
+
                             </div>
+
                             <input type="hidden" name="kelas" value="{{ old('kelas') }}">
+
                         </div>
+
                     </div>
+
 
                     <!-- JURUSAN -->
                     <div class="form-group">
+
                         <label>Jurusan</label>
+
                         <div class="custom-select" id="selJurusan">
+
                             <button type="button" class="custom-select-trigger" data-placeholder="Pilih jurusan">
+
                                 <span class="input-icon">
-                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                    </svg>
                                 </span>
+
                                 <span class="cs-label">Pilih jurusan</span>
+
                                 <span class="cs-arrow">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <polyline points="6 9 12 15 18 9"/>
+                                    </svg>
                                 </span>
+
                             </button>
+
                             <div class="custom-select-panel">
+
                                 <div class="cs-search">
-                                    <span class="cs-search-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                                    <span class="cs-search-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"/>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                        </svg>
+                                    </span>
+
                                     <input type="text" placeholder="Cari jurusan..." data-search>
+
                                 </div>
+
                                 <div class="cs-list" data-list></div>
+
                                 <div class="cs-footer" data-notfound="jurusan">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="12" y1="8" x2="12" y2="16"/>
+                                        <line x1="8" y1="12" x2="16" y2="12"/>
+                                    </svg>
                                     Jurusan tidak ditemukan?
                                 </div>
+
                             </div>
+
                             <input type="hidden" name="jurusan" value="{{ old('jurusan') }}">
+
                         </div>
+
                     </div>
+
 
                     <!-- MASA MAGANG -->
                     <div class="form-group">
+
                         <label>Masa Magang</label>
+
                         <div class="input-wrapper">
+
                             <span class="input-icon">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                    <line x1="16" y1="2" x2="16" y2="6"/>
+                                    <line x1="8" y1="2" x2="8" y2="6"/>
+                                    <line x1="3" y1="10" x2="21" y2="10"/>
+                                </svg>
                             </span>
-                            <input type="text" id="masaMagangInput" class="form-control" placeholder="Pilih masa magang" readonly style="cursor:pointer;">
+
+                            <input
+                                type="text"
+                                id="masaMagangInput"
+                                class="form-control"
+                                placeholder="Pilih masa magang"
+                                readonly
+                                style="cursor:pointer;"
+                            >
+
                         </div>
 
+
                         <div class="range-picker" id="rangePicker">
+
                             <div class="rp-header">
+
                                 <div class="rp-head-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="16" y1="2" x2="16" y2="6"/>
+                                        <line x1="8" y1="2" x2="8" y2="6"/>
+                                        <line x1="3" y1="10" x2="21" y2="10"/>
+                                    </svg>
                                 </div>
+
                                 <h4>Pilih Tanggal Magang</h4>
+
                             </div>
 
+
                             <div class="rp-body">
+
                                 <div class="rp-calendars">
                                     <div class="rp-calendar" id="rpCal1"></div>
                                     <div class="rp-calendar" id="rpCal2"></div>
                                 </div>
 
+
                                 <div class="rp-info">
+
                                     <div class="rp-info-item">
                                         <div class="rp-ii-icon">
-                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                                <line x1="3" y1="10" x2="21" y2="10"/>
+                                            </svg>
                                         </div>
+
                                         <div class="rp-ii-text">
                                             <small>Mulai</small>
                                             <strong id="rpStartText">-</strong>
                                         </div>
                                     </div>
 
+
                                     <div class="rp-info-item">
                                         <div class="rp-ii-icon">
-                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                                <line x1="3" y1="10" x2="21" y2="10"/>
+                                            </svg>
                                         </div>
+
                                         <div class="rp-ii-text">
                                             <small>Selesai</small>
                                             <strong id="rpEndText">-</strong>
                                         </div>
                                     </div>
 
+
                                     <div class="rp-info-item">
                                         <div class="rp-ii-icon">
-                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"/>
+                                                <polyline points="12 6 12 12 16 14"/>
+                                            </svg>
                                         </div>
+
                                         <div class="rp-ii-text">
                                             <small>Durasi</small>
                                             <strong id="rpDurationText">-</strong>
                                         </div>
                                     </div>
+
                                 </div>
+
                             </div>
+
 
                             <div class="rp-actions">
                                 <button type="button" class="rp-btn rp-btn-cancel" id="rpCancel">Batal</button>
                                 <button type="button" class="rp-btn rp-btn-save" id="rpSave">Simpan</button>
                             </div>
+
                         </div>
+
 
                         <input type="hidden" name="tanggal_mulai" id="rpStartHidden" value="{{ old('tanggal_mulai') }}">
                         <input type="hidden" name="tanggal_selesai" id="rpEndHidden" value="{{ old('tanggal_selesai') }}">
+
                     </div>
+
 
                     <!-- ALAMAT SEKOLAH -->
                     <div class="form-group full-width">
+
                         <label for="alamat_sekolah">Alamat Sekolah</label>
+
                         <div class="input-wrapper">
+
                             <span class="input-icon">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
                             </span>
-                            <input type="text" id="alamat_sekolah" name="alamat_sekolah" class="form-control" placeholder="Masukan alamat sekolah" value="{{ old('alamat_sekolah') }}" required>
+
+                            <input
+                                type="text"
+                                id="alamat_sekolah"
+                                name="alamat_sekolah"
+                                class="form-control"
+                                placeholder="Masukan alamat sekolah"
+                                value="{{ old('alamat_sekolah') }}"
+                            >
+
                         </div>
+
                     </div>
+
 
                     <!-- NAMA PEMBIMBING -->
                     <div class="form-group">
+
                         <label for="nama_pembimbing">Nama Guru Pembimbing</label>
+
                         <div class="input-wrapper">
+
                             <span class="input-icon">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
                             </span>
-                            <input type="text" id="nama_pembimbing" name="nama_pembimbing" class="form-control" placeholder="Masukkan nama pembimbing" value="{{ old('nama_pembimbing') }}" required>
+
+                            <input
+                                type="text"
+                                id="nama_pembimbing"
+                                name="nama_pembimbing"
+                                class="form-control"
+                                placeholder="Masukkan nama pembimbing"
+                                value="{{ old('nama_pembimbing') }}"
+                            >
+
                         </div>
+
                     </div>
+
 
                     <!-- NO TELEPON -->
                     <div class="form-group">
+
                         <label for="no_telepon_pembimbing">No. Telepon Pembimbing</label>
+
                         <div class="input-wrapper">
+
                             <span class="input-icon">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                </svg>
                             </span>
-                            <input type="text" id="no_telepon_pembimbing" name="no_telepon_pembimbing" class="form-control" placeholder="Contoh: 081234567890" value="{{ old('no_telepon_pembimbing') }}" required>
+
+                            <input
+                                type="text"
+                                id="no_telepon_pembimbing"
+                                name="no_telepon_pembimbing"
+                                class="form-control"
+                                placeholder="Contoh: 081234567890"
+                                value="{{ old('no_telepon_pembimbing') }}"
+                            >
+
                         </div>
+
                     </div>
 
                 </div>
 
+
                 <div class="info-notice">
+
                     <div class="info-notice-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
                     </div>
+
                     <p>
                         Pastikan data yang kamu masukkan sudah benar.<br>
                         Data ini akan digunakan untuk verifikasi oleh admin.
                     </p>
+
                 </div>
 
+
                 <div class="form-actions">
-                    <a href="{{ route('register.step1.process') }}" class="btn-back transition-link" data-transition="back">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+
+                    <a
+                        href="{{ route('register.step1.process') }}"
+                        class="btn-back"
+                        data-transition="back"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="19" y1="12" x2="5" y2="12"/>
+                            <polyline points="12 19 5 12 12 5"/>
+                        </svg>
                         <span>Kembali</span>
                     </a>
 
+
                     <button type="submit" class="btn-next" id="btnNext">
                         <span>Selanjutnya</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                            <polyline points="12 5 19 12 12 19"/>
+                        </svg>
                     </button>
+
                 </div>
 
             </form>
@@ -961,13 +1512,19 @@
 </div>
 </div>
 
+
 <!-- ======================
      POPUP "TIDAK DITEMUKAN"
 ====================== -->
 <div class="modal-notfound" id="modalNotFound">
+
     <div class="mn-box">
+
         <button type="button" class="mn-close" id="mnClose" aria-label="Tutup">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
         </button>
 
         <div class="mn-icon-wrap">
@@ -979,6 +1536,7 @@
         </div>
 
         <div class="mn-title" id="mnTitle">Jurusan tidak ditemukan</div>
+
         <div class="mn-desc" id="mnDesc">
             Jurusan yang kamu cari tidak tersedia dalam daftar.<br>
             Silahkan hubungi admin untuk bantuan lebih lanjut.
@@ -1000,460 +1558,668 @@
             Admin akan membantu menambah jurusan yang sesuai
         </div>
 
-        <button type="button" class="mn-btn-close" id="mnBtnClose">Tutup</button>
+        <button type="button" class="mn-btn-close" id="mnBtnClose">
+            Tutup
+        </button>
+
     </div>
+
 </div>
 
+
 <script>
-    // ==========================================
-    // SLIDE PAGE TRANSITION (FIXED)
-    // ==========================================
-    (function () {
-        const KEY = 'pageTransition';
 
-        document.addEventListener('DOMContentLoaded', function () {
+// ==========================================
+// TOAST SYSTEM
+// ==========================================
+const Toast = {
+    _closeCurrent: function() {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        container.querySelectorAll('.toast').forEach(function(el) {
+            el.classList.add('hiding');
+            setTimeout(function() { el.remove(); }, 250);
+        });
+    },
 
-            // 1) Cek arah masuk halaman
-            const incoming = sessionStorage.getItem(KEY);
-            if (incoming === 'forward') document.body.classList.add('enter-from-right');
-            else if (incoming === 'back') document.body.classList.add('enter-from-left');
-            sessionStorage.removeItem(KEY);
+    show: function(type, title, message, duration) {
+        duration = duration || 3500;
+        try {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
 
-            // 2) Handle klik link transisi
-            document.querySelectorAll('a[data-transition]').forEach(function (link) {
-                link.addEventListener('click', function (e) {
-                    const href = link.getAttribute('href');
-                    if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
-                    e.preventDefault();
-                    const dir = link.getAttribute('data-transition');
-                    sessionStorage.setItem(KEY, dir);
-                    document.body.classList.add(dir === 'forward' ? 'leave-to-left' : 'leave-to-right');
-                    setTimeout(function () { window.location.href = href; }, 430);
-                });
+            this._closeCurrent();
+
+            const icons = {
+                success: '<polyline points="20 6 9 17 4 12"/>',
+                error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+                info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = 'toast ' + type;
+            toast.innerHTML =
+                '<div class="toast-icon">' +
+                    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                        (icons[type] || icons.info) +
+                    '</svg>' +
+                '</div>' +
+                '<div class="toast-body">' +
+                    '<div class="toast-title">' + title + '</div>' +
+                    '<div class="toast-message">' + message + '</div>' +
+                '</div>' +
+                '<button class="toast-close" type="button">' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                        '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' +
+                    '</svg>' +
+                '</button>' +
+                '<div class="toast-progress"></div>';
+
+            setTimeout(function() { container.appendChild(toast); }, 50);
+
+            const removeToast = function() {
+                if (!toast.parentElement) return;
+                toast.classList.add('hiding');
+                setTimeout(function() { toast.remove(); }, 250);
+            };
+
+            const timeout = setTimeout(removeToast, duration);
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                clearTimeout(timeout);
+                removeToast();
             });
+        } catch(err) { console.error('Toast error:', err); }
+    },
 
-            // 3) Handle SUBMIT FORM dengan validasi manual + animasi
-            const form = document.getElementById('formStep2');
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
+    success: function(t, m) { this.show('success', t, m); },
+    error:   function(t, m) { this.show('error', t, m); },
+    warning: function(t, m) { this.show('warning', t, m); },
+    info:    function(t, m) { this.show('info', t, m); }
+};
 
-                    // ----- VALIDASI MANUAL (hidden input) -----
-                    const asalSekolah = form.querySelector('input[name="asal_sekolah"]').value.trim();
-                    const kelas       = form.querySelector('input[name="kelas"]').value.trim();
-                    const jurusan     = form.querySelector('input[name="jurusan"]').value.trim();
-                    const tglMulai    = form.querySelector('input[name="tanggal_mulai"]').value.trim();
-                    const tglSelesai  = form.querySelector('input[name="tanggal_selesai"]').value.trim();
 
-                    if (!asalSekolah) {
-                        alert('Silakan pilih Asal Sekolah terlebih dahulu!');
-                        return;
-                    }
-                    if (!kelas) {
-                        alert('Silakan pilih Kelas terlebih dahulu!');
-                        return;
-                    }
-                    if (!jurusan) {
-                        alert('Silakan pilih Jurusan terlebih dahulu!');
-                        return;
-                    }
-                    if (!tglMulai || !tglSelesai) {
-                        alert('Silakan pilih Masa Magang terlebih dahulu!');
-                        return;
-                    }
+// ==========================================
+// MODAL SYSTEM
+// ==========================================
+const Modal = {
+    show: function(type, title, message, list, buttonText) {
+        try {
+            const overlay = document.getElementById('modalOverlay');
+            const box = document.getElementById('modalBox');
+            if (!overlay || !box) return;
 
-                    // ----- VALIDASI HTML5 (alamat, nama, no telp) -----
-                    if (!form.checkValidity()) {
-                        form.reportValidity();
-                        return;
-                    }
+            const icons = {
+                success: '<polyline points="20 6 9 17 4 12" stroke-width="3"/>',
+                error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+                info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
+            };
 
-                    // ----- ANIMASI KELUAR -----
-                    sessionStorage.setItem(KEY, 'forward');
-                    document.body.classList.add('leave-to-left');
-
-                    // ----- SUBMIT SETELAH ANIMASI -----
-                    setTimeout(function () {
-                        HTMLFormElement.prototype.submit.call(form);
-                    }, 430);
+            let listHTML = '';
+            if (list && list.length > 0) {
+                listHTML = '<div class="modal-list">';
+                list.forEach(function(item) {
+                    listHTML += '<div class="modal-list-item">' + item + '</div>';
                 });
+                listHTML += '</div>';
             }
 
-            // 4) Handle tombol back browser
-            window.addEventListener('pageshow', function (event) {
-                if (event.persisted) {
-                    document.body.classList.remove('leave-to-left', 'leave-to-right');
-                    document.body.classList.add('enter-from-left');
-                }
+            box.innerHTML =
+                '<div class="modal-icon ' + type + '">' +
+                    '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+                        (icons[type] || icons.info) +
+                    '</svg>' +
+                '</div>' +
+                '<div class="modal-title">' + title + '</div>' +
+                '<div class="modal-message">' + message + '</div>' +
+                listHTML +
+                '<button class="modal-btn ' + type + '" id="modalCloseBtn" type="button">' +
+                    (buttonText || 'OK, Mengerti') +
+                '</button>';
+
+            overlay.classList.add('active');
+
+            const closeModal = function() {
+                overlay.classList.remove('active');
+            };
+
+            document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeModal();
+            });
+        } catch(err) { console.error('Modal error:', err); }
+    }
+};
+
+
+// ==========================================
+// HELPER: SET FIELD STATE
+// ==========================================
+function setFieldState(form, fieldName, state, message) {
+    let group = null;
+
+    if (fieldName === 'asal_sekolah') group = document.getElementById('selAsalSekolah')?.closest('.form-group');
+    else if (fieldName === 'kelas') group = document.getElementById('selKelas')?.closest('.form-group');
+    else if (fieldName === 'jurusan') group = document.getElementById('selJurusan')?.closest('.form-group');
+    else if (fieldName === 'masa_magang') group = document.getElementById('masaMagangInput')?.closest('.form-group');
+    else {
+        const input = form.querySelector('[name="' + fieldName + '"], #' + fieldName);
+        group = input ? input.closest('.form-group') : null;
+    }
+
+    if (!group) return;
+
+    group.classList.remove('has-error', 'has-success');
+
+    if (state === 'error') {
+        group.classList.add('has-error');
+        let errorText = group.querySelector('.error-text');
+        if (!errorText) {
+            const errEl = document.createElement('div');
+            errEl.className = 'error-message';
+            errEl.innerHTML =
+                '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>' +
+                '</svg><span class="error-text"></span>';
+            group.appendChild(errEl);
+            errorText = errEl.querySelector('.error-text');
+        }
+        if (errorText && message) errorText.textContent = message;
+    } else if (state === 'success') {
+        group.classList.add('has-success');
+    }
+}
+
+
+// ==========================================
+// SLIDE PAGE TRANSITION
+// ==========================================
+(function () {
+    const KEY = 'pageTransition';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const incoming = sessionStorage.getItem(KEY);
+        if (incoming === 'forward') document.body.classList.add('enter-from-right');
+        else if (incoming === 'back') document.body.classList.add('enter-from-left');
+        sessionStorage.removeItem(KEY);
+
+        document.querySelectorAll('a[data-transition]').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
+                e.preventDefault();
+                const dir = link.getAttribute('data-transition');
+                sessionStorage.setItem(KEY, dir);
+                document.body.classList.add(dir === 'forward' ? 'leave-to-left' : 'leave-to-right');
+                setTimeout(function () { window.location.href = href; }, 430);
             });
         });
-    })();
 
-    // ==========================================
-    // POPUP "TIDAK DITEMUKAN"
-    // ==========================================
-    (function () {
-        const modal    = document.getElementById('modalNotFound');
-        const mnTitle  = document.getElementById('mnTitle');
-        const mnDesc   = document.getElementById('mnDesc');
-        const mnNote   = document.getElementById('mnNote');
-        const btnClose = document.getElementById('mnClose');
-        const btnTutup = document.getElementById('mnBtnClose');
-
-        function openModal(type) {
-            if (type === 'sekolah') {
-                mnTitle.textContent = 'Sekolah tidak ditemukan';
-                mnDesc.innerHTML = 'Sekolah yang kamu cari tidak tersedia dalam daftar.<br>Silahkan hubungi admin untuk bantuan lebih lanjut.';
-                mnNote.textContent = 'Admin akan membantu menambah sekolah yang sesuai';
-            } else {
-                mnTitle.textContent = 'Jurusan tidak ditemukan';
-                mnDesc.innerHTML = 'Jurusan yang kamu cari tidak tersedia dalam daftar.<br>Silahkan hubungi admin untuk bantuan lebih lanjut.';
-                mnNote.textContent = 'Admin akan membantu menambah jurusan yang sesuai';
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                document.body.classList.remove('leave-to-left', 'leave-to-right');
+                document.body.classList.add('enter-from-left');
             }
-            modal.classList.add('active');
+        });
+    });
+})();
+
+
+// ==========================================
+// POPUP "TIDAK DITEMUKAN"
+// ==========================================
+(function () {
+    const modal = document.getElementById('modalNotFound');
+    const mnTitle = document.getElementById('mnTitle');
+    const mnDesc = document.getElementById('mnDesc');
+    const mnNote = document.getElementById('mnNote');
+    const btnClose = document.getElementById('mnClose');
+    const btnTutup = document.getElementById('mnBtnClose');
+
+    function openModal(type) {
+        if (type === 'sekolah') {
+            mnTitle.textContent = 'Sekolah tidak ditemukan';
+            mnDesc.innerHTML =
+                'Sekolah yang kamu cari tidak tersedia dalam daftar.<br>' +
+                'Silahkan hubungi admin untuk bantuan lebih lanjut.';
+            mnNote.textContent = 'Admin akan membantu menambah sekolah yang sesuai';
+        } else {
+            mnTitle.textContent = 'Jurusan tidak ditemukan';
+            mnDesc.innerHTML =
+                'Jurusan yang kamu cari tidak tersedia dalam daftar.<br>' +
+                'Silahkan hubungi admin untuk bantuan lebih lanjut.';
+            mnNote.textContent = 'Admin akan membantu menambah jurusan yang sesuai';
+        }
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    btnClose.addEventListener('click', closeModal);
+    btnTutup.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+    });
+
+    window.openNotFoundModal = openModal;
+})();
+
+
+// ==========================================
+// CUSTOM SELECT (TERHUBUNG DATABASE)
+// ==========================================
+(function () {
+
+    const DATA = {
+        selAsalSekolah: {
+            items: @json($sekolahData),
+            values: @json($sekolahData),
+            icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8"/><path d="M18 9h2a2 2 0 0 1 2 2v11"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>'
+        },
+        selKelas: {
+            items: @json($kelasData),
+            values: @json($kelasValues),
+            icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>'
+        },
+        selJurusan: {
+            items: @json($jurusanData),
+            values: @json($jurusanValues),
+            icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+        }
+    };
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.custom-select')) {
+            document.querySelectorAll('.custom-select').forEach(function (el) {
+                el.classList.remove('open');
+            });
+        }
+    });
+
+    Object.keys(DATA).forEach(function (key) {
+        const wrapper = document.getElementById(key);
+        if (!wrapper) return;
+
+        const trigger = wrapper.querySelector('.custom-select-trigger');
+        const label = wrapper.querySelector('.cs-label');
+        const search = wrapper.querySelector('[data-search]');
+        const list = wrapper.querySelector('[data-list]');
+        const hidden = wrapper.querySelector('input[type="hidden"]');
+        const panel = wrapper.querySelector('.custom-select-panel');
+        const footer = wrapper.querySelector('.cs-footer');
+        const config = DATA[key];
+
+        if (footer) {
+            footer.addEventListener('click', function (e) {
+                e.stopPropagation();
+                wrapper.classList.remove('open');
+                const type = footer.getAttribute('data-notfound') || 'sekolah';
+                if (window.openNotFoundModal) window.openNotFoundModal(type);
+            });
         }
 
-        function closeModal() {
-            modal.classList.remove('active');
+        function renderList(filter) {
+            list.innerHTML = '';
+            const f = (filter || '').toLowerCase();
+            const filtered = config.items.filter(function (item) {
+                return item.toLowerCase().includes(f);
+            });
+
+            if (filtered.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'cs-empty';
+                empty.textContent = 'Tidak ada hasil ditemukan';
+                list.appendChild(empty);
+                return;
+            }
+
+            filtered.forEach(function (item) {
+                const el = document.createElement('div');
+                el.className = 'cs-item';
+
+                const itemValue = config.values
+                    ? (config.values[item] ?? item)
+                    : item;
+
+                el.innerHTML = config.icon + '<span>' + item + '</span>';
+
+                if (hidden.value === itemValue) el.classList.add('selected');
+
+                el.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    hidden.value = itemValue;
+                    label.textContent = item;
+                    trigger.classList.add('filled');
+                    wrapper.classList.remove('open');
+                    search.value = '';
+                    renderList('');
+                });
+
+                list.appendChild(el);
+            });
         }
 
-        btnClose.addEventListener('click', closeModal);
-        btnTutup.addEventListener('click', closeModal);
+        trigger.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isOpen = wrapper.classList.contains('open');
 
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) closeModal();
+            document.querySelectorAll('.custom-select').forEach(function (el) {
+                el.classList.remove('open');
+            });
+
+            if (!isOpen) {
+                wrapper.classList.add('open');
+                renderList('');
+                setTimeout(function () {
+                    if (search) search.focus();
+                }, 100);
+            }
         });
 
-        window.openNotFoundModal = openModal;
-    })();
+        if (search) {
+            search.addEventListener('input', function () {
+                renderList(search.value);
+            });
+            search.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        }
 
-    // ==========================================
-    // CUSTOM SELECT
-    // ==========================================
-    (function () {
-        const DATA = {
-            selAsalSekolah: {
-                items: [
-                    'SMK Muhammadiyah 6 Rogojampi',
-                    'SMK Muhammadiyah 1 Genteng',
-                    'SMK Negeri 1 Banyuwangi',
-                    'SMKN 1 Jakarta',
-                    'SMKN 2 Jakarta',
-                    'SMK Negeri 3 Malang',
-                    'SMK Telkom Malang'
-                ],
-                icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8"/><path d="M18 9h2a2 2 0 0 1 2 2v11"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>'
-            },
-            selKelas: {
-                items: ['Kelas X (10)', 'Kelas XI (11)', 'Kelas XII (12)'],
-                icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>'
-            },
-            selJurusan: {
-                items: [
-                    'Teknik Komputer dan Jaringan (TKJ)',
-                    'Rekayasa Perangkat Lunak (RPL)',
-                    'Multimedia (MM)',
-                    'Akuntansi (AKL)',
-                    'Bisnis Digital (BD)'
-                ],
-                icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+        if (hidden.value) {
+            let selectedLabel = hidden.value;
+            if (config.values) {
+                const found = Object.keys(config.values).find(function (labelText) {
+                    return config.values[labelText] === hidden.value;
+                });
+                if (found) selectedLabel = found;
             }
+            label.textContent = selectedLabel;
+            trigger.classList.add('filled');
+        }
+
+        panel.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+})();
+
+
+// ==========================================
+// MASA MAGANG — DATE RANGE PICKER
+// ==========================================
+(function () {
+
+    const picker = document.getElementById('rangePicker');
+    const input = document.getElementById('masaMagangInput');
+    const cal1 = document.getElementById('rpCal1');
+    const cal2 = document.getElementById('rpCal2');
+    const startText = document.getElementById('rpStartText');
+    const endText = document.getElementById('rpEndText');
+    const durationText = document.getElementById('rpDurationText');
+    const btnCancel = document.getElementById('rpCancel');
+    const btnSave = document.getElementById('rpSave');
+    const startHidden = document.getElementById('rpStartHidden');
+    const endHidden = document.getElementById('rpEndHidden');
+
+    const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const dayNames = ['Sn','Sl','Rb','Km','Jm','Sb','Mg'];
+
+    let today = new Date();
+    let baseYear = today.getFullYear();
+    let baseMonth = today.getMonth();
+
+    let tempStart = null;
+    let tempEnd = null;
+    let hoverDate = null;
+
+    function stripTime(d) {
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    }
+
+    function formatID(d) {
+        if (!d) return '-';
+        return String(d.getDate()).padStart(2, '0')
+            + ' ' + monthNames[d.getMonth()]
+            + ' ' + d.getFullYear();
+    }
+
+    function formatISO(d) {
+        if (!d) return '';
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return d.getFullYear() + '-' + mm + '-' + dd;
+    }
+
+    function sameDay(a, b) {
+        return a && b &&
+            a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate();
+    }
+
+    function isBetween(d, s, e) {
+        if (!s || !e) return false;
+        const t = stripTime(d).getTime();
+        return t > stripTime(s).getTime()
+            && t < stripTime(e).getTime();
+    }
+
+    function buildCalendar(container, year, month) {
+
+        container.innerHTML = '';
+
+        const head = document.createElement('div');
+        head.className = 'rp-cal-head';
+
+        const btnPrev = document.createElement('button');
+        btnPrev.type = 'button';
+        btnPrev.className = 'rp-nav-btn';
+        btnPrev.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
+
+        btnPrev.onclick = function (e) {
+            e.stopPropagation();
+            baseMonth--;
+            if (baseMonth < 0) { baseMonth = 11; baseYear--; }
+            redraw();
         };
 
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('.custom-select')) {
-                document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
-            }
+        const titleEl = document.createElement('div');
+        titleEl.className = 'rp-cal-title';
+        titleEl.innerHTML = monthNames[month] + ' ' + year +
+            ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>';
+
+        titleEl.onclick = function (e) {
+            e.stopPropagation();
+            openMonthYearPanel(container, year, month);
+        };
+
+        const btnNext = document.createElement('button');
+        btnNext.type = 'button';
+        btnNext.className = 'rp-nav-btn';
+        btnNext.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
+
+        btnNext.onclick = function (e) {
+            e.stopPropagation();
+            baseMonth++;
+            if (baseMonth > 11) { baseMonth = 0; baseYear++; }
+            redraw();
+        };
+
+        head.appendChild(btnPrev);
+        head.appendChild(titleEl);
+        head.appendChild(btnNext);
+        container.appendChild(head);
+
+        const grid = document.createElement('div');
+        grid.className = 'rp-grid';
+
+        dayNames.forEach(function (n) {
+            const el = document.createElement('div');
+            el.className = 'rp-day-name';
+            el.textContent = n;
+            grid.appendChild(el);
         });
 
-        Object.keys(DATA).forEach(function (key) {
-            const wrapper = document.getElementById(key);
-            if (!wrapper) return;
+        const firstDay = new Date(year, month, 1).getDay();
+        const offset = (firstDay + 6) % 7;
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-            const trigger = wrapper.querySelector('.custom-select-trigger');
-            const label   = wrapper.querySelector('.cs-label');
-            const search  = wrapper.querySelector('[data-search]');
-            const list    = wrapper.querySelector('[data-list]');
-            const hidden  = wrapper.querySelector('input[type="hidden"]');
-            const config  = DATA[key];
-
-            const footer = wrapper.querySelector('.cs-footer');
-            if (footer) {
-                footer.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    wrapper.classList.remove('open');
-                    const type = footer.getAttribute('data-notfound') || 'sekolah';
-                    if (window.openNotFoundModal) window.openNotFoundModal(type);
-                });
-            }
-
-            function renderList(filter) {
-                list.innerHTML = '';
-                const f = (filter || '').toLowerCase();
-                const filtered = config.items.filter(item => item.toLowerCase().includes(f));
-
-                if (filtered.length === 0) {
-                    const empty = document.createElement('div');
-                    empty.className = 'cs-empty';
-                    empty.textContent = 'Tidak ada hasil ditemukan';
-                    list.appendChild(empty);
-                    return;
-                }
-
-                filtered.forEach(function (item) {
-                    const el = document.createElement('div');
-                    el.className = 'cs-item';
-                    el.innerHTML = config.icon + '<span>' + item + '</span>';
-                    if (hidden.value === item) el.classList.add('selected');
-
-                    el.addEventListener('click', function (e) {
-                        e.stopPropagation();
-                        hidden.value = item;
-                        label.textContent = item;
-                        trigger.classList.add('filled');
-                        wrapper.classList.remove('open');
-                        search.value = '';
-                        renderList('');
-                    });
-
-                    list.appendChild(el);
-                });
-            }
-
-            trigger.addEventListener('click', function (e) {
-                e.stopPropagation();
-                const isOpen = wrapper.classList.contains('open');
-                document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
-                if (!isOpen) {
-                    wrapper.classList.add('open');
-                    renderList('');
-                    setTimeout(() => search && search.focus(), 100);
-                }
-            });
-
-            if (search) {
-                search.addEventListener('input', function () { renderList(search.value); });
-                search.addEventListener('click', function (e) { e.stopPropagation(); });
-            }
-
-            if (hidden.value) {
-                label.textContent = hidden.value;
-                trigger.classList.add('filled');
-            }
-
-            wrapper.querySelector('.custom-select-panel').addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
-        });
-    })();
-
-    // ==========================================
-    // MASA MAGANG — DATE RANGE PICKER
-    // ==========================================
-    (function () {
-        const picker        = document.getElementById('rangePicker');
-        const input         = document.getElementById('masaMagangInput');
-        const cal1          = document.getElementById('rpCal1');
-        const cal2          = document.getElementById('rpCal2');
-        const startText     = document.getElementById('rpStartText');
-        const endText       = document.getElementById('rpEndText');
-        const durationText  = document.getElementById('rpDurationText');
-        const btnCancel     = document.getElementById('rpCancel');
-        const btnSave       = document.getElementById('rpSave');
-        const startHidden   = document.getElementById('rpStartHidden');
-        const endHidden     = document.getElementById('rpEndHidden');
-
-        const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-        const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        const dayNames = ['Sn','Sl','Rb','Km','Jm','Sb','Mg'];
-
-        let today     = new Date();
-        let baseYear  = today.getFullYear();
-        let baseMonth = today.getMonth();
-
-        let tempStart = null;
-        let tempEnd   = null;
-        let hoverDate = null;
-
-        function stripTime(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
-        function formatID(d) {
-            if (!d) return '-';
-            return String(d.getDate()).padStart(2,'0') + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
-        }
-        function formatISO(d) {
-            if (!d) return '';
-            const mm = String(d.getMonth() + 1).padStart(2,'0');
-            const dd = String(d.getDate()).padStart(2,'0');
-            return d.getFullYear() + '-' + mm + '-' + dd;
-        }
-        function sameDay(a, b) {
-            return a && b &&
-                a.getFullYear() === b.getFullYear() &&
-                a.getMonth()    === b.getMonth() &&
-                a.getDate()     === b.getDate();
-        }
-        function isBetween(d, s, e) {
-            if (!s || !e) return false;
-            const t = stripTime(d).getTime();
-            return t > stripTime(s).getTime() && t < stripTime(e).getTime();
+        for (let i = 0; i < offset; i++) {
+            const empty = document.createElement('div');
+            empty.className = 'rp-day other';
+            grid.appendChild(empty);
         }
 
-        function buildCalendar(container, year, month) {
-            container.innerHTML = '';
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateObj = new Date(year, month, d);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'rp-day';
+            btn.textContent = d;
+            btn.dataset.ts = dateObj.getTime();
 
-            const head = document.createElement('div');
-            head.className = 'rp-cal-head';
+            if (sameDay(dateObj, tempStart)) btn.classList.add('start');
+            if (sameDay(dateObj, tempEnd)) btn.classList.add('end');
 
-            const btnPrev = document.createElement('button');
-            btnPrev.type = 'button';
-            btnPrev.className = 'rp-nav-btn';
-            btnPrev.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
-            btnPrev.onclick = function (e) {
-                e.stopPropagation();
-                baseMonth--;
-                if (baseMonth < 0) { baseMonth = 11; baseYear--; }
-                redraw();
-            };
-
-            const titleEl = document.createElement('div');
-            titleEl.className = 'rp-cal-title';
-            titleEl.innerHTML = monthNames[month] + ' ' + year + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>';
-            titleEl.onclick = function (e) {
-                e.stopPropagation();
-                openMonthYearPanel(container, year, month);
-            };
-
-            const btnNext = document.createElement('button');
-            btnNext.type = 'button';
-            btnNext.className = 'rp-nav-btn';
-            btnNext.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
-            btnNext.onclick = function (e) {
-                e.stopPropagation();
-                baseMonth++;
-                if (baseMonth > 11) { baseMonth = 0; baseYear++; }
-                redraw();
-            };
-
-            head.appendChild(btnPrev);
-            head.appendChild(titleEl);
-            head.appendChild(btnNext);
-            container.appendChild(head);
-
-            const grid = document.createElement('div');
-            grid.className = 'rp-grid';
-
-            dayNames.forEach(function (n) {
-                const el = document.createElement('div');
-                el.className = 'rp-day-name';
-                el.textContent = n;
-                grid.appendChild(el);
-            });
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const offset = (firstDay + 6) % 7;
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            for (let i = 0; i < offset; i++) {
-                const empty = document.createElement('div');
-                empty.className = 'rp-day other';
-                grid.appendChild(empty);
+            if (tempStart && tempEnd && isBetween(dateObj, tempStart, tempEnd)) {
+                btn.classList.add('in-range');
             }
 
-            for (let d = 1; d <= daysInMonth; d++) {
-                const dateObj = new Date(year, month, d);
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'rp-day';
-                btn.textContent = d;
-                btn.dataset.ts = dateObj.getTime();
+            if (tempStart && !tempEnd && hoverDate && isBetween(dateObj, tempStart, hoverDate)) {
+                btn.classList.add('in-range');
+            }
 
-                if (sameDay(dateObj, tempStart)) btn.classList.add('start');
-                if (sameDay(dateObj, tempEnd))   btn.classList.add('end');
+            btn.onclick = function (e) {
+                e.stopPropagation();
+                e.preventDefault();
 
-                if (tempStart && tempEnd && isBetween(dateObj, tempStart, tempEnd)) btn.classList.add('in-range');
-                if (tempStart && !tempEnd && hoverDate && isBetween(dateObj, tempStart, hoverDate)) btn.classList.add('in-range');
-
-                btn.onclick = function (e) {
-                    e.stopPropagation();
-                    e.preventDefault();
-
-                    if (!tempStart || (tempStart && tempEnd)) {
-                        tempStart = dateObj; tempEnd = null; hoverDate = null;
+                if (!tempStart || (tempStart && tempEnd)) {
+                    tempStart = dateObj;
+                    tempEnd = null;
+                    hoverDate = null;
+                } else {
+                    if (dateObj.getTime() < tempStart.getTime()) {
+                        tempStart = dateObj;
+                        tempEnd = null;
+                    } else if (dateObj.getTime() === tempStart.getTime()) {
+                        tempStart = null;
+                        tempEnd = null;
                     } else {
-                        if (dateObj.getTime() < tempStart.getTime()) {
-                            tempStart = dateObj; tempEnd = null;
-                        } else if (dateObj.getTime() === tempStart.getTime()) {
-                            tempStart = null; tempEnd = null;
-                        } else {
-                            tempEnd = dateObj;
-                        }
-                        hoverDate = null;
+                        tempEnd = dateObj;
                     }
-                    redraw();
-                };
+                    hoverDate = null;
+                }
+                redraw();
+            };
 
-                btn.onmouseenter = function () {
-                    if (tempStart && !tempEnd) {
-                        hoverDate = dateObj;
-                        const allDays = container.querySelectorAll('.rp-day');
-                        allDays.forEach(function (el) {
-                            const ts = parseInt(el.dataset.ts, 10);
-                            el.classList.remove('in-range');
-                            if (!isNaN(ts)) {
-                                const dt = new Date(ts);
-                                if (dt > tempStart && dt <= hoverDate) el.classList.add('in-range');
+            btn.onmouseenter = function () {
+                if (tempStart && !tempEnd) {
+                    hoverDate = dateObj;
+                    const allDays = container.querySelectorAll('.rp-day');
+                    allDays.forEach(function (el) {
+                        const ts = parseInt(el.dataset.ts, 10);
+                        el.classList.remove('in-range');
+                        if (!isNaN(ts)) {
+                            const dt = new Date(ts);
+                            if (dt > tempStart && dt <= hoverDate) {
+                                el.classList.add('in-range');
                             }
-                        });
-                    }
-                };
+                        }
+                    });
+                }
+            };
 
-                grid.appendChild(btn);
-            }
-
-            container.appendChild(grid);
+            grid.appendChild(btn);
         }
 
-        function openMonthYearPanel(container, year, month) {
-            const oldPanel = container.querySelector('.rp-month-year');
-            if (oldPanel) oldPanel.remove();
+        container.appendChild(grid);
+    }
 
-            const panel = document.createElement('div');
-            panel.className = 'rp-month-year active';
+    function openMonthYearPanel(container, year, month) {
+        const oldPanel = container.querySelector('.rp-month-year');
+        if (oldPanel) oldPanel.remove();
+
+        if (window.__closeMonthYearPanel) {
+            document.removeEventListener('mousedown', window.__closeMonthYearPanel);
+            window.__closeMonthYearPanel = null;
+        }
+
+        let currentYear = year;
+
+        const panel = document.createElement('div');
+        panel.className = 'rp-month-year active';
+
+        function render() {
+            panel.innerHTML = '';
 
             const header = document.createElement('div');
             header.className = 'rp-my-header';
-
-            const prevY = document.createElement('button');
-            prevY.type = 'button';
-            prevY.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
-            prevY.onclick = function (e) { e.stopPropagation(); year--; openMonthYearPanel(container, year, month); };
 
             const title = document.createElement('div');
             title.className = 'rp-my-title';
             title.textContent = 'Pilih Bulan & Tahun';
 
-            const nextY = document.createElement('button');
-            nextY.type = 'button';
-            nextY.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
-            nextY.onclick = function (e) { e.stopPropagation(); year++; openMonthYearPanel(container, year, month); };
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'rp-my-close';
+            closeBtn.innerHTML =
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                '<line x1="18" y1="6" x2="6" y2="18"/>' +
+                '<line x1="6" y1="6" x2="18" y2="18"/>' +
+                '</svg>';
 
-            const navWrap = document.createElement('div');
-            navWrap.className = 'rp-my-nav';
-            navWrap.appendChild(prevY);
-            navWrap.appendChild(nextY);
+            closeBtn.onclick = function (e) {
+                e.stopPropagation();
+                closePanel();
+            };
 
             header.appendChild(title);
-            header.appendChild(navWrap);
+            header.appendChild(closeBtn);
             panel.appendChild(header);
 
+            const yearNav = document.createElement('div');
+            yearNav.className = 'rp-my-yearnav';
+
+            const prevY = document.createElement('button');
+            prevY.type = 'button';
+            prevY.className = 'rp-my-yearbtn';
+            prevY.innerHTML =
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                '<polyline points="15 18 9 12 15 6"/></svg>';
+
+            prevY.onclick = function (e) {
+                e.stopPropagation();
+                currentYear--;
+                render();
+            };
+
             const yearLabel = document.createElement('div');
-            yearLabel.style.textAlign = 'center';
-            yearLabel.style.fontSize = '18px';
-            yearLabel.style.fontWeight = '800';
-            yearLabel.style.color = '#0f172a';
-            yearLabel.style.marginBottom = '12px';
-            yearLabel.textContent = year;
-            panel.appendChild(yearLabel);
+            yearLabel.className = 'rp-my-yearlabel';
+            yearLabel.textContent = currentYear;
+
+            const nextY = document.createElement('button');
+            nextY.type = 'button';
+            nextY.className = 'rp-my-yearbtn';
+            nextY.innerHTML =
+                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                '<polyline points="9 18 15 12 9 6"/></svg>';
+
+            nextY.onclick = function (e) {
+                e.stopPropagation();
+                currentYear++;
+                render();
+            };
+
+            yearNav.appendChild(prevY);
+            yearNav.appendChild(yearLabel);
+            yearNav.appendChild(nextY);
+            panel.appendChild(yearNav);
 
             const monthGrid = document.createElement('div');
             monthGrid.className = 'rp-month-grid';
@@ -1463,108 +2229,313 @@
                 mBtn.type = 'button';
                 mBtn.className = 'rp-month-item';
                 mBtn.textContent = monthShort[i];
-                if (i === month) mBtn.classList.add('active');
+
+                if (i === month && currentYear === year) mBtn.classList.add('active');
+
                 mBtn.onclick = function (e) {
                     e.stopPropagation();
-                    baseYear = year;
+                    baseYear = currentYear;
                     baseMonth = i;
-                    panel.remove();
+                    closePanel();
                     redraw();
                 };
+
                 monthGrid.appendChild(mBtn);
             }
 
             panel.appendChild(monthGrid);
-            container.appendChild(panel);
-
-            setTimeout(function () {
-                function closePanel(ev) {
-                    if (!panel.contains(ev.target)) {
-                        panel.remove();
-                        document.removeEventListener('click', closePanel);
-                    }
-                }
-                document.addEventListener('click', closePanel);
-            }, 0);
         }
 
-        function redraw() {
-            buildCalendar(cal1, baseYear, baseMonth);
+        function closePanel() {
+            panel.remove();
+            if (window.__closeMonthYearPanel) {
+                document.removeEventListener('mousedown', window.__closeMonthYearPanel);
+                window.__closeMonthYearPanel = null;
+            }
+        }
 
-            let m2 = baseMonth + 1;
-            let y2 = baseYear;
-            if (m2 > 11) { m2 = 0; y2++; }
-            buildCalendar(cal2, y2, m2);
+        window.__closeMonthYearPanel = function (ev) {
+            if (panel.contains(ev.target)) return;
+            if (ev.target.closest('.rp-cal-title')) return;
+            closePanel();
+        };
 
-            startText.textContent = formatID(tempStart);
-            endText.textContent   = formatID(tempEnd);
+        setTimeout(function () {
+            document.addEventListener('mousedown', window.__closeMonthYearPanel);
+        }, 0);
 
-            if (tempStart && tempEnd) {
-                const diffDays = Math.round((stripTime(tempEnd) - stripTime(tempStart)) / (1000 * 60 * 60 * 24)) + 1;
-                let label = diffDays + ' Hari';
-                if (diffDays >= 365) {
-                    const th = (diffDays / 365).toFixed(1).replace('.0','');
-                    label = th + ' Tahun';
-                } else if (diffDays >= 30) {
-                    const bl = (diffDays / 30).toFixed(1).replace('.0','');
-                    label = bl + ' Bulan';
-                }
-                durationText.textContent = label;
+        panel.addEventListener('mousedown', function (e) {
+            e.stopPropagation();
+        });
+
+        render();
+        container.appendChild(panel);
+    }
+
+    function redraw() {
+        buildCalendar(cal1, baseYear, baseMonth);
+
+        let m2 = baseMonth + 1;
+        let y2 = baseYear;
+        if (m2 > 11) { m2 = 0; y2++; }
+
+        buildCalendar(cal2, y2, m2);
+
+        startText.textContent = formatID(tempStart);
+        endText.textContent = formatID(tempEnd);
+
+        if (tempStart && tempEnd) {
+            const diffDays = Math.round(
+                (stripTime(tempEnd) - stripTime(tempStart)) / (1000 * 60 * 60 * 24)
+            ) + 1;
+
+            let label = diffDays + ' Hari';
+
+            if (diffDays >= 365) {
+                const th = (diffDays / 365).toFixed(1).replace('.0', '');
+                label = th + ' Tahun';
+            } else if (diffDays >= 30) {
+                const bl = (diffDays / 30).toFixed(1).replace('.0', '');
+                label = bl + ' Bulan';
+            }
+
+            durationText.textContent = label;
+        } else {
+            durationText.textContent = '-';
+        }
+    }
+
+    input.addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        if (picker.classList.contains('active')) {
+            picker.classList.remove('active');
+            return;
+        }
+
+        if (startHidden.value) {
+            tempStart = new Date(startHidden.value);
+            baseYear = tempStart.getFullYear();
+            baseMonth = tempStart.getMonth();
+        }
+
+        if (endHidden.value) {
+            tempEnd = new Date(endHidden.value);
+        }
+
+        redraw();
+        picker.classList.add('active');
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('#rangePicker') && e.target !== input) {
+            picker.classList.remove('active');
+        }
+    });
+
+    picker.addEventListener('click', function (e) {
+        e.stopPropagation();
+    });
+
+    btnCancel.addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        tempStart = startHidden.value ? new Date(startHidden.value) : null;
+        tempEnd = endHidden.value ? new Date(endHidden.value) : null;
+        hoverDate = null;
+
+        picker.classList.remove('active');
+    });
+
+    btnSave.addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        if (!tempStart || !tempEnd) {
+            Toast.warning('Tanggal Belum Lengkap', 'Pilih tanggal mulai dan selesai dulu ya!');
+            return;
+        }
+
+        startHidden.value = formatISO(tempStart);
+        endHidden.value = formatISO(tempEnd);
+
+        input.value = formatID(tempStart) + ' - ' + formatID(tempEnd);
+
+        picker.classList.remove('active');
+
+        Toast.success('Masa Magang Dipilih', formatID(tempStart) + ' - ' + formatID(tempEnd));
+    });
+
+    if (startHidden.value && endHidden.value) {
+        const s = new Date(startHidden.value);
+        const e2 = new Date(endHidden.value);
+        input.value = formatID(s) + ' - ' + formatID(e2);
+    }
+
+})();
+
+
+// ==========================================
+// SUBMIT HANDLER
+// ==========================================
+document.addEventListener('DOMContentLoaded', function () {
+
+    const form = document.getElementById('formStep2');
+    const btnNext = document.getElementById('btnNext');
+
+    if (!form) return;
+
+    // Filter angka no telepon pembimbing
+    const noTelp = document.getElementById('no_telepon_pembimbing');
+    if (noTelp) {
+        noTelp.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '');
+        });
+    }
+
+    // Notif sambutan
+    setTimeout(function () {
+        Toast.info('Langkah 2: Data Sekolah', 'Isi data sekolah kamu dengan benar ya');
+    }, 600);
+
+    // ==========================================
+    // SUBMIT
+    // ==========================================
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const errors = [];
+
+        const asalSekolah = form.querySelector('input[name="asal_sekolah"]').value.trim();
+        const kelas = form.querySelector('input[name="kelas"]').value.trim();
+        const jurusan = form.querySelector('input[name="jurusan"]').value.trim();
+        const tglMulai = form.querySelector('input[name="tanggal_mulai"]').value.trim();
+        const tglSelesai = form.querySelector('input[name="tanggal_selesai"]').value.trim();
+        const alamatSekolah = document.getElementById('alamat_sekolah').value.trim();
+        const namaPembimbing = document.getElementById('nama_pembimbing').value.trim();
+        const noTelpVal = document.getElementById('no_telepon_pembimbing').value.trim();
+
+        // Asal Sekolah
+        if (!asalSekolah) {
+            setFieldState(form, 'asal_sekolah', 'error', 'Asal sekolah wajib dipilih');
+            errors.push({ field: 'Asal Sekolah', message: 'Wajib dipilih' });
+        } else {
+            setFieldState(form, 'asal_sekolah', 'success');
+        }
+
+        // Kelas
+        if (!kelas) {
+            setFieldState(form, 'kelas', 'error', 'Kelas wajib dipilih');
+            errors.push({ field: 'Kelas', message: 'Wajib dipilih' });
+        } else {
+            setFieldState(form, 'kelas', 'success');
+        }
+
+        // Jurusan
+        if (!jurusan) {
+            setFieldState(form, 'jurusan', 'error', 'Jurusan wajib dipilih');
+            errors.push({ field: 'Jurusan', message: 'Wajib dipilih' });
+        } else {
+            setFieldState(form, 'jurusan', 'success');
+        }
+
+        // Masa Magang
+        if (!tglMulai || !tglSelesai) {
+            setFieldState(form, 'masa_magang', 'error', 'Masa magang wajib dipilih');
+            errors.push({ field: 'Masa Magang', message: 'Wajib dipilih' });
+        } else {
+            const start = new Date(tglMulai);
+            const end = new Date(tglSelesai);
+            if (end <= start) {
+                setFieldState(form, 'masa_magang', 'error', 'Tanggal selesai harus setelah tanggal mulai');
+                errors.push({ field: 'Masa Magang', message: 'Tanggal selesai harus setelah tanggal mulai' });
             } else {
-                durationText.textContent = '-';
+                setFieldState(form, 'masa_magang', 'success');
             }
         }
 
-        input.addEventListener('click', function (e) {
-            e.stopPropagation();
-            if (picker.classList.contains('active')) {
-                picker.classList.remove('active');
-                return;
-            }
-            if (startHidden.value) {
-                tempStart = new Date(startHidden.value);
-                baseYear  = tempStart.getFullYear();
-                baseMonth = tempStart.getMonth();
-            }
-            if (endHidden.value) tempEnd = new Date(endHidden.value);
-
-            redraw();
-            picker.classList.add('active');
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!e.target.closest('#rangePicker') && e.target !== input) {
-                picker.classList.remove('active');
-            }
-        });
-        picker.addEventListener('click', function (e) { e.stopPropagation(); });
-
-        btnCancel.addEventListener('click', function (e) {
-            e.stopPropagation();
-            tempStart = startHidden.value ? new Date(startHidden.value) : null;
-            tempEnd   = endHidden.value   ? new Date(endHidden.value)   : null;
-            hoverDate = null;
-            picker.classList.remove('active');
-        });
-
-        btnSave.addEventListener('click', function (e) {
-            e.stopPropagation();
-            if (!tempStart || !tempEnd) {
-                alert('Pilih tanggal mulai dan selesai dulu ya!');
-                return;
-            }
-            startHidden.value = formatISO(tempStart);
-            endHidden.value   = formatISO(tempEnd);
-            input.value       = formatID(tempStart) + ' - ' + formatID(tempEnd);
-            picker.classList.remove('active');
-        });
-
-        if (startHidden.value && endHidden.value) {
-            const s = new Date(startHidden.value);
-            const e2 = new Date(endHidden.value);
-            input.value = formatID(s) + ' - ' + formatID(e2);
+        // Alamat Sekolah
+        if (!alamatSekolah) {
+            setFieldState(form, 'alamat_sekolah', 'error', 'Alamat sekolah wajib diisi');
+            errors.push({ field: 'Alamat Sekolah', message: 'Wajib diisi' });
+        } else if (alamatSekolah.length < 5) {
+            setFieldState(form, 'alamat_sekolah', 'error', 'Alamat minimal 5 karakter');
+            errors.push({ field: 'Alamat Sekolah', message: 'Minimal 5 karakter' });
+        } else {
+            setFieldState(form, 'alamat_sekolah', 'success');
         }
-    })();
+
+        // Nama Pembimbing
+        if (!namaPembimbing) {
+            setFieldState(form, 'nama_pembimbing', 'error', 'Nama pembimbing wajib diisi');
+            errors.push({ field: 'Nama Pembimbing', message: 'Wajib diisi' });
+        } else if (namaPembimbing.length < 3) {
+            setFieldState(form, 'nama_pembimbing', 'error', 'Nama minimal 3 karakter');
+            errors.push({ field: 'Nama Pembimbing', message: 'Minimal 3 karakter' });
+        } else if (!/^[a-zA-Z\s\.\,\'-]+$/.test(namaPembimbing)) {
+            setFieldState(form, 'nama_pembimbing', 'error', 'Nama hanya boleh huruf');
+            errors.push({ field: 'Nama Pembimbing', message: 'Hanya boleh huruf & spasi' });
+        } else {
+            setFieldState(form, 'nama_pembimbing', 'success');
+        }
+
+        // No Telepon Pembimbing
+        if (!noTelpVal) {
+            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon wajib diisi');
+            errors.push({ field: 'No. Telepon Pembimbing', message: 'Wajib diisi' });
+        } else if (!/^\d+$/.test(noTelpVal)) {
+            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon hanya boleh angka');
+            errors.push({ field: 'No. Telepon Pembimbing', message: 'Hanya boleh angka' });
+        } else if (noTelpVal.length < 10 || noTelpVal.length > 15) {
+            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon harus 10-15 digit');
+            errors.push({ field: 'No. Telepon Pembimbing', message: 'Harus 10-15 digit' });
+        } else if (!noTelpVal.startsWith('08')) {
+            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon harus diawali 08');
+            errors.push({ field: 'No. Telepon Pembimbing', message: 'Harus diawali 08' });
+        } else {
+            setFieldState(form, 'no_telepon_pembimbing', 'success');
+        }
+
+        // ===== ADA ERROR =====
+        if (errors.length > 0) {
+            Toast.error(
+                'Data Belum Lengkap',
+                'Ada <b>' + errors.length + '</b> field yang perlu diperbaiki'
+            );
+
+            const errorList = errors.map(function (err) {
+                return '<b>' + err.field + ':</b> ' + err.message;
+            });
+
+            Modal.show(
+                'error',
+                'Data Belum Lengkap',
+                'Silakan perbaiki data berikut sebelum melanjutkan:',
+                errorList,
+                'OK, Saya Perbaiki'
+            );
+
+            const firstError = form.querySelector('.form-group.has-error');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+
+        // ===== SEMUA VALID =====
+        btnNext.classList.add('loading');
+
+        Toast.success('Data Valid!', 'Melanjutkan ke langkah berikutnya...');
+
+        sessionStorage.setItem('pageTransition', 'forward');
+        document.body.classList.add('leave-to-left');
+
+        setTimeout(function () {
+            HTMLFormElement.prototype.submit.call(form);
+        }, 1200);
+    });
+
+});
+
 </script>
 
 </body>
