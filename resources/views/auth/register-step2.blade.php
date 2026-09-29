@@ -350,7 +350,7 @@
             border-radius: 50% !important;
         }
 
-        /* ===== PANEL PILIH BULAN & TAHUN ===== */
+        /* ===== PANEL PILIH BULAN & TAHUN (DISAMAKAN DGN STEP 1) ===== */
         .rp-month-year {
             position: absolute;
             top: 52px;
@@ -538,279 +538,29 @@
         .info-notice p { font-size: 12px; color: #334155; font-weight: 600; line-height: 1.45; }
 
         .form-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             margin-top: 24px;
-            gap: 12px;
         }
-
         .btn-back {
-            display: inline-flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 8px !important;
-            height: 46px;
-            padding: 0 22px;
-            border-radius: 12px;
-            background: #ffffff;
-            border: 1.5px solid #e2e8f0;
-            color: #334155;
-            font-size: 13.5px;
-            font-weight: 700;
-            line-height: 1;
-            text-decoration: none;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-            white-space: nowrap;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 22px; border-radius: 12px;
+            background: #ffffff; border: 1.5px solid #e2e8f0;
+            color: #334155; font-size: 13.5px; font-weight: 700;
+            text-decoration: none; transition: all 0.2s ease;
         }
-
-        .btn-back svg {
-            display: block !important;
-            flex-shrink: 0 !important;
-            width: 16px;
-            height: 16px;
-            position: relative;
-            top: 1px;
-        }
-
-        .btn-back span { display: inline-block; line-height: 1; }
-
         .btn-back:hover { background: #f8fafc; border-color: #cbd5e1; }
-
         .btn-next {
-            display: inline-flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 10px !important;
-            height: 46px;
-            padding: 0 28px;
-            border-radius: 12px;
-            background: #2563eb;
-            border: none;
-            color: #ffffff;
-            font-size: 13.5px;
-            font-weight: 700;
-            line-height: 1;
-            cursor: pointer;
-            box-sizing: border-box;
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 28px; border-radius: 12px;
+            background: #2563eb; border: none; color: #fff;
+            font-size: 13.5px; font-weight: 700; cursor: pointer;
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
             transition: all 0.2s ease;
-            white-space: nowrap;
         }
-
-        .btn-next svg {
-            display: block !important;
-            flex-shrink: 0 !important;
-            width: 16px;
-            height: 16px;
-            position: relative;
-            top: 1px;
-        }
-
         .btn-next:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
+            background: #1d4ed8; transform: translateY(-1px);
             box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
         }
-
-        .btn-next.loading {
-            pointer-events: none;
-            opacity: 0.75;
-        }
-
-        /* ===== TOAST ===== */
-        #toastContainer {
-            position: fixed !important;
-            top: 20px !important;
-            right: 20px !important;
-            z-index: 999999 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 12px !important;
-            max-width: 400px !important;
-            pointer-events: none !important;
-        }
-
-        .toast {
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 12px !important;
-            background: #ffffff !important;
-            border-radius: 14px !important;
-            padding: 14px 16px !important;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18) !important;
-            border-left: 4px solid #2563eb !important;
-            pointer-events: auto !important;
-            animation: toastIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
-            position: relative !important;
-            overflow: hidden !important;
-            min-width: 300px !important;
-        }
-
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(60px) scale(0.95); }
-            to   { opacity: 1; transform: translateX(0) scale(1); }
-        }
-        @keyframes toastOut {
-            from { opacity: 1; transform: translateX(0); }
-            to   { opacity: 0; transform: translateX(60px); }
-        }
-
-        .toast.hiding { animation: toastOut 0.25s ease forwards !important; }
-
-        .toast-icon {
-            width: 32px; height: 32px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
-        .toast-body { flex: 1; min-width: 0; }
-        .toast-title {
-            font-size: 13px; font-weight: 800; color: #0f172a; margin-bottom: 2px;
-        }
-        .toast-message {
-            font-size: 12px; color: #475569; font-weight: 500;
-            line-height: 1.4; word-wrap: break-word;
-        }
-        .toast-close {
-            background: none; border: none; color: #94a3b8;
-            cursor: pointer; padding: 2px; display: flex;
-            align-items: center; flex-shrink: 0;
-        }
-        .toast-close:hover { color: #dc2626; }
-
-        .toast.success { border-left-color: #16a34a !important; }
-        .toast.success .toast-icon { background: #dcfce7; color: #16a34a; }
-        .toast.error { border-left-color: #dc2626 !important; }
-        .toast.error .toast-icon { background: #fee2e2; color: #dc2626; }
-        .toast.warning { border-left-color: #d97706 !important; }
-        .toast.warning .toast-icon { background: #fef3c7; color: #d97706; }
-        .toast.info { border-left-color: #2563eb !important; }
-        .toast.info .toast-icon { background: #dbeafe; color: #2563eb; }
-
-        .toast-progress {
-            position: absolute; bottom: 0; left: 0;
-            height: 2px; background: currentColor; opacity: 0.4;
-            animation: toastProgress 3.5s linear forwards;
-        }
-        @keyframes toastProgress {
-            from { width: 100%; }
-            to   { width: 0%; }
-        }
-
-        /* ===== MODAL ERROR ===== */
-        #modalOverlay {
-            position: fixed !important;
-            inset: 0 !important;
-            background: rgba(15, 23, 42, 0.55) !important;
-            backdrop-filter: blur(4px) !important;
-            z-index: 999998 !important;
-            display: none !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 20px !important;
-        }
-        #modalOverlay.active {
-            display: flex !important;
-            animation: fadeIn 0.2s ease !important;
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        .modal-box {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 32px 28px 24px;
-            max-width: 440px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-            animation: modalIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9) translateY(15px); }
-            to   { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .modal-icon {
-            width: 68px; height: 68px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 16px;
-        }
-        .modal-icon.success { background: #dcfce7; color: #16a34a; }
-        .modal-icon.error { background: #fee2e2; color: #dc2626; }
-        .modal-icon.warning { background: #fef3c7; color: #d97706; }
-        .modal-icon.info { background: #dbeafe; color: #2563eb; }
-
-        .modal-title {
-            font-size: 19px; font-weight: 800;
-            color: #0f172a; margin-bottom: 8px;
-        }
-        .modal-message {
-            font-size: 13px; color: #64748b; font-weight: 500;
-            line-height: 1.55; margin-bottom: 20px;
-        }
-        .modal-list {
-            text-align: left;
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .modal-list-item {
-            font-size: 12.5px; color: #991b1b; font-weight: 600;
-            padding: 5px 0; display: flex;
-            align-items: flex-start; gap: 8px; line-height: 1.4;
-        }
-        .modal-list-item::before {
-            content: "•"; color: #dc2626; font-weight: 900; flex-shrink: 0;
-        }
-        .modal-btn {
-            width: 100%; height: 48px; border-radius: 12px;
-            border: none; font-size: 14px; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease;
-            color: #ffffff; background: #2563eb;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-        }
-        .modal-btn:hover { background: #1d4ed8; transform: translateY(-1px); }
-        .modal-btn.error { background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3); }
-        .modal-btn.error:hover { background: #b91c1c; }
-        .modal-btn.success { background: #16a34a; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3); }
-        .modal-btn.success:hover { background: #15803d; }
-
-        /* ===== FORM STATES ===== */
-        .form-group.has-error .form-control,
-        .form-group.has-error .custom-select-trigger {
-            border-color: #dc2626 !important;
-            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
-        }
-        .form-group.has-success .form-control,
-        .form-group.has-success .custom-select-trigger {
-            border-color: #16a34a !important;
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1) !important;
-        }
-        .form-group.has-error .input-icon { color: #dc2626 !important; }
-        .form-group.has-success .input-icon { color: #16a34a !important; }
-
-        .error-message {
-            font-size: 11.5px; color: #dc2626; font-weight: 600;
-            margin-top: 6px; display: none;
-            align-items: center; gap: 5px;
-        }
-        .form-group.has-error .error-message { display: flex; }
-
-        .success-message {
-            font-size: 11.5px; color: #16a34a; font-weight: 600;
-            margin-top: 6px; display: none;
-            align-items: center; gap: 5px;
-        }
-        .form-group.has-success .success-message { display: flex; }
 
         /* ===== POPUP "TIDAK DITEMUKAN" ===== */
         .modal-notfound {
@@ -924,8 +674,6 @@
             .form-grid { grid-template-columns: 1fr; }
             .form-group.full-width { grid-column: span 1; }
             .register-card { padding: 24px 20px; }
-            #toastContainer { top: 12px !important; right: 12px !important; left: 12px !important; max-width: none !important; }
-            .toast { min-width: auto !important; }
         }
 
         /* SLIDE PAGE TRANSITION */
@@ -939,19 +687,12 @@
         body.enter-from-left  .page-transition-wrap { animation: slideInFromLeft  0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
         body.leave-to-left    .page-transition-wrap { animation: slideOutToLeft   0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards; }
         body.leave-to-right   .page-transition-wrap { animation: slideOutToRight  0.45s cubic-bezier(0.55, 0, 0.55, 0.2) forwards; }
-
-        .transition-link { transition: transform 0.2s ease, color 0.2s ease; }
+        .transition-link { transition: transform 0.2s ease, color 0.2s ease; display: inline-block; }
         .transition-link:hover { transform: translateX(2px); color: #2563eb !important; }
     </style>
 </head>
 
 <body>
-
-<div id="toastContainer"></div>
-
-<div id="modalOverlay">
-    <div class="modal-box" id="modalBox"></div>
-</div>
 
 <div class="page-transition-wrap">
 <div class="register-wrapper">
@@ -1136,7 +877,11 @@
 
                             </div>
 
-                            <input type="hidden" name="asal_sekolah" value="{{ old('asal_sekolah') }}">
+                            <input
+                                type="hidden"
+                                name="asal_sekolah"
+                                value="{{ old('asal_sekolah') }}"
+                            >
 
                         </div>
                     </div>
@@ -1171,6 +916,7 @@
                             <div class="custom-select-panel">
 
                                 <div class="cs-search">
+
                                     <span class="cs-search-icon">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <circle cx="11" cy="11" r="8"/>
@@ -1179,13 +925,18 @@
                                     </span>
 
                                     <input type="text" placeholder="Cari kelas..." data-search>
+
                                 </div>
 
                                 <div class="cs-list" data-list></div>
 
                             </div>
 
-                            <input type="hidden" name="kelas" value="{{ old('kelas') }}">
+                            <input
+                                type="hidden"
+                                name="kelas"
+                                value="{{ old('kelas') }}"
+                            >
 
                         </div>
 
@@ -1223,6 +974,7 @@
                             <div class="custom-select-panel">
 
                                 <div class="cs-search">
+
                                     <span class="cs-search-icon">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <circle cx="11" cy="11" r="8"/>
@@ -1237,17 +989,24 @@
                                 <div class="cs-list" data-list></div>
 
                                 <div class="cs-footer" data-notfound="jurusan">
+
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                                         <circle cx="12" cy="12" r="10"/>
                                         <line x1="12" y1="8" x2="12" y2="16"/>
                                         <line x1="8" y1="12" x2="16" y2="12"/>
                                     </svg>
+
                                     Jurusan tidak ditemukan?
+
                                 </div>
 
                             </div>
 
-                            <input type="hidden" name="jurusan" value="{{ old('jurusan') }}">
+                            <input
+                                type="hidden"
+                                name="jurusan"
+                                value="{{ old('jurusan') }}"
+                            >
 
                         </div>
 
@@ -1311,6 +1070,7 @@
                                 <div class="rp-info">
 
                                     <div class="rp-info-item">
+
                                         <div class="rp-ii-icon">
                                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -1324,10 +1084,12 @@
                                             <small>Mulai</small>
                                             <strong id="rpStartText">-</strong>
                                         </div>
+
                                     </div>
 
 
                                     <div class="rp-info-item">
+
                                         <div class="rp-ii-icon">
                                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -1341,10 +1103,12 @@
                                             <small>Selesai</small>
                                             <strong id="rpEndText">-</strong>
                                         </div>
+
                                     </div>
 
 
                                     <div class="rp-info-item">
+
                                         <div class="rp-ii-icon">
                                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="12" r="10"/>
@@ -1356,6 +1120,7 @@
                                             <small>Durasi</small>
                                             <strong id="rpDurationText">-</strong>
                                         </div>
+
                                     </div>
 
                                 </div>
@@ -1364,15 +1129,33 @@
 
 
                             <div class="rp-actions">
-                                <button type="button" class="rp-btn rp-btn-cancel" id="rpCancel">Batal</button>
-                                <button type="button" class="rp-btn rp-btn-save" id="rpSave">Simpan</button>
+
+                                <button type="button" class="rp-btn rp-btn-cancel" id="rpCancel">
+                                    Batal
+                                </button>
+
+                                <button type="button" class="rp-btn rp-btn-save" id="rpSave">
+                                    Simpan
+                                </button>
+
                             </div>
 
                         </div>
 
 
-                        <input type="hidden" name="tanggal_mulai" id="rpStartHidden" value="{{ old('tanggal_mulai') }}">
-                        <input type="hidden" name="tanggal_selesai" id="rpEndHidden" value="{{ old('tanggal_selesai') }}">
+                        <input
+                            type="hidden"
+                            name="tanggal_mulai"
+                            id="rpStartHidden"
+                            value="{{ old('tanggal_mulai') }}"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="tanggal_selesai"
+                            id="rpEndHidden"
+                            value="{{ old('tanggal_selesai') }}"
+                        >
 
                     </div>
 
@@ -1398,6 +1181,7 @@
                                 class="form-control"
                                 placeholder="Masukan alamat sekolah"
                                 value="{{ old('alamat_sekolah') }}"
+                                required
                             >
 
                         </div>
@@ -1426,6 +1210,7 @@
                                 class="form-control"
                                 placeholder="Masukkan nama pembimbing"
                                 value="{{ old('nama_pembimbing') }}"
+                                required
                             >
 
                         </div>
@@ -1453,6 +1238,7 @@
                                 class="form-control"
                                 placeholder="Contoh: 081234567890"
                                 value="{{ old('no_telepon_pembimbing') }}"
+                                required
                             >
 
                         </div>
@@ -1483,23 +1269,27 @@
 
                     <a
                         href="{{ route('register.step1.process') }}"
-                        class="btn-back"
+                        class="btn-back transition-link"
                         data-transition="back"
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <line x1="19" y1="12" x2="5" y2="12"/>
                             <polyline points="12 19 5 12 12 5"/>
                         </svg>
+
                         <span>Kembali</span>
                     </a>
 
 
                     <button type="submit" class="btn-next" id="btnNext">
+
                         <span>Selanjutnya</span>
+
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <line x1="5" y1="12" x2="19" y2="12"/>
                             <polyline points="12 5 19 12 12 19"/>
                         </svg>
+
                     </button>
 
                 </div>
@@ -1516,47 +1306,64 @@
 <!-- ======================
      POPUP "TIDAK DITEMUKAN"
 ====================== -->
+
 <div class="modal-notfound" id="modalNotFound">
 
     <div class="mn-box">
 
         <button type="button" class="mn-close" id="mnClose" aria-label="Tutup">
+
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="18" y1="6" x2="6" y2="18"/>
                 <line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
+
         </button>
 
+
         <div class="mn-icon-wrap">
+
             <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <circle cx="12" cy="12" r="10"/>
                 <line x1="12" y1="16" x2="12" y2="12"/>
                 <line x1="12" y1="8" x2="12.01" y2="8"/>
             </svg>
+
         </div>
 
-        <div class="mn-title" id="mnTitle">Jurusan tidak ditemukan</div>
+
+        <div class="mn-title" id="mnTitle">
+            Jurusan tidak ditemukan
+        </div>
 
         <div class="mn-desc" id="mnDesc">
             Jurusan yang kamu cari tidak tersedia dalam daftar.<br>
             Silahkan hubungi admin untuk bantuan lebih lanjut.
         </div>
 
+
         <div class="mn-wa-box">
+
             <div class="mn-wa-icon">
+
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                 </svg>
+
             </div>
+
             <div class="mn-wa-text">
                 <small>Hubungi Admin via WhatsApp</small>
                 <strong>0812-3456-7890</strong>
             </div>
+
         </div>
+
 
         <div class="mn-note" id="mnNote">
             Admin akan membantu menambah jurusan yang sesuai
         </div>
+
 
         <button type="button" class="mn-btn-close" id="mnBtnClose">
             Tutup
@@ -1569,972 +1376,1301 @@
 
 <script>
 
-// ==========================================
-// TOAST SYSTEM
-// ==========================================
-const Toast = {
-    _closeCurrent: function() {
-        const container = document.getElementById('toastContainer');
-        if (!container) return;
-        container.querySelectorAll('.toast').forEach(function(el) {
-            el.classList.add('hiding');
-            setTimeout(function() { el.remove(); }, 250);
-        });
-    },
+    // ==========================================
+    // SLIDE PAGE TRANSITION
+    // ==========================================
 
-    show: function(type, title, message, duration) {
-        duration = duration || 3500;
-        try {
-            const container = document.getElementById('toastContainer');
-            if (!container) return;
+    (function () {
 
-            this._closeCurrent();
+        const KEY = 'pageTransition';
 
-            const icons = {
-                success: '<polyline points="20 6 9 17 4 12"/>',
-                error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
-                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-                info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
-            };
+        document.addEventListener('DOMContentLoaded', function () {
 
-            const toast = document.createElement('div');
-            toast.className = 'toast ' + type;
-            toast.innerHTML =
-                '<div class="toast-icon">' +
-                    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-                        (icons[type] || icons.info) +
-                    '</svg>' +
-                '</div>' +
-                '<div class="toast-body">' +
-                    '<div class="toast-title">' + title + '</div>' +
-                    '<div class="toast-message">' + message + '</div>' +
-                '</div>' +
-                '<button class="toast-close" type="button">' +
-                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-                        '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>' +
-                    '</svg>' +
-                '</button>' +
-                '<div class="toast-progress"></div>';
+            const incoming = sessionStorage.getItem(KEY);
 
-            setTimeout(function() { container.appendChild(toast); }, 50);
-
-            const removeToast = function() {
-                if (!toast.parentElement) return;
-                toast.classList.add('hiding');
-                setTimeout(function() { toast.remove(); }, 250);
-            };
-
-            const timeout = setTimeout(removeToast, duration);
-            toast.querySelector('.toast-close').addEventListener('click', function() {
-                clearTimeout(timeout);
-                removeToast();
-            });
-        } catch(err) { console.error('Toast error:', err); }
-    },
-
-    success: function(t, m) { this.show('success', t, m); },
-    error:   function(t, m) { this.show('error', t, m); },
-    warning: function(t, m) { this.show('warning', t, m); },
-    info:    function(t, m) { this.show('info', t, m); }
-};
-
-
-// ==========================================
-// MODAL SYSTEM
-// ==========================================
-const Modal = {
-    show: function(type, title, message, list, buttonText) {
-        try {
-            const overlay = document.getElementById('modalOverlay');
-            const box = document.getElementById('modalBox');
-            if (!overlay || !box) return;
-
-            const icons = {
-                success: '<polyline points="20 6 9 17 4 12" stroke-width="3"/>',
-                error: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
-                warning: '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
-                info: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'
-            };
-
-            let listHTML = '';
-            if (list && list.length > 0) {
-                listHTML = '<div class="modal-list">';
-                list.forEach(function(item) {
-                    listHTML += '<div class="modal-list-item">' + item + '</div>';
-                });
-                listHTML += '</div>';
-            }
-
-            box.innerHTML =
-                '<div class="modal-icon ' + type + '">' +
-                    '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
-                        (icons[type] || icons.info) +
-                    '</svg>' +
-                '</div>' +
-                '<div class="modal-title">' + title + '</div>' +
-                '<div class="modal-message">' + message + '</div>' +
-                listHTML +
-                '<button class="modal-btn ' + type + '" id="modalCloseBtn" type="button">' +
-                    (buttonText || 'OK, Mengerti') +
-                '</button>';
-
-            overlay.classList.add('active');
-
-            const closeModal = function() {
-                overlay.classList.remove('active');
-            };
-
-            document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
-            overlay.addEventListener('click', function(e) {
-                if (e.target === overlay) closeModal();
-            });
-        } catch(err) { console.error('Modal error:', err); }
-    }
-};
-
-
-// ==========================================
-// HELPER: SET FIELD STATE
-// ==========================================
-function setFieldState(form, fieldName, state, message) {
-    let group = null;
-
-    if (fieldName === 'asal_sekolah') group = document.getElementById('selAsalSekolah')?.closest('.form-group');
-    else if (fieldName === 'kelas') group = document.getElementById('selKelas')?.closest('.form-group');
-    else if (fieldName === 'jurusan') group = document.getElementById('selJurusan')?.closest('.form-group');
-    else if (fieldName === 'masa_magang') group = document.getElementById('masaMagangInput')?.closest('.form-group');
-    else {
-        const input = form.querySelector('[name="' + fieldName + '"], #' + fieldName);
-        group = input ? input.closest('.form-group') : null;
-    }
-
-    if (!group) return;
-
-    group.classList.remove('has-error', 'has-success');
-
-    if (state === 'error') {
-        group.classList.add('has-error');
-        let errorText = group.querySelector('.error-text');
-        if (!errorText) {
-            const errEl = document.createElement('div');
-            errEl.className = 'error-message';
-            errEl.innerHTML =
-                '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-                '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>' +
-                '</svg><span class="error-text"></span>';
-            group.appendChild(errEl);
-            errorText = errEl.querySelector('.error-text');
-        }
-        if (errorText && message) errorText.textContent = message;
-    } else if (state === 'success') {
-        group.classList.add('has-success');
-    }
-}
-
-
-// ==========================================
-// SLIDE PAGE TRANSITION
-// ==========================================
-(function () {
-    const KEY = 'pageTransition';
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const incoming = sessionStorage.getItem(KEY);
-        if (incoming === 'forward') document.body.classList.add('enter-from-right');
-        else if (incoming === 'back') document.body.classList.add('enter-from-left');
-        sessionStorage.removeItem(KEY);
-
-        document.querySelectorAll('a[data-transition]').forEach(function (link) {
-            link.addEventListener('click', function (e) {
-                const href = link.getAttribute('href');
-                if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
-                e.preventDefault();
-                const dir = link.getAttribute('data-transition');
-                sessionStorage.setItem(KEY, dir);
-                document.body.classList.add(dir === 'forward' ? 'leave-to-left' : 'leave-to-right');
-                setTimeout(function () { window.location.href = href; }, 430);
-            });
-        });
-
-        window.addEventListener('pageshow', function (event) {
-            if (event.persisted) {
-                document.body.classList.remove('leave-to-left', 'leave-to-right');
+            if (incoming === 'forward') {
+                document.body.classList.add('enter-from-right');
+            } else if (incoming === 'back') {
                 document.body.classList.add('enter-from-left');
             }
+
+            sessionStorage.removeItem(KEY);
+
+
+            document.querySelectorAll('a[data-transition]').forEach(function (link) {
+
+                link.addEventListener('click', function (e) {
+
+                    const href = link.getAttribute('href');
+
+                    if (
+                        !href ||
+                        href.startsWith('#') ||
+                        href.startsWith('javascript')
+                    ) {
+                        return;
+                    }
+
+                    e.preventDefault();
+
+                    const dir = link.getAttribute('data-transition');
+
+                    sessionStorage.setItem(KEY, dir);
+
+                    document.body.classList.add(
+                        dir === 'forward'
+                            ? 'leave-to-left'
+                            : 'leave-to-right'
+                    );
+
+                    setTimeout(function () {
+                        window.location.href = href;
+                    }, 430);
+
+                });
+
+            });
+
+
+            const form = document.getElementById('formStep2');
+
+            if (form) {
+
+                form.addEventListener('submit', function (e) {
+
+                    e.preventDefault();
+
+
+                    const asalSekolah =
+                        form.querySelector('input[name="asal_sekolah"]').value.trim();
+
+                    const kelas =
+                        form.querySelector('input[name="kelas"]').value.trim();
+
+                    const jurusan =
+                        form.querySelector('input[name="jurusan"]').value.trim();
+
+                    const tglMulai =
+                        form.querySelector('input[name="tanggal_mulai"]').value.trim();
+
+                    const tglSelesai =
+                        form.querySelector('input[name="tanggal_selesai"]').value.trim();
+
+
+                    if (!asalSekolah) {
+                        alert('Silakan pilih Asal Sekolah terlebih dahulu!');
+                        return;
+                    }
+
+                    if (!kelas) {
+                        alert('Silakan pilih Kelas terlebih dahulu!');
+                        return;
+                    }
+
+                    if (!jurusan) {
+                        alert('Silakan pilih Jurusan terlebih dahulu!');
+                        return;
+                    }
+
+                    if (!tglMulai || !tglSelesai) {
+                        alert('Silakan pilih Masa Magang terlebih dahulu!');
+                        return;
+                    }
+
+
+                    if (!form.checkValidity()) {
+                        form.reportValidity();
+                        return;
+                    }
+
+
+                    sessionStorage.setItem(KEY, 'forward');
+
+                    document.body.classList.add('leave-to-left');
+
+
+                    setTimeout(function () {
+                        HTMLFormElement.prototype.submit.call(form);
+                    }, 430);
+
+                });
+
+            }
+
+
+            window.addEventListener('pageshow', function (event) {
+
+                if (event.persisted) {
+
+                    document.body.classList.remove(
+                        'leave-to-left',
+                        'leave-to-right'
+                    );
+
+                    document.body.classList.add('enter-from-left');
+
+                }
+
+            });
+
         });
-    });
-})();
+
+    })();
 
 
-// ==========================================
-// POPUP "TIDAK DITEMUKAN"
-// ==========================================
-(function () {
-    const modal = document.getElementById('modalNotFound');
-    const mnTitle = document.getElementById('mnTitle');
-    const mnDesc = document.getElementById('mnDesc');
-    const mnNote = document.getElementById('mnNote');
-    const btnClose = document.getElementById('mnClose');
-    const btnTutup = document.getElementById('mnBtnClose');
 
-    function openModal(type) {
-        if (type === 'sekolah') {
-            mnTitle.textContent = 'Sekolah tidak ditemukan';
-            mnDesc.innerHTML =
-                'Sekolah yang kamu cari tidak tersedia dalam daftar.<br>' +
-                'Silahkan hubungi admin untuk bantuan lebih lanjut.';
-            mnNote.textContent = 'Admin akan membantu menambah sekolah yang sesuai';
-        } else {
-            mnTitle.textContent = 'Jurusan tidak ditemukan';
-            mnDesc.innerHTML =
-                'Jurusan yang kamu cari tidak tersedia dalam daftar.<br>' +
-                'Silahkan hubungi admin untuk bantuan lebih lanjut.';
-            mnNote.textContent = 'Admin akan membantu menambah jurusan yang sesuai';
-        }
-        modal.classList.add('active');
-    }
+    // ==========================================
+    // POPUP "TIDAK DITEMUKAN"
+    // ==========================================
 
-    function closeModal() {
-        modal.classList.remove('active');
-    }
+    (function () {
 
-    btnClose.addEventListener('click', closeModal);
-    btnTutup.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) closeModal();
-    });
-
-    window.openNotFoundModal = openModal;
-})();
+        const modal = document.getElementById('modalNotFound');
+        const mnTitle = document.getElementById('mnTitle');
+        const mnDesc = document.getElementById('mnDesc');
+        const mnNote = document.getElementById('mnNote');
+        const btnClose = document.getElementById('mnClose');
+        const btnTutup = document.getElementById('mnBtnClose');
 
 
-// ==========================================
-// CUSTOM SELECT (TERHUBUNG DATABASE)
-// ==========================================
-(function () {
+        function openModal(type) {
 
-    const DATA = {
-        selAsalSekolah: {
-            items: @json($sekolahData),
-            values: @json($sekolahData),
-            icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8"/><path d="M18 9h2a2 2 0 0 1 2 2v11"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>'
-        },
-        selKelas: {
-            items: @json($kelasData),
-            values: @json($kelasValues),
-            icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>'
-        },
-        selJurusan: {
-            items: @json($jurusanData),
-            values: @json($jurusanValues),
-            icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
-        }
-    };
+            if (type === 'sekolah') {
 
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('.custom-select')) {
-            document.querySelectorAll('.custom-select').forEach(function (el) {
-                el.classList.remove('open');
-            });
-        }
-    });
+                mnTitle.textContent = 'Sekolah tidak ditemukan';
 
-    Object.keys(DATA).forEach(function (key) {
-        const wrapper = document.getElementById(key);
-        if (!wrapper) return;
+                mnDesc.innerHTML =
+                    'Sekolah yang kamu cari tidak tersedia dalam daftar.<br>' +
+                    'Silahkan hubungi admin untuk bantuan lebih lanjut.';
 
-        const trigger = wrapper.querySelector('.custom-select-trigger');
-        const label = wrapper.querySelector('.cs-label');
-        const search = wrapper.querySelector('[data-search]');
-        const list = wrapper.querySelector('[data-list]');
-        const hidden = wrapper.querySelector('input[type="hidden"]');
-        const panel = wrapper.querySelector('.custom-select-panel');
-        const footer = wrapper.querySelector('.cs-footer');
-        const config = DATA[key];
+                mnNote.textContent =
+                    'Admin akan membantu menambah sekolah yang sesuai';
 
-        if (footer) {
-            footer.addEventListener('click', function (e) {
-                e.stopPropagation();
-                wrapper.classList.remove('open');
-                const type = footer.getAttribute('data-notfound') || 'sekolah';
-                if (window.openNotFoundModal) window.openNotFoundModal(type);
-            });
+            } else {
+
+                mnTitle.textContent = 'Jurusan tidak ditemukan';
+
+                mnDesc.innerHTML =
+                    'Jurusan yang kamu cari tidak tersedia dalam daftar.<br>' +
+                    'Silahkan hubungi admin untuk bantuan lebih lanjut.';
+
+                mnNote.textContent =
+                    'Admin akan membantu menambah jurusan yang sesuai';
+
+            }
+
+            modal.classList.add('active');
+
         }
 
-        function renderList(filter) {
-            list.innerHTML = '';
-            const f = (filter || '').toLowerCase();
-            const filtered = config.items.filter(function (item) {
-                return item.toLowerCase().includes(f);
-            });
 
-            if (filtered.length === 0) {
-                const empty = document.createElement('div');
-                empty.className = 'cs-empty';
-                empty.textContent = 'Tidak ada hasil ditemukan';
-                list.appendChild(empty);
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+
+        btnClose.addEventListener('click', closeModal);
+        btnTutup.addEventListener('click', closeModal);
+
+
+        modal.addEventListener('click', function (e) {
+
+            if (e.target === modal) {
+                closeModal();
+            }
+
+        });
+
+
+        window.openNotFoundModal = openModal;
+
+    })();
+
+
+
+    // ==========================================
+    // CUSTOM SELECT
+    // TERHUBUNG DENGAN DATABASE
+    // ==========================================
+
+    (function () {
+
+        const DATA = {
+            selAsalSekolah: {
+                items: @json($sekolahData),
+                values: @json($sekolahData),
+                icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v8"/><path d="M18 9h2a2 2 0 0 1 2 2v11"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>'
+            },
+
+            selKelas: {
+                items: @json($kelasData),
+                values: @json($kelasValues),
+                icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>'
+            },
+
+            selJurusan: {
+                items: @json($jurusanData),
+                values: @json($jurusanValues),
+                icon: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>'
+            }
+        };
+
+
+        // ==========================================================
+        // TUTUP SEMUA DROPDOWN JIKA KLIK DI LUAR
+        // ==========================================================
+
+        document.addEventListener('click', function (e) {
+
+            if (!e.target.closest('.custom-select')) {
+
+                document
+                    .querySelectorAll('.custom-select')
+                    .forEach(function (el) {
+                        el.classList.remove('open');
+                    });
+
+            }
+
+        });
+
+
+        // ==========================================================
+        // PROSES SETIAP CUSTOM SELECT
+        // ==========================================================
+
+        Object.keys(DATA).forEach(function (key) {
+
+            const wrapper = document.getElementById(key);
+
+            if (!wrapper) {
                 return;
             }
 
-            filtered.forEach(function (item) {
-                const el = document.createElement('div');
-                el.className = 'cs-item';
 
-                const itemValue = config.values
-                    ? (config.values[item] ?? item)
-                    : item;
+            const trigger =
+                wrapper.querySelector('.custom-select-trigger');
 
-                el.innerHTML = config.icon + '<span>' + item + '</span>';
+            const label =
+                wrapper.querySelector('.cs-label');
 
-                if (hidden.value === itemValue) el.classList.add('selected');
+            const search =
+                wrapper.querySelector('[data-search]');
 
-                el.addEventListener('click', function (e) {
+            const list =
+                wrapper.querySelector('[data-list]');
+
+            const hidden =
+                wrapper.querySelector('input[type="hidden"]');
+
+            const panel =
+                wrapper.querySelector('.custom-select-panel');
+
+            const footer =
+                wrapper.querySelector('.cs-footer');
+
+            const config =
+                DATA[key];
+
+
+            // ======================================================
+            // POPUP TIDAK DITEMUKAN
+            // ======================================================
+
+            if (footer) {
+
+                footer.addEventListener('click', function (e) {
+
                     e.stopPropagation();
-                    hidden.value = itemValue;
-                    label.textContent = item;
-                    trigger.classList.add('filled');
+
                     wrapper.classList.remove('open');
-                    search.value = '';
-                    renderList('');
-                });
 
-                list.appendChild(el);
-            });
-        }
+                    const type =
+                        footer.getAttribute('data-notfound') || 'sekolah';
 
-        trigger.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const isOpen = wrapper.classList.contains('open');
-
-            document.querySelectorAll('.custom-select').forEach(function (el) {
-                el.classList.remove('open');
-            });
-
-            if (!isOpen) {
-                wrapper.classList.add('open');
-                renderList('');
-                setTimeout(function () {
-                    if (search) search.focus();
-                }, 100);
-            }
-        });
-
-        if (search) {
-            search.addEventListener('input', function () {
-                renderList(search.value);
-            });
-            search.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
-        }
-
-        if (hidden.value) {
-            let selectedLabel = hidden.value;
-            if (config.values) {
-                const found = Object.keys(config.values).find(function (labelText) {
-                    return config.values[labelText] === hidden.value;
-                });
-                if (found) selectedLabel = found;
-            }
-            label.textContent = selectedLabel;
-            trigger.classList.add('filled');
-        }
-
-        panel.addEventListener('click', function (e) {
-            e.stopPropagation();
-        });
-    });
-
-})();
-
-
-// ==========================================
-// MASA MAGANG — DATE RANGE PICKER
-// ==========================================
-(function () {
-
-    const picker = document.getElementById('rangePicker');
-    const input = document.getElementById('masaMagangInput');
-    const cal1 = document.getElementById('rpCal1');
-    const cal2 = document.getElementById('rpCal2');
-    const startText = document.getElementById('rpStartText');
-    const endText = document.getElementById('rpEndText');
-    const durationText = document.getElementById('rpDurationText');
-    const btnCancel = document.getElementById('rpCancel');
-    const btnSave = document.getElementById('rpSave');
-    const startHidden = document.getElementById('rpStartHidden');
-    const endHidden = document.getElementById('rpEndHidden');
-
-    const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-    const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const dayNames = ['Sn','Sl','Rb','Km','Jm','Sb','Mg'];
-
-    let today = new Date();
-    let baseYear = today.getFullYear();
-    let baseMonth = today.getMonth();
-
-    let tempStart = null;
-    let tempEnd = null;
-    let hoverDate = null;
-
-    function stripTime(d) {
-        return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    }
-
-    function formatID(d) {
-        if (!d) return '-';
-        return String(d.getDate()).padStart(2, '0')
-            + ' ' + monthNames[d.getMonth()]
-            + ' ' + d.getFullYear();
-    }
-
-    function formatISO(d) {
-        if (!d) return '';
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        return d.getFullYear() + '-' + mm + '-' + dd;
-    }
-
-    function sameDay(a, b) {
-        return a && b &&
-            a.getFullYear() === b.getFullYear() &&
-            a.getMonth() === b.getMonth() &&
-            a.getDate() === b.getDate();
-    }
-
-    function isBetween(d, s, e) {
-        if (!s || !e) return false;
-        const t = stripTime(d).getTime();
-        return t > stripTime(s).getTime()
-            && t < stripTime(e).getTime();
-    }
-
-    function buildCalendar(container, year, month) {
-
-        container.innerHTML = '';
-
-        const head = document.createElement('div');
-        head.className = 'rp-cal-head';
-
-        const btnPrev = document.createElement('button');
-        btnPrev.type = 'button';
-        btnPrev.className = 'rp-nav-btn';
-        btnPrev.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
-
-        btnPrev.onclick = function (e) {
-            e.stopPropagation();
-            baseMonth--;
-            if (baseMonth < 0) { baseMonth = 11; baseYear--; }
-            redraw();
-        };
-
-        const titleEl = document.createElement('div');
-        titleEl.className = 'rp-cal-title';
-        titleEl.innerHTML = monthNames[month] + ' ' + year +
-            ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>';
-
-        titleEl.onclick = function (e) {
-            e.stopPropagation();
-            openMonthYearPanel(container, year, month);
-        };
-
-        const btnNext = document.createElement('button');
-        btnNext.type = 'button';
-        btnNext.className = 'rp-nav-btn';
-        btnNext.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
-
-        btnNext.onclick = function (e) {
-            e.stopPropagation();
-            baseMonth++;
-            if (baseMonth > 11) { baseMonth = 0; baseYear++; }
-            redraw();
-        };
-
-        head.appendChild(btnPrev);
-        head.appendChild(titleEl);
-        head.appendChild(btnNext);
-        container.appendChild(head);
-
-        const grid = document.createElement('div');
-        grid.className = 'rp-grid';
-
-        dayNames.forEach(function (n) {
-            const el = document.createElement('div');
-            el.className = 'rp-day-name';
-            el.textContent = n;
-            grid.appendChild(el);
-        });
-
-        const firstDay = new Date(year, month, 1).getDay();
-        const offset = (firstDay + 6) % 7;
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        for (let i = 0; i < offset; i++) {
-            const empty = document.createElement('div');
-            empty.className = 'rp-day other';
-            grid.appendChild(empty);
-        }
-
-        for (let d = 1; d <= daysInMonth; d++) {
-            const dateObj = new Date(year, month, d);
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'rp-day';
-            btn.textContent = d;
-            btn.dataset.ts = dateObj.getTime();
-
-            if (sameDay(dateObj, tempStart)) btn.classList.add('start');
-            if (sameDay(dateObj, tempEnd)) btn.classList.add('end');
-
-            if (tempStart && tempEnd && isBetween(dateObj, tempStart, tempEnd)) {
-                btn.classList.add('in-range');
-            }
-
-            if (tempStart && !tempEnd && hoverDate && isBetween(dateObj, tempStart, hoverDate)) {
-                btn.classList.add('in-range');
-            }
-
-            btn.onclick = function (e) {
-                e.stopPropagation();
-                e.preventDefault();
-
-                if (!tempStart || (tempStart && tempEnd)) {
-                    tempStart = dateObj;
-                    tempEnd = null;
-                    hoverDate = null;
-                } else {
-                    if (dateObj.getTime() < tempStart.getTime()) {
-                        tempStart = dateObj;
-                        tempEnd = null;
-                    } else if (dateObj.getTime() === tempStart.getTime()) {
-                        tempStart = null;
-                        tempEnd = null;
-                    } else {
-                        tempEnd = dateObj;
+                    if (window.openNotFoundModal) {
+                        window.openNotFoundModal(type);
                     }
-                    hoverDate = null;
-                }
-                redraw();
-            };
 
-            btn.onmouseenter = function () {
-                if (tempStart && !tempEnd) {
-                    hoverDate = dateObj;
-                    const allDays = container.querySelectorAll('.rp-day');
-                    allDays.forEach(function (el) {
-                        const ts = parseInt(el.dataset.ts, 10);
-                        el.classList.remove('in-range');
-                        if (!isNaN(ts)) {
-                            const dt = new Date(ts);
-                            if (dt > tempStart && dt <= hoverDate) {
-                                el.classList.add('in-range');
-                            }
-                        }
+                });
+
+            }
+
+
+            // ======================================================
+            // RENDER DATA DARI DATABASE
+            // ======================================================
+
+            function renderList(filter) {
+
+                list.innerHTML = '';
+
+                const f =
+                    (filter || '').toLowerCase();
+
+
+                const filtered =
+                    config.items.filter(function (item) {
+
+                        return item
+                            .toLowerCase()
+                            .includes(f);
+
                     });
+
+
+                if (filtered.length === 0) {
+
+                    const empty =
+                        document.createElement('div');
+
+                    empty.className =
+                        'cs-empty';
+
+                    empty.textContent =
+                        'Tidak ada hasil ditemukan';
+
+                    list.appendChild(empty);
+
+                    return;
                 }
-            };
 
-            grid.appendChild(btn);
-        }
 
-        container.appendChild(grid);
-    }
+                filtered.forEach(function (item) {
 
-    function openMonthYearPanel(container, year, month) {
-        const oldPanel = container.querySelector('.rp-month-year');
-        if (oldPanel) oldPanel.remove();
+                    const el =
+                        document.createElement('div');
 
-        if (window.__closeMonthYearPanel) {
-            document.removeEventListener('mousedown', window.__closeMonthYearPanel);
-            window.__closeMonthYearPanel = null;
-        }
+                    el.className =
+                        'cs-item';
 
-        let currentYear = year;
 
-        const panel = document.createElement('div');
-        panel.className = 'rp-month-year active';
+                    const itemValue =
+                        config.values
+                            ? (config.values[item] ?? item)
+                            : item;
 
-        function render() {
-            panel.innerHTML = '';
 
-            const header = document.createElement('div');
-            header.className = 'rp-my-header';
+                    el.innerHTML =
+                        config.icon +
+                        '<span>' +
+                        item +
+                        '</span>';
 
-            const title = document.createElement('div');
-            title.className = 'rp-my-title';
-            title.textContent = 'Pilih Bulan & Tahun';
 
-            const closeBtn = document.createElement('button');
-            closeBtn.type = 'button';
-            closeBtn.className = 'rp-my-close';
-            closeBtn.innerHTML =
-                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-                '<line x1="18" y1="6" x2="6" y2="18"/>' +
-                '<line x1="6" y1="6" x2="18" y2="18"/>' +
-                '</svg>';
+                    if (hidden.value === itemValue) {
 
-            closeBtn.onclick = function (e) {
+                        el.classList.add('selected');
+
+                    }
+
+
+                    el.addEventListener('click', function (e) {
+
+                        e.stopPropagation();
+
+
+                        hidden.value =
+                            itemValue;
+
+
+                        label.textContent =
+                            item;
+
+
+                        trigger.classList.add('filled');
+
+                        wrapper.classList.remove('open');
+
+                        search.value = '';
+
+                        renderList('');
+
+                    });
+
+
+                    list.appendChild(el);
+
+                });
+
+            }
+
+
+            // ======================================================
+            // BUKA DROPDOWN
+            // ======================================================
+
+            trigger.addEventListener('click', function (e) {
+
                 e.stopPropagation();
-                closePanel();
-            };
 
-            header.appendChild(title);
-            header.appendChild(closeBtn);
-            panel.appendChild(header);
 
-            const yearNav = document.createElement('div');
-            yearNav.className = 'rp-my-yearnav';
+                const isOpen =
+                    wrapper.classList.contains('open');
 
-            const prevY = document.createElement('button');
-            prevY.type = 'button';
-            prevY.className = 'rp-my-yearbtn';
-            prevY.innerHTML =
-                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-                '<polyline points="15 18 9 12 15 6"/></svg>';
 
-            prevY.onclick = function (e) {
-                e.stopPropagation();
-                currentYear--;
-                render();
-            };
+                document
+                    .querySelectorAll('.custom-select')
+                    .forEach(function (el) {
+                        el.classList.remove('open');
+                    });
 
-            const yearLabel = document.createElement('div');
-            yearLabel.className = 'rp-my-yearlabel';
-            yearLabel.textContent = currentYear;
 
-            const nextY = document.createElement('button');
-            nextY.type = 'button';
-            nextY.className = 'rp-my-yearbtn';
-            nextY.innerHTML =
-                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-                '<polyline points="9 18 15 12 9 6"/></svg>';
+                if (!isOpen) {
 
-            nextY.onclick = function (e) {
-                e.stopPropagation();
-                currentYear++;
-                render();
-            };
+                    wrapper.classList.add('open');
 
-            yearNav.appendChild(prevY);
-            yearNav.appendChild(yearLabel);
-            yearNav.appendChild(nextY);
-            panel.appendChild(yearNav);
+                    renderList('');
 
-            const monthGrid = document.createElement('div');
-            monthGrid.className = 'rp-month-grid';
+                    setTimeout(function () {
 
-            for (let i = 0; i < 12; i++) {
-                const mBtn = document.createElement('button');
-                mBtn.type = 'button';
-                mBtn.className = 'rp-month-item';
-                mBtn.textContent = monthShort[i];
+                        if (search) {
+                            search.focus();
+                        }
 
-                if (i === month && currentYear === year) mBtn.classList.add('active');
+                    }, 100);
 
-                mBtn.onclick = function (e) {
+                }
+
+            });
+
+
+            // ======================================================
+            // SEARCH
+            // ======================================================
+
+            if (search) {
+
+                search.addEventListener('input', function () {
+
+                    renderList(search.value);
+
+                });
+
+
+                search.addEventListener('click', function (e) {
+
                     e.stopPropagation();
-                    baseYear = currentYear;
-                    baseMonth = i;
-                    closePanel();
+
+                });
+
+            }
+
+
+            // ======================================================
+            // TAMPILKAN DATA OLD() KETIKA VALIDASI GAGAL
+            // ======================================================
+
+            if (hidden.value) {
+
+                let selectedLabel =
+                    hidden.value;
+
+
+                if (config.values) {
+
+                    const found =
+                        Object.keys(config.values).find(function (labelText) {
+
+                            return config.values[labelText] === hidden.value;
+
+                        });
+
+
+                    if (found) {
+
+                        selectedLabel =
+                            found;
+
+                    }
+
+                }
+
+
+                label.textContent =
+                    selectedLabel;
+
+                trigger.classList.add('filled');
+
+            }
+
+
+            // ======================================================
+            // JANGAN BIARKAN KLIK PANEL MENUTUP DROPDOWN
+            // ======================================================
+
+            panel.addEventListener('click', function (e) {
+
+                e.stopPropagation();
+
+            });
+
+        });
+
+    })();
+
+
+
+    // ==========================================
+    // MASA MAGANG — DATE RANGE PICKER
+    // ==========================================
+
+    (function () {
+
+        const picker =
+            document.getElementById('rangePicker');
+
+        const input =
+            document.getElementById('masaMagangInput');
+
+        const cal1 =
+            document.getElementById('rpCal1');
+
+        const cal2 =
+            document.getElementById('rpCal2');
+
+        const startText =
+            document.getElementById('rpStartText');
+
+        const endText =
+            document.getElementById('rpEndText');
+
+        const durationText =
+            document.getElementById('rpDurationText');
+
+        const btnCancel =
+            document.getElementById('rpCancel');
+
+        const btnSave =
+            document.getElementById('rpSave');
+
+        const startHidden =
+            document.getElementById('rpStartHidden');
+
+        const endHidden =
+            document.getElementById('rpEndHidden');
+
+
+        const monthNames = [
+            'Januari','Februari','Maret','April','Mei','Juni',
+            'Juli','Agustus','September','Oktober','November','Desember'
+        ];
+
+
+        const monthShort = [
+            'Jan','Feb','Mar','Apr','May','Jun',
+            'Jul','Aug','Sep','Oct','Nov','Dec'
+        ];
+
+
+        const dayNames = [
+            'Sn','Sl','Rb','Km','Jm','Sb','Mg'
+        ];
+
+
+        let today = new Date();
+        let baseYear = today.getFullYear();
+        let baseMonth = today.getMonth();
+
+        let tempStart = null;
+        let tempEnd = null;
+        let hoverDate = null;
+
+
+        function stripTime(d) {
+            return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+
+
+        function formatID(d) {
+
+            if (!d) return '-';
+
+            return String(d.getDate()).padStart(2, '0')
+                + ' ' + monthNames[d.getMonth()]
+                + ' ' + d.getFullYear();
+
+        }
+
+
+        function formatISO(d) {
+
+            if (!d) return '';
+
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+
+            return d.getFullYear() + '-' + mm + '-' + dd;
+
+        }
+
+
+        function sameDay(a, b) {
+
+            return a && b &&
+                a.getFullYear() === b.getFullYear() &&
+                a.getMonth() === b.getMonth() &&
+                a.getDate() === b.getDate();
+
+        }
+
+
+        function isBetween(d, s, e) {
+
+            if (!s || !e) return false;
+
+            const t = stripTime(d).getTime();
+
+            return t > stripTime(s).getTime()
+                && t < stripTime(e).getTime();
+
+        }
+
+
+        // ==========================================
+        // BUILD KALENDER
+        // ==========================================
+
+        function buildCalendar(container, year, month) {
+
+            container.innerHTML = '';
+
+
+            const head =
+                document.createElement('div');
+
+            head.className =
+                'rp-cal-head';
+
+
+            const btnPrev =
+                document.createElement('button');
+
+            btnPrev.type =
+                'button';
+
+            btnPrev.className =
+                'rp-nav-btn';
+
+            btnPrev.innerHTML =
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
+
+
+            btnPrev.onclick =
+                function (e) {
+
+                    e.stopPropagation();
+
+                    baseMonth--;
+
+                    if (baseMonth < 0) {
+                        baseMonth = 11;
+                        baseYear--;
+                    }
+
                     redraw();
+
                 };
 
-                monthGrid.appendChild(mBtn);
+
+            const titleEl =
+                document.createElement('div');
+
+            titleEl.className =
+                'rp-cal-title';
+
+            titleEl.innerHTML =
+                monthNames[month]
+                + ' '
+                + year
+                + ' <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>';
+
+
+            titleEl.onclick =
+                function (e) {
+
+                    e.stopPropagation();
+
+                    openMonthYearPanel(container, year, month);
+
+                };
+
+
+            const btnNext =
+                document.createElement('button');
+
+            btnNext.type =
+                'button';
+
+            btnNext.className =
+                'rp-nav-btn';
+
+            btnNext.innerHTML =
+                '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
+
+
+            btnNext.onclick =
+                function (e) {
+
+                    e.stopPropagation();
+
+                    baseMonth++;
+
+                    if (baseMonth > 11) {
+                        baseMonth = 0;
+                        baseYear++;
+                    }
+
+                    redraw();
+
+                };
+
+
+            head.appendChild(btnPrev);
+            head.appendChild(titleEl);
+            head.appendChild(btnNext);
+
+            container.appendChild(head);
+
+
+            const grid =
+                document.createElement('div');
+
+            grid.className =
+                'rp-grid';
+
+
+            dayNames.forEach(function (n) {
+
+                const el =
+                    document.createElement('div');
+
+                el.className =
+                    'rp-day-name';
+
+                el.textContent =
+                    n;
+
+                grid.appendChild(el);
+
+            });
+
+
+            const firstDay =
+                new Date(year, month, 1).getDay();
+
+            const offset =
+                (firstDay + 6) % 7;
+
+            const daysInMonth =
+                new Date(year, month + 1, 0).getDate();
+
+
+            for (let i = 0; i < offset; i++) {
+
+                const empty =
+                    document.createElement('div');
+
+                empty.className =
+                    'rp-day other';
+
+                grid.appendChild(empty);
+
             }
 
-            panel.appendChild(monthGrid);
+
+            for (let d = 1; d <= daysInMonth; d++) {
+
+                const dateObj =
+                    new Date(year, month, d);
+
+                const btn =
+                    document.createElement('button');
+
+                btn.type =
+                    'button';
+
+                btn.className =
+                    'rp-day';
+
+                btn.textContent =
+                    d;
+
+                btn.dataset.ts =
+                    dateObj.getTime();
+
+
+                if (sameDay(dateObj, tempStart)) {
+                    btn.classList.add('start');
+                }
+
+                if (sameDay(dateObj, tempEnd)) {
+                    btn.classList.add('end');
+                }
+
+
+                if (
+                    tempStart &&
+                    tempEnd &&
+                    isBetween(dateObj, tempStart, tempEnd)
+                ) {
+                    btn.classList.add('in-range');
+                }
+
+
+                if (
+                    tempStart &&
+                    !tempEnd &&
+                    hoverDate &&
+                    isBetween(dateObj, tempStart, hoverDate)
+                ) {
+                    btn.classList.add('in-range');
+                }
+
+
+                btn.onclick =
+                    function (e) {
+
+                        e.stopPropagation();
+                        e.preventDefault();
+
+
+                        if (!tempStart || (tempStart && tempEnd)) {
+
+                            tempStart = dateObj;
+                            tempEnd = null;
+                            hoverDate = null;
+
+                        } else {
+
+                            if (dateObj.getTime() < tempStart.getTime()) {
+
+                                tempStart = dateObj;
+                                tempEnd = null;
+
+                            } else if (dateObj.getTime() === tempStart.getTime()) {
+
+                                tempStart = null;
+                                tempEnd = null;
+
+                            } else {
+
+                                tempEnd = dateObj;
+
+                            }
+
+                            hoverDate = null;
+
+                        }
+
+                        redraw();
+
+                    };
+
+
+                btn.onmouseenter =
+                    function () {
+
+                        if (tempStart && !tempEnd) {
+
+                            hoverDate = dateObj;
+
+                            const allDays =
+                                container.querySelectorAll('.rp-day');
+
+
+                            allDays.forEach(function (el) {
+
+                                const ts =
+                                    parseInt(el.dataset.ts, 10);
+
+                                el.classList.remove('in-range');
+
+
+                                if (!isNaN(ts)) {
+
+                                    const dt =
+                                        new Date(ts);
+
+                                    if (dt > tempStart && dt <= hoverDate) {
+
+                                        el.classList.add('in-range');
+
+                                    }
+
+                                }
+
+                            });
+
+                        }
+
+                    };
+
+
+                grid.appendChild(btn);
+
+            }
+
+
+            container.appendChild(grid);
+
         }
 
-        function closePanel() {
-            panel.remove();
+
+        // ==========================================
+        // PANEL PILIH BULAN & TAHUN
+        // (DISAMAKAN DENGAN STEP 1)
+        // ==========================================
+
+        function openMonthYearPanel(container, year, month) {
+
+            // Hapus panel lama kalau ada
+            const oldPanel = container.querySelector('.rp-month-year');
+            if (oldPanel) oldPanel.remove();
+
+            // Hapus listener global lama kalau ada
             if (window.__closeMonthYearPanel) {
                 document.removeEventListener('mousedown', window.__closeMonthYearPanel);
                 window.__closeMonthYearPanel = null;
             }
-        }
 
-        window.__closeMonthYearPanel = function (ev) {
-            if (panel.contains(ev.target)) return;
-            if (ev.target.closest('.rp-cal-title')) return;
-            closePanel();
-        };
+            let currentYear = year;
 
-        setTimeout(function () {
-            document.addEventListener('mousedown', window.__closeMonthYearPanel);
-        }, 0);
+            const panel = document.createElement('div');
+            panel.className = 'rp-month-year active';
 
-        panel.addEventListener('mousedown', function (e) {
-            e.stopPropagation();
-        });
 
-        render();
-        container.appendChild(panel);
-    }
+            function render() {
 
-    function redraw() {
-        buildCalendar(cal1, baseYear, baseMonth);
+                panel.innerHTML = '';
 
-        let m2 = baseMonth + 1;
-        let y2 = baseYear;
-        if (m2 > 11) { m2 = 0; y2++; }
+                // HEADER
+                const header = document.createElement('div');
+                header.className = 'rp-my-header';
 
-        buildCalendar(cal2, y2, m2);
+                const title = document.createElement('div');
+                title.className = 'rp-my-title';
+                title.textContent = 'Pilih Bulan & Tahun';
 
-        startText.textContent = formatID(tempStart);
-        endText.textContent = formatID(tempEnd);
+                const closeBtn = document.createElement('button');
+                closeBtn.type = 'button';
+                closeBtn.className = 'rp-my-close';
+                closeBtn.innerHTML =
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                    '<line x1="18" y1="6" x2="6" y2="18"/>' +
+                    '<line x1="6" y1="6" x2="18" y2="18"/>' +
+                    '</svg>';
 
-        if (tempStart && tempEnd) {
-            const diffDays = Math.round(
-                (stripTime(tempEnd) - stripTime(tempStart)) / (1000 * 60 * 60 * 24)
-            ) + 1;
+                closeBtn.onclick = function (e) {
+                    e.stopPropagation();
+                    closePanel();
+                };
 
-            let label = diffDays + ' Hari';
+                header.appendChild(title);
+                header.appendChild(closeBtn);
+                panel.appendChild(header);
 
-            if (diffDays >= 365) {
-                const th = (diffDays / 365).toFixed(1).replace('.0', '');
-                label = th + ' Tahun';
-            } else if (diffDays >= 30) {
-                const bl = (diffDays / 30).toFixed(1).replace('.0', '');
-                label = bl + ' Bulan';
+
+                // NAVIGASI TAHUN
+                const yearNav = document.createElement('div');
+                yearNav.className = 'rp-my-yearnav';
+
+                const prevY = document.createElement('button');
+                prevY.type = 'button';
+                prevY.className = 'rp-my-yearbtn';
+                prevY.innerHTML =
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                    '<polyline points="15 18 9 12 15 6"/></svg>';
+
+                prevY.onclick = function (e) {
+                    e.stopPropagation();
+                    currentYear--;
+                    render();
+                };
+
+                const yearLabel = document.createElement('div');
+                yearLabel.className = 'rp-my-yearlabel';
+                yearLabel.textContent = currentYear;
+
+                const nextY = document.createElement('button');
+                nextY.type = 'button';
+                nextY.className = 'rp-my-yearbtn';
+                nextY.innerHTML =
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                    '<polyline points="9 18 15 12 9 6"/></svg>';
+
+                nextY.onclick = function (e) {
+                    e.stopPropagation();
+                    currentYear++;
+                    render();
+                };
+
+                yearNav.appendChild(prevY);
+                yearNav.appendChild(yearLabel);
+                yearNav.appendChild(nextY);
+                panel.appendChild(yearNav);
+
+
+                // GRID BULAN
+                const monthGrid = document.createElement('div');
+                monthGrid.className = 'rp-month-grid';
+
+                for (let i = 0; i < 12; i++) {
+
+                    const mBtn = document.createElement('button');
+                    mBtn.type = 'button';
+                    mBtn.className = 'rp-month-item';
+                    mBtn.textContent = monthShort[i];
+
+                    if (i === month && currentYear === year) {
+                        mBtn.classList.add('active');
+                    }
+
+                    mBtn.onclick = function (e) {
+                        e.stopPropagation();
+                        baseYear = currentYear;
+                        baseMonth = i;
+                        closePanel();
+                        redraw();
+                    };
+
+                    monthGrid.appendChild(mBtn);
+
+                }
+
+                panel.appendChild(monthGrid);
+
             }
 
-            durationText.textContent = label;
-        } else {
-            durationText.textContent = '-';
-        }
-    }
 
-    input.addEventListener('click', function (e) {
-        e.stopPropagation();
+            function closePanel() {
 
-        if (picker.classList.contains('active')) {
-            picker.classList.remove('active');
-            return;
-        }
+                panel.remove();
 
-        if (startHidden.value) {
-            tempStart = new Date(startHidden.value);
-            baseYear = tempStart.getFullYear();
-            baseMonth = tempStart.getMonth();
-        }
+                if (window.__closeMonthYearPanel) {
+                    document.removeEventListener('mousedown', window.__closeMonthYearPanel);
+                    window.__closeMonthYearPanel = null;
+                }
 
-        if (endHidden.value) {
-            tempEnd = new Date(endHidden.value);
-        }
-
-        redraw();
-        picker.classList.add('active');
-    });
-
-    document.addEventListener('click', function (e) {
-        if (!e.target.closest('#rangePicker') && e.target !== input) {
-            picker.classList.remove('active');
-        }
-    });
-
-    picker.addEventListener('click', function (e) {
-        e.stopPropagation();
-    });
-
-    btnCancel.addEventListener('click', function (e) {
-        e.stopPropagation();
-
-        tempStart = startHidden.value ? new Date(startHidden.value) : null;
-        tempEnd = endHidden.value ? new Date(endHidden.value) : null;
-        hoverDate = null;
-
-        picker.classList.remove('active');
-    });
-
-    btnSave.addEventListener('click', function (e) {
-        e.stopPropagation();
-
-        if (!tempStart || !tempEnd) {
-            Toast.warning('Tanggal Belum Lengkap', 'Pilih tanggal mulai dan selesai dulu ya!');
-            return;
-        }
-
-        startHidden.value = formatISO(tempStart);
-        endHidden.value = formatISO(tempEnd);
-
-        input.value = formatID(tempStart) + ' - ' + formatID(tempEnd);
-
-        picker.classList.remove('active');
-
-        Toast.success('Masa Magang Dipilih', formatID(tempStart) + ' - ' + formatID(tempEnd));
-    });
-
-    if (startHidden.value && endHidden.value) {
-        const s = new Date(startHidden.value);
-        const e2 = new Date(endHidden.value);
-        input.value = formatID(s) + ' - ' + formatID(e2);
-    }
-
-})();
-
-
-// ==========================================
-// SUBMIT HANDLER
-// ==========================================
-document.addEventListener('DOMContentLoaded', function () {
-
-    const form = document.getElementById('formStep2');
-    const btnNext = document.getElementById('btnNext');
-
-    if (!form) return;
-
-    // Filter angka no telepon pembimbing
-    const noTelp = document.getElementById('no_telepon_pembimbing');
-    if (noTelp) {
-        noTelp.addEventListener('input', function () {
-            this.value = this.value.replace(/\D/g, '');
-        });
-    }
-
-    // Notif sambutan
-    setTimeout(function () {
-        Toast.info('Langkah 2: Data Sekolah', 'Isi data sekolah kamu dengan benar ya');
-    }, 600);
-
-    // ==========================================
-    // SUBMIT
-    // ==========================================
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const errors = [];
-
-        const asalSekolah = form.querySelector('input[name="asal_sekolah"]').value.trim();
-        const kelas = form.querySelector('input[name="kelas"]').value.trim();
-        const jurusan = form.querySelector('input[name="jurusan"]').value.trim();
-        const tglMulai = form.querySelector('input[name="tanggal_mulai"]').value.trim();
-        const tglSelesai = form.querySelector('input[name="tanggal_selesai"]').value.trim();
-        const alamatSekolah = document.getElementById('alamat_sekolah').value.trim();
-        const namaPembimbing = document.getElementById('nama_pembimbing').value.trim();
-        const noTelpVal = document.getElementById('no_telepon_pembimbing').value.trim();
-
-        // Asal Sekolah
-        if (!asalSekolah) {
-            setFieldState(form, 'asal_sekolah', 'error', 'Asal sekolah wajib dipilih');
-            errors.push({ field: 'Asal Sekolah', message: 'Wajib dipilih' });
-        } else {
-            setFieldState(form, 'asal_sekolah', 'success');
-        }
-
-        // Kelas
-        if (!kelas) {
-            setFieldState(form, 'kelas', 'error', 'Kelas wajib dipilih');
-            errors.push({ field: 'Kelas', message: 'Wajib dipilih' });
-        } else {
-            setFieldState(form, 'kelas', 'success');
-        }
-
-        // Jurusan
-        if (!jurusan) {
-            setFieldState(form, 'jurusan', 'error', 'Jurusan wajib dipilih');
-            errors.push({ field: 'Jurusan', message: 'Wajib dipilih' });
-        } else {
-            setFieldState(form, 'jurusan', 'success');
-        }
-
-        // Masa Magang
-        if (!tglMulai || !tglSelesai) {
-            setFieldState(form, 'masa_magang', 'error', 'Masa magang wajib dipilih');
-            errors.push({ field: 'Masa Magang', message: 'Wajib dipilih' });
-        } else {
-            const start = new Date(tglMulai);
-            const end = new Date(tglSelesai);
-            if (end <= start) {
-                setFieldState(form, 'masa_magang', 'error', 'Tanggal selesai harus setelah tanggal mulai');
-                errors.push({ field: 'Masa Magang', message: 'Tanggal selesai harus setelah tanggal mulai' });
-            } else {
-                setFieldState(form, 'masa_magang', 'success');
             }
-        }
 
-        // Alamat Sekolah
-        if (!alamatSekolah) {
-            setFieldState(form, 'alamat_sekolah', 'error', 'Alamat sekolah wajib diisi');
-            errors.push({ field: 'Alamat Sekolah', message: 'Wajib diisi' });
-        } else if (alamatSekolah.length < 5) {
-            setFieldState(form, 'alamat_sekolah', 'error', 'Alamat minimal 5 karakter');
-            errors.push({ field: 'Alamat Sekolah', message: 'Minimal 5 karakter' });
-        } else {
-            setFieldState(form, 'alamat_sekolah', 'success');
-        }
 
-        // Nama Pembimbing
-        if (!namaPembimbing) {
-            setFieldState(form, 'nama_pembimbing', 'error', 'Nama pembimbing wajib diisi');
-            errors.push({ field: 'Nama Pembimbing', message: 'Wajib diisi' });
-        } else if (namaPembimbing.length < 3) {
-            setFieldState(form, 'nama_pembimbing', 'error', 'Nama minimal 3 karakter');
-            errors.push({ field: 'Nama Pembimbing', message: 'Minimal 3 karakter' });
-        } else if (!/^[a-zA-Z\s\.\,\'-]+$/.test(namaPembimbing)) {
-            setFieldState(form, 'nama_pembimbing', 'error', 'Nama hanya boleh huruf');
-            errors.push({ field: 'Nama Pembimbing', message: 'Hanya boleh huruf & spasi' });
-        } else {
-            setFieldState(form, 'nama_pembimbing', 'success');
-        }
+            // Event klik di luar panel
+            window.__closeMonthYearPanel = function (ev) {
 
-        // No Telepon Pembimbing
-        if (!noTelpVal) {
-            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon wajib diisi');
-            errors.push({ field: 'No. Telepon Pembimbing', message: 'Wajib diisi' });
-        } else if (!/^\d+$/.test(noTelpVal)) {
-            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon hanya boleh angka');
-            errors.push({ field: 'No. Telepon Pembimbing', message: 'Hanya boleh angka' });
-        } else if (noTelpVal.length < 10 || noTelpVal.length > 15) {
-            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon harus 10-15 digit');
-            errors.push({ field: 'No. Telepon Pembimbing', message: 'Harus 10-15 digit' });
-        } else if (!noTelpVal.startsWith('08')) {
-            setFieldState(form, 'no_telepon_pembimbing', 'error', 'No. telepon harus diawali 08');
-            errors.push({ field: 'No. Telepon Pembimbing', message: 'Harus diawali 08' });
-        } else {
-            setFieldState(form, 'no_telepon_pembimbing', 'success');
-        }
+                if (panel.contains(ev.target)) return;
 
-        // ===== ADA ERROR =====
-        if (errors.length > 0) {
-            Toast.error(
-                'Data Belum Lengkap',
-                'Ada <b>' + errors.length + '</b> field yang perlu diperbaiki'
-            );
+                if (ev.target.closest('.rp-cal-title')) return;
 
-            const errorList = errors.map(function (err) {
-                return '<b>' + err.field + ':</b> ' + err.message;
+                closePanel();
+
+            };
+
+
+            setTimeout(function () {
+                document.addEventListener('mousedown', window.__closeMonthYearPanel);
+            }, 0);
+
+
+            panel.addEventListener('mousedown', function (e) {
+                e.stopPropagation();
             });
 
-            Modal.show(
-                'error',
-                'Data Belum Lengkap',
-                'Silakan perbaiki data berikut sebelum melanjutkan:',
-                errorList,
-                'OK, Saya Perbaiki'
-            );
 
-            const firstError = form.querySelector('.form-group.has-error');
-            if (firstError) {
-                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            return;
+            render();
+
+            container.appendChild(panel);
+
         }
 
-        // ===== SEMUA VALID =====
-        btnNext.classList.add('loading');
 
-        Toast.success('Data Valid!', 'Melanjutkan ke langkah berikutnya...');
+        // ==========================================
+        // REDRAW
+        // ==========================================
 
-        sessionStorage.setItem('pageTransition', 'forward');
-        document.body.classList.add('leave-to-left');
+        function redraw() {
 
-        setTimeout(function () {
-            HTMLFormElement.prototype.submit.call(form);
-        }, 1200);
-    });
+            buildCalendar(cal1, baseYear, baseMonth);
 
-});
+
+            let m2 = baseMonth + 1;
+            let y2 = baseYear;
+
+
+            if (m2 > 11) {
+                m2 = 0;
+                y2++;
+            }
+
+
+            buildCalendar(cal2, y2, m2);
+
+
+            startText.textContent =
+                formatID(tempStart);
+
+            endText.textContent =
+                formatID(tempEnd);
+
+
+            if (tempStart && tempEnd) {
+
+                const diffDays =
+                    Math.round(
+                        (stripTime(tempEnd) - stripTime(tempStart))
+                        / (1000 * 60 * 60 * 24)
+                    ) + 1;
+
+
+                let label = diffDays + ' Hari';
+
+
+                if (diffDays >= 365) {
+
+                    const th = (diffDays / 365).toFixed(1).replace('.0', '');
+                    label = th + ' Tahun';
+
+                } else if (diffDays >= 30) {
+
+                    const bl = (diffDays / 30).toFixed(1).replace('.0', '');
+                    label = bl + ' Bulan';
+
+                }
+
+
+                durationText.textContent = label;
+
+            } else {
+
+                durationText.textContent = '-';
+
+            }
+
+        }
+
+
+        // ==========================================
+        // EVENT INPUT MASA MAGANG
+        // ==========================================
+
+        input.addEventListener('click', function (e) {
+
+            e.stopPropagation();
+
+
+            if (picker.classList.contains('active')) {
+
+                picker.classList.remove('active');
+
+                return;
+
+            }
+
+
+            if (startHidden.value) {
+
+                tempStart = new Date(startHidden.value);
+                baseYear = tempStart.getFullYear();
+                baseMonth = tempStart.getMonth();
+
+            }
+
+
+            if (endHidden.value) {
+
+                tempEnd = new Date(endHidden.value);
+
+            }
+
+
+            redraw();
+
+            picker.classList.add('active');
+
+        });
+
+
+        document.addEventListener('click', function (e) {
+
+            if (
+                !e.target.closest('#rangePicker') &&
+                e.target !== input
+            ) {
+
+                picker.classList.remove('active');
+
+            }
+
+        });
+
+
+        picker.addEventListener('click', function (e) {
+
+            e.stopPropagation();
+
+        });
+
+
+        btnCancel.addEventListener('click', function (e) {
+
+            e.stopPropagation();
+
+
+            tempStart =
+                startHidden.value ? new Date(startHidden.value) : null;
+
+
+            tempEnd =
+                endHidden.value ? new Date(endHidden.value) : null;
+
+
+            hoverDate = null;
+
+
+            picker.classList.remove('active');
+
+        });
+
+
+        btnSave.addEventListener('click', function (e) {
+
+            e.stopPropagation();
+
+
+            if (!tempStart || !tempEnd) {
+
+                alert('Pilih tanggal mulai dan selesai dulu ya!');
+
+                return;
+
+            }
+
+
+            startHidden.value = formatISO(tempStart);
+            endHidden.value = formatISO(tempEnd);
+
+
+            input.value =
+                formatID(tempStart) + ' - ' + formatID(tempEnd);
+
+
+            picker.classList.remove('active');
+
+        });
+
+
+        if (startHidden.value && endHidden.value) {
+
+            const s = new Date(startHidden.value);
+            const e2 = new Date(endHidden.value);
+
+
+            input.value =
+                formatID(s) + ' - ' + formatID(e2);
+
+        }
+
+    })();
 
 </script>
 

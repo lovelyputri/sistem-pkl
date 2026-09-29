@@ -666,14 +666,19 @@
                         <span>Kembali</span>
                     </a>
 
-                    <a href="{{ route('login') }}"
-                       class="btn-finish"
-                       id="btnFinish">
-                        <span>Selesai</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                    </a>
+                   <form action="{{ route('register.finish') }}" method="POST" id="finishForm">
+                        @csrf
+
+                        <button type="submit" class="btn-finish" id="btnFinish">
+                            <span>Selesai</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
 
             </div>
@@ -917,12 +922,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // ====== TOMBOL SELESAI — modal sukses + redirect ======
+   // ====== TOMBOL SELESAI — modal sukses + redirect ======
     const btnFinish = document.getElementById('btnFinish');
+
     if (btnFinish) {
         btnFinish.addEventListener('click', function (e) {
             e.preventDefault();
-            const href = btnFinish.getAttribute('href');
 
             Modal.show({
                 type: 'success',
@@ -933,11 +938,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         text: 'Ke Halaman Login',
                         class: 'success',
                         onClick: function () {
-                            Toast.success('Berhasil!', 'Mengarahkan ke halaman login...');
-                            sessionStorage.setItem('pageTransition', 'forward');
-                            document.body.classList.add('leave-to-left');
+
+                            Toast.success(
+                                'Berhasil!',
+                                'Mengarahkan ke halaman login...'
+                            );
+
+                            sessionStorage.setItem(
+                                'pageTransition',
+                                'forward'
+                            );
+
+                            document.body.classList.add(
+                                'leave-to-left'
+                            );
+
                             setTimeout(function () {
-                                window.location.href = href;
+                                window.location.href = "{{ route('login') }}";
                             }, 600);
                         }
                     }
