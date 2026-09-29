@@ -884,55 +884,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 4500);
 
 
-    // ====== TOMBOL KEMBALI — modal konfirmasi ======
-    const btnBack = document.getElementById('btnBack');
-    if (btnBack) {
-        btnBack.addEventListener('click', function (e) {
-            e.preventDefault();
-            const href = btnBack.getAttribute('href');
-            const dir = btnBack.getAttribute('data-transition') || 'back';
-
-            Modal.show({
-                type: 'warning',
-                title: 'Kembali ke Data Sekolah?',
-                message: 'Kamu akan kembali ke langkah sebelumnya. Data yang sudah diisi akan tetap tersimpan.',
-                buttons: [
-                    {
-                        text: 'Batal',
-                        class: 'secondary',
-                        onClick: function () {
-                            Toast.info('Tetap di Halaman', 'Kamu tidak jadi kembali');
-                        }
-                    },
-                    {
-                        text: 'Ya, Kembali',
-                        class: 'warning',
-                        onClick: function () {
-                            sessionStorage.setItem('pageTransition', dir);
-                            document.body.classList.add('leave-to-right');
-                            Toast.info('Kembali...', 'Memuat halaman Data Sekolah');
-                            setTimeout(function () {
-                                window.location.href = href;
-                            }, 430);
-                        }
-                    }
-                ]
-            });
-        });
-    }
-
-
-   // ====== TOMBOL SELESAI — modal sukses + redirect ======
+    // ====== TOMBOL SELESAI — modal sukses + submit ======
     const btnFinish = document.getElementById('btnFinish');
+    const finishForm = document.getElementById('finishForm');
 
-    if (btnFinish) {
+    if (btnFinish && finishForm) {
         btnFinish.addEventListener('click', function (e) {
             e.preventDefault();
 
             Modal.show({
                 type: 'success',
                 title: 'Pendaftaran Selesai! 🎉',
-                message: 'Terima kasih sudah mendaftar. Kamu akan diarahkan ke halaman login. Cek email / WhatsApp kamu secara berkala untuk info verifikasi.',
+                message: 'Data pendaftaran kamu akan disimpan dan dikirim untuk proses verifikasi admin.',
                 buttons: [
                     {
                         text: 'Ke Halaman Login',
@@ -941,7 +904,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             Toast.success(
                                 'Berhasil!',
-                                'Mengarahkan ke halaman login...'
+                                'Menyimpan data pendaftaran...'
                             );
 
                             sessionStorage.setItem(
@@ -954,7 +917,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             );
 
                             setTimeout(function () {
-                                window.location.href = "{{ route('login') }}";
+                                finishForm.submit();
                             }, 600);
                         }
                     }
@@ -962,7 +925,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-
 });
 
 </script>

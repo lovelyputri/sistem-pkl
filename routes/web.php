@@ -65,6 +65,22 @@ Route::get('/lupa-password', [
     'showForgotPassword'
 ])->name('password.request');
 
+Route::post('/lupa-password', [
+    AuthController::class,
+    'sendResetLink'
+])->name('password.email');
+
+// Reset password
+Route::get('/reset-password/{token}', [
+    AuthController::class,
+    'showResetPassword'
+])->name('password.reset');
+
+Route::post('/reset-password', [
+    AuthController::class,
+    'resetPassword'
+])->name('password.update');
+
 // =========================
 // LOGOUT
 // =========================
