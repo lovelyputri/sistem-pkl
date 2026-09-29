@@ -2,58 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jurusan;
+use App\Models\Kelas;
+use App\Models\Sekolah;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | LOGIN
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Menampilkan halaman login.
+     */
     public function showLogin()
     {
         return view('auth.login');
     }
 
-
+    /**
+     * Proses login.
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
-
-            'username' => [
-                'required',
-            ],
-
-            'password' => [
-                'required',
-            ],
-
+            'username' => ['required'],
+            'password' => ['required'],
         ], [
-
-            'username.required' =>
-                'Email wajib diisi.',
-
-            'password.required' =>
-                'Password wajib diisi.',
-
+            'username.required' => 'Email wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
         ]);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | LOGIN MENGGUNAKAN EMAIL
-        |--------------------------------------------------------------------------
-        |
-        | Input pada form masih bernama "username",
-        | tetapi nilainya digunakan sebagai email.
-        |
-        */
 
         if (!Auth::attempt([
             'email' => $credentials['username'],
@@ -61,471 +41,273 @@ class AuthController extends Controller
         ], $request->boolean('remember'))) {
 
             return back()
-                ->withInput(
-                    $request->only('username')
-                )
+                ->withInput($request->only('username'))
                 ->withErrors([
-                    'username' =>
-                        'Email atau password salah.',
+                    'username' => 'Email atau password salah.',
                 ]);
         }
 
-
         $request->session()->regenerate();
 
-
         if (Auth::user()->role === 'admin') {
-
             return redirect('/admin/dashboard');
         }
 
-
         if (Auth::user()->role === 'guru') {
-
             return redirect('/guru/dashboard');
         }
-
 
         return redirect('/siswa/dashboard');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | LOGOUT
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Logout.
+     */
     public function logout(Request $request)
     {
         Auth::logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect()->route('login');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | REGISTER TAHAP 1
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Menampilkan halaman register tahap 1.
+     */
     public function showRegister()
     {
         return view('auth.register');
     }
 
-
+    /**
+     * Proses register tahap 1.
+     * Menyimpan data diri sementara ke session.
+     */
     public function registerStep1(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDASI DATA DIRI
-        |--------------------------------------------------------------------------
-        */
-
         $data = $request->validate([
-
-            'nama_lengkap' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'tempat_lahir' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'nisn' => [
-                'required',
-                'string',
-                'max:30',
-            ],
-
-            'tanggal_lahir' => [
-                'required',
-                'date',
-            ],
-
-            'jenis_kelamin' => [
-                'required',
-                'in:Laki-laki,Perempuan',
-            ],
-
-            'no_telepon' => [
-                'required',
-                'string',
-                'max:20',
-            ],
-
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                'unique:users,email',
-            ],
-
-            'password' => [
-                'required',
-                'min:8',
-                'confirmed',
-            ],
-
+            'nama_lengkap' => ['required', 'string', 'max:255'],
+            'tempat_lahir' => ['required', 'string', 'max:255'],
+            'nisn' => ['required', 'string', 'max:30'],
+            'tanggal_lahir' => ['required', 'date'],
+            'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
+            'no_telepon' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'min:8', 'confirmed'],
         ], [
-
-            'nama_lengkap.required' =>
-                'Nama lengkap wajib diisi.',
-
-            'tempat_lahir.required' =>
-                'Tempat lahir wajib diisi.',
-
-            'nisn.required' =>
-                'NISN wajib diisi.',
-
-            'tanggal_lahir.required' =>
-                'Tanggal lahir wajib diisi.',
-
-            'jenis_kelamin.required' =>
-                'Jenis kelamin wajib dipilih.',
-
-            'no_telepon.required' =>
-                'Nomor telepon wajib diisi.',
-
-            'email.required' =>
-                'Email wajib diisi.',
-
-            'email.email' =>
-                'Format email tidak valid.',
-
-            'email.unique' =>
-                'Email sudah terdaftar.',
-
-            'password.required' =>
-                'Password wajib diisi.',
-
-            'password.min' =>
-                'Password minimal 8 karakter.',
-
-            'password.confirmed' =>
-                'Konfirmasi password tidak cocok.',
-
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'nisn.required' => 'NISN wajib diisi.',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih.',
+            'no_telepon.required' => 'Nomor telepon wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CEK NISN
-        |--------------------------------------------------------------------------
-        */
-
+        // Mengecek apakah NISN sudah digunakan.
         if (Siswa::where('nisn', $data['nisn'])->exists()) {
-
             return back()
                 ->withInput()
                 ->withErrors([
-                    'nisn' =>
-                        'NISN tersebut sudah terdaftar.',
+                    'nisn' => 'NISN tersebut sudah terdaftar.',
                 ]);
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | SIMPAN DATA TAHAP 1
-        |--------------------------------------------------------------------------
-        */
-
+        // Menyimpan data tahap 1 ke session.
         session([
             'register.step1' => $data,
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PINDAH KE TAHAP 2
-        |--------------------------------------------------------------------------
-        */
-
         return redirect()->route('register.step2');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | REGISTER TAHAP 2
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Menampilkan halaman register tahap 2.
+     */
     public function showRegisterStep2()
     {
         if (!session()->has('register.step1')) {
-
             return redirect()->route('register');
         }
-
 
         return view('auth.register-step2');
     }
 
-
+    /**
+     * Proses register tahap 2.
+     * Menyimpan data sekolah dan PKL sementara ke session.
+     */
     public function registerStep2(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDASI DATA SEKOLAH
-        |--------------------------------------------------------------------------
-        */
-
         $data = $request->validate([
-
-            'nama_sekolah' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'jurusan' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'kelas' => [
-                'required',
-                'string',
-                'max:50',
-            ],
-
-            'tempat_pkl' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-
-            'tanggal_mulai_pkl' => [
+            'asal_sekolah' => ['required', 'string', 'max:255'],
+            'kelas' => ['required', 'string', 'max:50'],
+            'jurusan' => ['required', 'string', 'max:255'],
+            'tanggal_mulai' => ['required', 'date'],
+            'tanggal_selesai' => [
                 'required',
                 'date',
+                'after_or_equal:tanggal_mulai',
             ],
-
-            'tanggal_selesai_pkl' => [
-                'required',
-                'date',
-                'after_or_equal:tanggal_mulai_pkl',
-            ],
-
+            'alamat_sekolah' => ['required', 'string', 'max:500'],
+            'nama_pembimbing' => ['required', 'string', 'max:255'],
+            'no_telepon_pembimbing' => ['required', 'string', 'max:20'],
         ], [
-
-            'nama_sekolah.required' =>
-                'Nama sekolah wajib diisi.',
-
-            'jurusan.required' =>
-                'Jurusan wajib diisi.',
-
-            'kelas.required' =>
-                'Kelas wajib diisi.',
-
-            'tempat_pkl.required' =>
-                'Tempat PKL wajib diisi.',
-
-            'tanggal_mulai_pkl.required' =>
-                'Tanggal mulai PKL wajib diisi.',
-
-            'tanggal_selesai_pkl.required' =>
-                'Tanggal selesai PKL wajib diisi.',
-
-            'tanggal_selesai_pkl.after_or_equal' =>
-                'Tanggal selesai PKL tidak boleh sebelum tanggal mulai PKL.',
-
+            'asal_sekolah.required' => 'Asal sekolah wajib dipilih.',
+            'kelas.required' => 'Kelas wajib dipilih.',
+            'jurusan.required' => 'Jurusan wajib dipilih.',
+            'tanggal_mulai.required' => 'Tanggal mulai PKL wajib diisi.',
+            'tanggal_selesai.required' => 'Tanggal selesai PKL wajib diisi.',
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai PKL tidak boleh sebelum tanggal mulai PKL.',
+            'alamat_sekolah.required' => 'Alamat sekolah wajib diisi.',
+            'nama_pembimbing.required' => 'Nama pembimbing wajib diisi.',
+            'no_telepon_pembimbing.required' => 'Nomor telepon pembimbing wajib diisi.',
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | SIMPAN DATA TAHAP 2
-        |--------------------------------------------------------------------------
-        */
-
+        // Menyimpan data tahap 2 ke session.
         session([
             'register.step2' => $data,
         ]);
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | PINDAH KE TAHAP 3
-        |--------------------------------------------------------------------------
-        */
-
         return redirect()->route('register.step3');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | REGISTER TAHAP 3
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Menampilkan halaman register tahap 3.
+     */
     public function showRegisterStep3()
     {
         if (
             !session()->has('register.step1') ||
             !session()->has('register.step2')
         ) {
-
             return redirect()->route('register');
         }
-
 
         return view('auth.register-step3');
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | SELESAIKAN REGISTER
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Menyelesaikan proses registrasi.
+     */
     public function registerFinish()
     {
-        /*
-        |--------------------------------------------------------------------------
-        | AMBIL DATA SESSION
-        |--------------------------------------------------------------------------
-        */
-
         $step1 = session('register.step1');
-
         $step2 = session('register.step2');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | CEK SESSION
-        |--------------------------------------------------------------------------
-        */
-
+        // Jika session registrasi tidak lengkap,
+        // kembali ke halaman register.
         if (!$step1 || !$step2) {
-
             return redirect()->route('register');
         }
 
+        try {
 
-        /*
-        |--------------------------------------------------------------------------
-        | BUAT USER
-        |--------------------------------------------------------------------------
-        */
+            $user = DB::transaction(function () use ($step1, $step2) {
 
-        $user = User::create([
+                /*
+                 * Mencari sekolah berdasarkan nama yang
+                 * dikirim dari view.
+                 *
+                 * Kalau belum ada, otomatis dibuat.
+                 */
+                $sekolah = Sekolah::firstOrCreate([
+                    'nama_sekolah' => $step2['asal_sekolah'],
+                ]);
 
-            'name' =>
-                $step1['nama_lengkap'],
+                /*
+                 * Mencari jurusan berdasarkan nama yang
+                 * dikirim dari view.
+                 *
+                 * Kalau belum ada, otomatis dibuat.
+                 */
+                $jurusan = Jurusan::firstOrCreate([
+                    'nama_jurusan' => $step2['jurusan'],
+                ]);
 
-            'email' =>
-                $step1['email'],
+                /*
+                 * Mencari kelas berdasarkan nama yang
+                 * dikirim dari view.
+                 *
+                 * Contohnya:
+                 * Kelas 10
+                 * Kelas 11
+                 * Kelas 12
+                 */
+                $kelas = Kelas::firstOrCreate([
+                    'nama_kelas' => $step2['kelas'],
+                ]);
 
-            'password' =>
-                Hash::make($step1['password']),
+                /*
+                 * Membuat akun user.
+                 */
+                $user = User::create([
+                    'name' => $step1['nama_lengkap'],
+                    'email' => $step1['email'],
+                    'password' => Hash::make($step1['password']),
+                    'role' => 'siswa',
+                ]);
 
-            'role' =>
-                'siswa',
+                /*
+                 * Membuat data siswa.
+                 */
+                Siswa::create([
+                    'user_id' => $user->id,
 
-        ]);
+                    'sekolah_id' => $sekolah->id,
+                    'jurusan_id' => $jurusan->id,
+                    'kelas_id' => $kelas->id,
 
+                    'nama_lengkap' => $step1['nama_lengkap'],
+                    'nisn' => $step1['nisn'],
+                    'tanggal_lahir' => $step1['tanggal_lahir'],
+                    'jenis_kelamin' => $step1['jenis_kelamin'],
+                    'no_telepon' => $step1['no_telepon'],
 
-        /*
-        |--------------------------------------------------------------------------
-        | BUAT DATA SISWA
-        |--------------------------------------------------------------------------
-        */
+                    'tempat_pkl' => $step2['alamat_sekolah'],
+                    'tanggal_mulai_pkl' => $step2['tanggal_mulai'],
+                    'tanggal_selesai_pkl' => $step2['tanggal_selesai'],
+                ]);
 
-        Siswa::create([
+                return $user;
+            });
 
-            'user_id' =>
-                $user->id,
+            /*
+             * Kalau semua proses berhasil,
+             * hapus session registrasi.
+             */
+            session()->forget('register');
 
-            'nama_lengkap' =>
-                $step1['nama_lengkap'],
+            /*
+             * Login otomatis setelah registrasi.
+             */
+            Auth::login($user);
 
-            'nisn' =>
-                $step1['nisn'],
+            return redirect('/siswa/dashboard')
+                ->with('success', 'Pendaftaran berhasil!');
 
-            'tanggal_lahir' =>
-                $step1['tanggal_lahir'],
+        } catch (\Throwable $e) {
 
-            'jenis_kelamin' =>
-                $step1['jenis_kelamin'],
-
-            'no_telepon' =>
-                $step1['no_telepon'],
-
-            'nama_sekolah' =>
-                $step2['nama_sekolah'],
-
-            'jurusan' =>
-                $step2['jurusan'],
-
-            'kelas' =>
-                $step2['kelas'],
-
-            'tempat_pkl' =>
-                $step2['tempat_pkl'],
-
-            'tanggal_mulai_pkl' =>
-                $step2['tanggal_mulai_pkl'],
-
-            'tanggal_selesai_pkl' =>
-                $step2['tanggal_selesai_pkl'],
-
-        ]);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | HAPUS SESSION REGISTER
-        |--------------------------------------------------------------------------
-        */
-
-        session()->forget('register');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | LOGIN OTOMATIS
-        |--------------------------------------------------------------------------
-        */
-
-        Auth::login($user);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | MASUK DASHBOARD SISWA
-        |--------------------------------------------------------------------------
-        */
-
-        return redirect('/siswa/dashboard')
-            ->with(
-                'success',
-                'Pendaftaran berhasil!'
-            );
+            /*
+             * Kalau terjadi error, data yang sudah dibuat
+             * dalam transaction akan dibatalkan.
+             */
+            return redirect()
+                ->route('register.step3')
+                ->with('error', 'Pendaftaran gagal. Silakan periksa kembali data Anda.');
+        }
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | LUPA PASSWORD
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Menampilkan halaman lupa password.
+     */
     public function showForgotPassword()
     {
         return view('auth.forgot-password');

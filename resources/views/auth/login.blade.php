@@ -278,15 +278,15 @@
             display: flex;
             justify-content: flex-end;
             align-items: flex-start;
-            padding: 0;
+            padding: 100px 0;
         }
 
         .login-card {
             width: 100%;
             max-width: 470px;
-            min-height: 640px;
+            min-height: 680px;
             border-radius: 30px;
-            padding: 55px 45px;
+            padding: 70px 45px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -690,7 +690,7 @@
 
     <!-- SISI KIRI -->
     <div class="left-content">
-        
+
         <div class="brand">
             <div class="brand-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -717,7 +717,7 @@
         </p>
 
         <div class="feature-list">
-            
+
             <div class="feature-item">
                 <div class="feature-icon">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

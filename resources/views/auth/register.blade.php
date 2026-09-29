@@ -23,6 +23,7 @@
             font-family: 'Inter', sans-serif;
             color: #0f172a;
             background: linear-gradient(135deg, #f0f6ff 0%, #e5effd 100%);
+            overflow-x: hidden;
         }
 
         .register-wrapper {
@@ -35,6 +36,69 @@
             position: relative;
             overflow: hidden;
         }
+
+        /* ==========================================
+           IKON-IKON DEKORATIF MELAYANG (SELANG-SELING)
+        ========================================== */
+        @keyframes floatSlow {
+            0%, 100% { transform: translate(-50%, 0) rotate(0deg); }
+            50%      { transform: translate(-50%, -14px) rotate(4deg); }
+        }
+
+        @keyframes floatMedium {
+            0%, 100% { transform: translate(-50%, 0) rotate(0deg); }
+            50%      { transform: translate(-50%, -10px) rotate(-3deg); }
+        }
+
+        .floating-badge {
+            position: absolute;
+            z-index: 3;
+            background: #ffffff;
+            padding: 10px 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+        }
+
+        .floating-badge .badge-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .floating-badge span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .badge-1 {
+            top: 18%;
+            left: 46%;
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        .badge-1 .badge-icon { background: #dbeafe; color: #2563eb; }
+
+        .badge-2 {
+            top: 48%;
+            left: 32%;
+            animation: floatMedium 4s ease-in-out infinite 1s;
+        }
+        .badge-2 .badge-icon { background: #dcfce7; color: #16a34a; }
+
+        .badge-3 {
+            top: 76%;
+            left: 44%;
+            animation: floatSlow 6s ease-in-out infinite 0.5s;
+        }
+        .badge-3 .badge-icon { background: #fef3c7; color: #d97706; }
 
         /* ==========================================
            SISI KIRI: BRANDING & ILUSTRASI
@@ -268,6 +332,7 @@
         .form-group {
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .form-group label {
@@ -455,6 +520,173 @@
             box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
         }
 
+        /* ==========================================
+           CUSTOM DATE PICKER (DROPDOWN)
+        ========================================== */
+        .datepicker-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px 22px 22px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+            border: 1px solid #e2e8f0;
+            z-index: 50;
+        }
+
+        .datepicker-dropdown.active {
+            display: block;
+            animation: dpDropdown 0.2s ease;
+        }
+
+        @keyframes dpDropdown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .datepicker-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+        }
+
+        .datepicker-header .dp-head-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .datepicker-header h4 {
+            font-size: 16px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .datepicker-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .datepicker-nav button {
+            background: none;
+            border: none;
+            color: #2563eb;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .datepicker-nav button:hover {
+            background: #eff6ff;
+        }
+
+        .datepicker-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .datepicker-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .dp-day-name {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #64748b;
+            padding: 6px 0;
+        }
+
+        .dp-day {
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: none;
+            background: none;
+        }
+
+        .dp-day:hover {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .dp-day.selected {
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+        }
+
+        .dp-day.empty {
+            cursor: default;
+            visibility: hidden;
+        }
+
+        .datepicker-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .datepicker-actions button {
+            flex: 1;
+            height: 42px;
+            border-radius: 12px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dp-btn-cancel {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .dp-btn-cancel:hover {
+            background: #f8fafc;
+        }
+
+        .dp-btn-save {
+            background: #2563eb;
+            border: none;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .dp-btn-save:hover {
+            background: #1d4ed8;
+        }
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
         @media (max-width: 1100px) {
             .register-wrapper {
                 flex-direction: column;
@@ -472,6 +704,9 @@
             .illustration-box {
                 display: none;
             }
+            .floating-badge {
+                display: none;
+            }
         }
 
         @media (max-width: 640px) {
@@ -484,7 +719,7 @@
         }
 
         /* ==========================================
-           SLIDE PAGE TRANSITION (TAMBAHAN)
+           SLIDE PAGE TRANSITION (ANIMASI SWIPE)
         ========================================== */
 
         @keyframes slideInFromRight {
@@ -546,14 +781,43 @@
 </head>
 <body>
 
-<!-- WRAPPER TRANSISI (TAMBAHAN) -->
+<!-- WRAPPER TRANSISI -->
 <div class="page-transition-wrap">
 
 <div class="register-wrapper">
 
+    <!-- IKON-IKON DEKORATIF MELAYANG -->
+    <div class="floating-badge badge-1">
+        <div class="badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 20h.01M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            </svg>
+        </div>
+        <span>Realtime Sync</span>
+    </div>
+
+    <div class="floating-badge badge-2">
+        <div class="badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+        </div>
+        <span>Terproteksi 100%</span>
+    </div>
+
+    <div class="floating-badge badge-3">
+        <div class="badge-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </svg>
+        </div>
+        <span>Akses Otomatis</span>
+    </div>
+
     <!-- SISI KIRI: INFO & ILUSTRASI -->
     <div class="left-content">
-        
+
         <div class="left-text-group">
             <div class="brand">
                 <div class="brand-icon">
@@ -628,7 +892,7 @@
             </div>
 
             <!-- FORM REGISTER -->
-            <form action="{{ route('register.step1.process') }}" method="POST">
+            <form action="{{ route('register.step1.process') }}" method="POST" data-transition-submit>
                 @csrf
 
                 <div class="form-grid">
@@ -666,17 +930,48 @@
                         </div>
                     </div>
 
-                    <!-- Tanggal Lahir -->
+                    <!-- Tanggal Lahir (CUSTOM DROPDOWN) -->
                     <div class="form-group">
                         <label for="tanggal_lahir">Tanggal Lahir</label>
                         <div class="input-wrapper">
                             <span class="input-icon">
                                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             </span>
-                            <input type="text" onfocus="(this.type='date')" onblur="if(!this.value)this.type='text'" id="tanggal_lahir" name="tanggal_lahir" class="form-control" placeholder="Pilih tanggal lahir" value="{{ old('tanggal_lahir') }}" required>
+                            <input type="text" id="tanggal_lahir" name="tanggal_lahir" class="form-control" placeholder="dd/mm/yyyy" value="{{ old('tanggal_lahir') }}" readonly style="cursor:pointer;">
                             <span class="password-toggle" style="pointer-events:none;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                             </span>
+                        </div>
+
+                        <!-- DROPDOWN DATE PICKER -->
+                        <div class="datepicker-dropdown" id="datepickerDropdown">
+                            <!-- Header -->
+                            <div class="datepicker-header">
+                                <div class="dp-head-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                </div>
+                                <h4>Pilih Tanggal Lahir</h4>
+                            </div>
+
+                            <!-- Nav Bulan -->
+                            <div class="datepicker-nav">
+                                <button type="button" id="dpPrev">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                                </button>
+                                <div class="datepicker-title" id="dpTitle">Januari 2000</div>
+                                <button type="button" id="dpNext">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- Grid Tanggal -->
+                            <div class="datepicker-grid" id="dpGrid"></div>
+
+                            <!-- Actions -->
+                            <div class="datepicker-actions">
+                                <button type="button" class="dp-btn-cancel" id="dpCancel">Batal</button>
+                                <button type="button" class="dp-btn-save" id="dpSave">Simpan</button>
+                            </div>
                         </div>
                     </div>
 
@@ -798,14 +1093,13 @@
     }
 
     // ==========================================
-    // SLIDE PAGE TRANSITION (TAMBAHAN)
+    // SLIDE PAGE TRANSITION (ANIMASI SWIPE)
     // ==========================================
     (function () {
         const KEY = 'pageTransition';
 
         document.addEventListener('DOMContentLoaded', function () {
 
-            // 1) Cek arah masuk halaman ini
             const incoming = sessionStorage.getItem(KEY);
             if (incoming === 'forward') {
                 document.body.classList.add('enter-from-right');
@@ -814,8 +1108,7 @@
             }
             sessionStorage.removeItem(KEY);
 
-            // 2) Handle klik link transisi
-            const links = document.querySelectorAll('[data-transition]');
+            const links = document.querySelectorAll('a[data-transition]');
             links.forEach(function (link) {
                 link.addEventListener('click', function (e) {
                     const href = link.getAttribute('href');
@@ -824,7 +1117,6 @@
                     e.preventDefault();
 
                     const dir = link.getAttribute('data-transition');
-
                     sessionStorage.setItem(KEY, dir);
 
                     if (dir === 'forward') {
@@ -839,13 +1131,169 @@
                 });
             });
 
-            // 3) Handle tombol back browser
+            const forms = document.querySelectorAll('form[data-transition-submit]');
+            forms.forEach(function (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    sessionStorage.setItem(KEY, 'forward');
+                    document.body.classList.add('leave-to-left');
+                    setTimeout(function () {
+                        form.submit();
+                    }, 430);
+                });
+            });
+
             window.addEventListener('pageshow', function (event) {
                 if (event.persisted) {
                     document.body.classList.remove('leave-to-left', 'leave-to-right');
                     document.body.classList.add('enter-from-left');
                 }
             });
+        });
+    })();
+
+    // ==========================================
+    // CUSTOM DATE PICKER (DROPDOWN)
+    // ==========================================
+    (function () {
+        const dropdown  = document.getElementById('datepickerDropdown');
+        const grid      = document.getElementById('dpGrid');
+        const title     = document.getElementById('dpTitle');
+        const btnPrev   = document.getElementById('dpPrev');
+        const btnNext   = document.getElementById('dpNext');
+        const btnCancel = document.getElementById('dpCancel');
+        const btnSave   = document.getElementById('dpSave');
+
+        const inputTgl  = document.getElementById('tanggal_lahir');
+
+        const monthNames = [
+            'Januari','Februari','Maret','April','Mei','Juni',
+            'Juli','Agustus','September','Oktober','November','Desember'
+        ];
+        const dayNames = ['Sn','Sl','Rb','Km','Jm','Sb','Mg'];
+
+        let viewYear  = 2000;
+        let viewMonth = 0;
+        let selectedDay = 3;
+
+        // Tampilkan format dd/mm/yyyy di input
+        function formatDisplay(y, m, d) {
+            return String(d).padStart(2,'0') + '/' + String(m + 1).padStart(2,'0') + '/' + y;
+        }
+
+        // Parse input kalau sudah ada value (format dd/mm/yyyy)
+        function parseDisplay(str) {
+            const parts = str.split('/');
+            if (parts.length === 3) {
+                const d = parseInt(parts[0], 10);
+                const m = parseInt(parts[1], 10) - 1;
+                const y = parseInt(parts[2], 10);
+                if (!isNaN(d) && !isNaN(m) && !isNaN(y)) {
+                    return { d: d, m: m, y: y };
+                }
+            }
+            return null;
+        }
+
+        // Klik input → toggle dropdown
+        inputTgl.addEventListener('click', function (e) {
+            e.stopPropagation();
+            if (dropdown.classList.contains('active')) {
+                closePicker();
+            } else {
+                openPicker();
+            }
+        });
+
+        function openPicker() {
+            if (inputTgl.value) {
+                const p = parseDisplay(inputTgl.value);
+                if (p) {
+                    viewYear = p.y;
+                    viewMonth = p.m;
+                    selectedDay = p.d;
+                }
+            }
+            renderCalendar();
+            dropdown.classList.add('active');
+        }
+
+        function closePicker() {
+            dropdown.classList.remove('active');
+        }
+
+        function renderCalendar() {
+            title.textContent = monthNames[viewMonth] + ' ' + viewYear;
+            grid.innerHTML = '';
+
+            dayNames.forEach(function (n) {
+                const el = document.createElement('div');
+                el.className = 'dp-day-name';
+                el.textContent = n;
+                grid.appendChild(el);
+            });
+
+            const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+            const offset = (firstDay + 6) % 7;
+            const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+            for (let i = 0; i < offset; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'dp-day empty';
+                grid.appendChild(empty);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'dp-day';
+                btn.textContent = d;
+                if (d === selectedDay) btn.classList.add('selected');
+
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    selectedDay = d;
+                    renderCalendar();
+                });
+
+                grid.appendChild(btn);
+            }
+        }
+
+        btnPrev.addEventListener('click', function (e) {
+            e.stopPropagation();
+            viewMonth--;
+            if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+            renderCalendar();
+        });
+
+        btnNext.addEventListener('click', function (e) {
+            e.stopPropagation();
+            viewMonth++;
+            if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+            renderCalendar();
+        });
+
+        btnCancel.addEventListener('click', function (e) {
+            e.stopPropagation();
+            closePicker();
+        });
+
+        btnSave.addEventListener('click', function (e) {
+            e.stopPropagation();
+            inputTgl.value = formatDisplay(viewYear, viewMonth, selectedDay);
+            closePicker();
+        });
+
+        // Klik di luar dropdown → tutup
+        document.addEventListener('click', function (e) {
+            if (!dropdown.contains(e.target) && e.target !== inputTgl) {
+                closePicker();
+            }
+        });
+
+        dropdown.addEventListener('click', function (e) {
+            e.stopPropagation();
         });
     })();
 </script>
