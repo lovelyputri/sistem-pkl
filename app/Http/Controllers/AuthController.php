@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -466,17 +469,11 @@ class AuthController extends Controller
         }
     }
 
-    /**
-     * Menampilkan halaman lupa password.
-     */
     public function showForgotPassword()
     {
         return view('auth.forgot-password');
     }
 
-    /**
-     * Mengirim link reset password ke email.
-     */
     public function sendResetLink(Request $request)
     {
         $request->validate([
@@ -486,39 +483,38 @@ class AuthController extends Controller
             'email.email' => 'Format email tidak valid.',
         ]);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        try {
+            $status = Password::sendResetLink($request->only('email'));
+        } catch (\Throwable $e) {
+            // SMTP salah / server email down
+            Log::error('Gagal kirim email reset password: ' . $e->getMessage());
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return back()->with(
-                'success',
-                'Tautan reset password sudah dikirim ke email kamu.'
-            );
+            return back()
+                ->withInput()
+                ->withErrors(['email' => 'Email gagal dikirim. Silakan coba lagi beberapa saat.']);
         }
 
-        return back()
-            ->withInput()
-            ->withErrors([
-                'email' => __($status),
-            ]);
+        if ($status === Password::RESET_THROTTLED) {
+            return back()
+                ->withInput()
+                ->withErrors(['email' => 'Terlalu sering meminta reset. Tunggu 1 menit lalu coba lagi.']);
+        }
+
+        // Pesan selalu sama agar orang lain tidak bisa menebak email yang terdaftar
+        return back()->with(
+            'success',
+            'Jika email terdaftar, tautan reset password sudah dikirim. Cek inbox atau folder spam.'
+        );
     }
 
-
-        /**
-     * Menampilkan halaman untuk membuat password baru.
-     */
     public function showResetPassword(Request $request, $token)
     {
         return view('auth.reset-password', [
             'token' => $token,
-            'email' => $request->email,
+            'email' => $request->query('email'),
         ]);
     }
 
-    /**
-     * Menyimpan password baru.
-     */
     public function resetPassword(Request $request)
     {
         $request->validate([
@@ -534,31 +530,32 @@ class AuthController extends Controller
         ]);
 
         $status = Password::reset(
-            $request->only(
-                'email',
-                'password',
-                'password_confirmation',
-                'token'
-            ),
+            $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
-                $user->password = $password;
-                $user->save();
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
             }
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()
-                ->route('login')
-                ->with(
-                    'success',
-                    'Password berhasil diubah. Silakan login dengan password baru.'
-                );
+            return redirect()->route('login')->with(
+                'success',
+                'Password berhasil diubah. Silakan login dengan password baru.'
+            );
         }
 
         return back()
             ->withInput($request->only('email'))
             ->withErrors([
-                'email' => __($status),
+                'email' => match ($status) {
+                    Password::INVALID_TOKEN => 'Tautan reset tidak valid atau sudah kedaluwarsa. Silakan minta tautan baru.',
+                    Password::INVALID_USER => 'Email tidak ditemukan.',
+                    default => 'Gagal mereset password. Silakan coba lagi.',
+                },
             ]);
     }
 }

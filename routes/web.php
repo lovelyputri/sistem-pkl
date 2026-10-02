@@ -60,26 +60,12 @@ Route::post('/register/selesai', [
 ])->name('register.finish');
 
 // Lupa password
-Route::get('/lupa-password', [
-    AuthController::class,
-    'showForgotPassword'
-])->name('password.request');
-
-Route::post('/lupa-password', [
-    AuthController::class,
-    'sendResetLink'
-])->name('password.email');
-
-// Reset password
-Route::get('/reset-password/{token}', [
-    AuthController::class,
-    'showResetPassword'
-])->name('password.reset');
-
-Route::post('/reset-password', [
-    AuthController::class,
-    'resetPassword'
-])->name('password.update');
+ Route::get('/lupa-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/lupa-password', [AuthController::class, 'sendResetLink'])
+        ->middleware('throttle:5,1')
+        ->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
 // =========================
 // LOGOUT
