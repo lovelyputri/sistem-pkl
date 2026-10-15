@@ -150,3 +150,17 @@ Route::prefix('admin/guru')
         Route::put('/{guru}/penugasan-siswa', 'assignStudents')->name('assign-students');
         Route::delete('/{guru}', 'destroy')->name('destroy');
     });
+\n
+Route::prefix('admin/sekolah-jurusan')
+    ->name('admin.sekolah-jurusan.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(SekolahJurusanController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/sekolah', 'storeSekolah')->name('sekolah.store');
+        Route::put('/sekolah/{sekolah}', 'updateSekolah')->name('sekolah.update');
+        Route::delete('/sekolah/{sekolah}', 'destroySekolah')->name('sekolah.destroy');
+        Route::post('/jurusan', 'storeJurusan')->name('jurusan.store');
+        Route::put('/jurusan/{jurusan}', 'updateJurusan')->name('jurusan.update');
+        Route::delete('/jurusan/{jurusan}', 'destroyJurusan')->name('jurusan.destroy');
+    });
