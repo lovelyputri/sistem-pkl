@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaApprovalController;
+use App\Http\Controllers\Admin\SiswaController;
 use Illuminate\Support\Facades\Route;
 
 // =========================
