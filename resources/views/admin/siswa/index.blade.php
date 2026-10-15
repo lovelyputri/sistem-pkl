@@ -4,8 +4,7 @@
 @section('page-heading', 'Data Siswa')
 
 @section('content')
-    <h1>Data Siswa</h1>
-    <p class="admin-intro">Kelola data siswa yang terdaftar dalam sistem GUSPELOR.NET.</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:24px"><div><h1>Data Siswa</h1><p class="admin-intro" style="margin-bottom:0">Kelola akun, identitas, dan informasi PKL siswa dalam satu tempat.</p></div><a href="{{ route('admin.siswa.create') }}" style="background:#17357f;color:#fff;padding:12px 16px;border-radius:9px;font-size:13px;font-weight:600">+ Tambah Siswa</a></div>
 
     @if (session('success'))
         <p style="padding:12px;background:#dcfce7;color:#166534;border-radius:8px;margin-bottom:16px">{{ session('success') }}</p>
@@ -45,13 +44,13 @@
         <div style="overflow-x:auto">
             <table style="width:100%;border-collapse:collapse;min-width:950px">
                 <thead><tr style="background:#f8fafc;text-align:left">
-                    <th style="padding:12px;width:55px">No.</th><th style="padding:12px">Nama</th><th style="padding:12px">NISN</th><th style="padding:12px">Email</th><th style="padding:12px">Sekolah</th><th style="padding:12px">Guru Pembimbing</th><th style="padding:12px">Status</th><th style="padding:12px">Aksi</th>
+                    <th style="padding:12px;width:55px">No.</th><th style="padding:12px">Profil Siswa</th><th style="padding:12px">NISN</th><th style="padding:12px">Email</th><th style="padding:12px">Sekolah</th><th style="padding:12px">Guru Pembimbing</th><th style="padding:12px">Status</th><th style="padding:12px">Aksi</th>
                 </tr></thead>
                 <tbody>
                 @forelse ($siswa as $item)
                     <tr style="border-top:1px solid #e5eaf2">
                         <td style="padding:12px;color:#64748b">{{ $siswa->firstItem() + $loop->index }}</td>
-                        <td style="padding:12px">{{ $item->nama_lengkap }}</td>
+                        <td style="padding:12px"><div style="display:flex;align-items:center;gap:10px"><div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8efff;color:#244a9b;font-weight:700">{{ mb_strtoupper(mb_substr($item->nama_lengkap, 0, 1)) }}</div><div><strong>{{ $item->nama_lengkap }}</strong><div style="font-size:11px;color:#64748b;margin-top:4px">{{ $item->kelas?->nama_kelas ? 'Kelas '.$item->kelas->nama_kelas : 'Kelas belum diatur' }}</div></div></div></td>
                         <td style="padding:12px">{{ $item->nisn }}</td>
                         <td style="padding:12px">{{ $item->user?->email ?? '-' }}</td>
                         <td style="padding:12px">{{ $item->sekolah?->nama_sekolah ?? '-' }}</td>
@@ -66,7 +65,7 @@
                             @endif
                         </td>
                         <td style="padding:12px;white-space:nowrap">
-                            <a href="{{ route('admin.siswa.show', $item) }}" style="padding:7px 9px;border:1px solid #cbd5e1;border-radius:6px;color:#334155;font-size:12px">Detail</a>
+                            <a href="{{ route('admin.siswa.show', $item) }}" style="padding:7px 9px;border:1px solid #cbd5e1;border-radius:6px;color:#334155;font-size:12px">Profil</a>
                             <a href="{{ route('admin.siswa.edit', $item) }}" style="padding:7px 9px;background:#dbeafe;border-radius:6px;color:#1d4ed8;font-size:12px">Edit</a>
                         </td>
                     </tr>
