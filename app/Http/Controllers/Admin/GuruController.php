@@ -74,11 +74,11 @@ class GuruController extends Controller
     public function show(Guru $guru): View
     {
         $guru->load(['user', 'sekolah', 'siswas' => fn ($q) => $q->with(['user', 'kelas', 'jurusan'])->orderBy('nama_lengkap')]);
+        // Tampilkan semua siswa dari sekolah yang sama agar siswa yang sudah
+        // ditugaskan ke guru lain terlihat abu-abu dan tidak bisa dipilih.
         $calonSiswa = Siswa::with(['user', 'kelas', 'jurusan'])
             ->where('sekolah_id', $guru->sekolah_id)
-            ->where(function ($q) use ($guru) {
-                $q->whereNull('guru_id')->orWhere('guru_id', $guru->id);
-            })->orderBy('nama_lengkap')->get();
+            ->orderBy('nama_lengkap')->get();
 
         return view('admin.guru.show', compact('guru', 'calonSiswa'));
     }
