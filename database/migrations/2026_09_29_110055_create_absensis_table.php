@@ -10,24 +10,11 @@ return new class extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('siswa_id')
-                ->constrained('siswas')
-                ->cascadeOnDelete();
-
+            $table->foreignId('siswa_id')->constrained('siswas')->cascadeOnDelete();
             $table->date('tanggal');
-
-            $table->enum('status', [
-                'Hadir',
-                'Izin',
-                'Sakit',
-                'Alpa'
-            ]);
-
+            $table->enum('status', ['Hadir','Izin','Sakit','Alpa']);
             $table->text('keterangan')->nullable();
-
             $table->timestamps();
-
             $table->unique(['siswa_id', 'tanggal']);
         });
     }

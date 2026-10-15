@@ -1194,6 +1194,22 @@
 
             <form action="{{ route('register.step1.process') }}" method="POST" id="registerForm" data-transition-submit novalidate>
                 @csrf
+                    @if ($errors->any())
+                        <div style="
+                            background: #fef2f2;
+                            border: 1px solid #fecaca;
+                            color: #991b1b;
+                            padding: 14px 16px;
+                            border-radius: 12px; margin-bottom: 20px;">
+                            <strong>Data belum berhasil diproses:</strong>
+
+                            <ul style="margin: 8px 0 0 20px;">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                 <div class="form-grid">
 
