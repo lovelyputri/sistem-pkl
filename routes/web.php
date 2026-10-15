@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaApprovalController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\GuruController;
 use Illuminate\Support\Facades\Route;
 
 // =========================
@@ -134,4 +135,18 @@ Route::prefix('admin/siswa')
         Route::get('/{siswa}/edit', 'edit')->name('edit');
         Route::put('/{siswa}', 'update')->name('update');
         Route::delete('/{siswa}', 'destroy')->name('destroy');
+    });
+Route::prefix('admin/guru')
+    ->name('admin.guru.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(GuruController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{guru}', 'show')->name('show');
+        Route::get('/{guru}/edit', 'edit')->name('edit');
+        Route::put('/{guru}', 'update')->name('update');
+        Route::put('/{guru}/penugasan-siswa', 'assignStudents')->name('assign-students');
+        Route::delete('/{guru}', 'destroy')->name('destroy');
     });

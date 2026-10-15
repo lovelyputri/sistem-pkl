@@ -51,7 +51,7 @@
         <a class="admin-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a>
         <a class="admin-nav-link" href="{{ route('admin.siswa.approval.index') }}">Persetujuan Siswa</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.siswa.index', 'admin.siswa.show', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">Data Siswa</a>
-        <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-guru">Guru Pembimbing</a>
+        <a class="admin-nav-link {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}" href="{{ route('admin.guru.index') }}">Guru Pembimbing</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-lainnya">Sekolah & Jurusan</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-lainnya">Perusahaan PKL</a>
         <div class="admin-sidebar-footer">GUSPELOR.NET<br>Pengelolaan Praktik Kerja Lapangan</div>
