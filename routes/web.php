@@ -98,7 +98,6 @@ Route::get('/guru/dashboard', function () {
 // DASHBOARD ADMIN
 // =========================
 
-Route::get('/admin/dashboard', function () {
-    return view('dashboard.admin');
-})->middleware(['auth', 'role:admin'])
-  ->name('admin.dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.dashboard');
