@@ -12,12 +12,25 @@ class RoleMiddleware
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
-        if (!in_array($user->role, $roles, true)) {
+        if (! in_array($user->role, $roles, true)) {
             abort(403);
+        }
+
+        // Pastikan status siswa tetap diperiksa meskipun sesi login masih aktif.
+        if ($user->role === 'siswa' && $user->status !== 'approved') {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'username' => $user->status === 'rejected'
+                    ? 'Pendaftaran akun kamu ditolak oleh admin.'
+                    : 'Akun kamu masih menunggu persetujuan admin.',
+            ]);
         }
 
         return $next($request);
