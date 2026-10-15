@@ -1,0 +1,93 @@
+<?php
+
+namespace App\\Http\\Controllers\\Admin;
+
+use App\\Http\\Controllers\\Controller;
+use App\\Models\\Jurusan;
+use App\\Models\\Sekolah;
+use Illuminate\\Http\\RedirectResponse;
+use Illuminate\\Http\\Request;
+use Illuminate\\Validation\\Rule;
+use Illuminate\\View\\View;
+
+class SekolahJurusanController extends Controller
+{
+    public function index(Request $request): View
+    {
+        $cariSekolah = trim((string) $request->query('cari_sekolah', ''));
+        $cariJurusan = trim((string) $request->query('cari_jurusan', ''));
+
+        return view('admin.sekolah-jurusan.index', [
+            'sekolahs' => Sekolah::withCount('siswas')
+                ->when($cariSekolah !== '', fn ($q) => $q->where('nama_sekolah', 'like', "%{$cariSekolah}%"))
+                ->orderBy('nama_sekolah')->paginate(8, ['*'], 'halaman_sekolah')->withQueryString(),
+            'jurusans' => Jurusan::withCount('siswas')
+                ->when($cariJurusan !== '', fn ($q) => $q->where('nama_jurusan', 'like', "%{$cariJurusan}%"))
+                ->orderBy('nama_jurusan')->paginate(8, ['*'], 'halaman_jurusan')->withQueryString(),
+            'cariSekolah' => $cariSekolah,
+            'cariJurusan' => $cariJurusan,
+        ]);
+    }
+
+    public function storeSekolah(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'nama_sekolah' => ['required', 'string', 'max:255', 'unique:sekolahs,nama_sekolah'],
+            'alamat' => ['nullable', 'string', 'max:1000'],
+        ]);
+        Sekolah::create($data);
+
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])->with('success', 'Data sekolah berhasil ditambahkan.');
+    }
+
+    public function updateSekolah(Request $request, Sekolah $sekolah): RedirectResponse
+    {
+        $data = $request->validate([
+            'nama_sekolah' => ['required', 'string', 'max:255', Rule::unique('sekolahs', 'nama_sekolah')->ignore($sekolah->id)],
+            'alamat' => ['nullable', 'string', 'max:1000'],
+        ]);
+        $sekolah->update($data);
+
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])->with('success', 'Data sekolah berhasil diperbarui.');
+    }
+
+    public function destroySekolah(Sekolah $sekolah): RedirectResponse
+    {
+        if ($sekolah->siswas()->exists() || $sekolah->gurus()->exists()) {
+            return back()->with('error', 'Sekolah tidak bisa dihapus karena masih digunakan oleh data siswa atau guru. Ubah data terkait terlebih dahulu.');
+        }
+        $sekolah->delete();
+
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])->with('success', 'Data sekolah berhasil dihapus.');
+    }
+
+    public function storeJurusan(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'nama_jurusan' => ['required', 'string', 'max:255', 'unique:jurusans,nama_jurusan'],
+        ]);
+        Jurusan::create($data);
+
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])->with('success', 'Data jurusan berhasil ditambahkan.');
+    }
+
+    public function updateJurusan(Request $request, Jurusan $jurusan): RedirectResponse
+    {
+        $data = $request->validate([
+            'nama_jurusan' => ['required', 'string', 'max:255', Rule::unique('jurusans', 'nama_jurusan')->ignore($jurusan->id)],
+        ]);
+        $jurusan->update($data);
+
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])->with('success', 'Data jurusan berhasil diperbarui.');
+    }
+
+    public function destroyJurusan(Jurusan $jurusan): RedirectResponse
+    {
+        if ($jurusan->siswas()->exists()) {
+            return back()->with('error', 'Jurusan tidak bisa dihapus karena masih digunakan oleh data siswa.');
+        }
+        $jurusan->delete();
+
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])->with('success', 'Data jurusan berhasil dihapus.');
+    }
+}
