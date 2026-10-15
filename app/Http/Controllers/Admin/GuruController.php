@@ -78,7 +78,10 @@ class GuruController extends Controller
         // ditugaskan ke guru lain terlihat abu-abu dan tidak bisa dipilih.
         $calonSiswa = Siswa::with(['user', 'kelas', 'jurusan'])
             ->where('sekolah_id', $guru->sekolah_id)
-            ->orderBy('nama_lengkap')->get();
+            // Siswa yang sudah dimiliki guru lain diletakkan paling bawah.
+            ->orderByRaw('CASE WHEN guru_id IS NOT NULL AND guru_id != ? THEN 1 ELSE 0 END', [$guru->id])
+            ->orderBy('nama_lengkap')
+            ->get();
 
         return view('admin.guru.show', compact('guru', 'calonSiswa'));
     }

@@ -12,9 +12,9 @@
 .student-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .student-option{display:flex;gap:10px;border:1px solid #e5eaf2;border-radius:9px;padding:12px;font-size:12px}
 .student-option small{display:block;color:#64748b;margin-top:5px}
-.student-option.is-assigned{background:#f1f3f5;border-color:#d1d5db;color:#9ca3af;cursor:not-allowed}
-.student-option.is-assigned small{color:#9ca3af}
-.student-option.is-assigned input{cursor:not-allowed;accent-color:#9ca3af}
+.student-option.is-assigned{background:#e5e7eb!important;border:1px solid #cbd5e1!important;color:#6b7280!important;cursor:not-allowed;opacity:.8}
+.student-option.is-assigned small{color:#6b7280!important}
+.student-option.is-assigned input{cursor:not-allowed;accent-color:#9ca3af;opacity:.65}
 .student-option .assignment-status{display:inline-block;margin-top:5px;padding:3px 6px;border-radius:5px;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:600}
 @media(max-width:650px){.guru-profile-grid,.student-options{grid-template-columns:1fr}.guru-profile-card{padding:15px}}
 </style>
