@@ -119,3 +119,16 @@ Route::prefix('admin/siswa/approval')
         Route::patch('/{user}/approve', 'approve')->name('approve');
         Route::patch('/{user}/reject', 'reject')->name('reject');
     });
+
+
+Route::prefix('admin/siswa')
+    ->name('admin.siswa.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(SiswaController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{siswa}', 'show')->name('show');
+        Route::get('/{siswa}/edit', 'edit')->name('edit');
+        Route::put('/{siswa}', 'update')->name('update');
+        Route::delete('/{siswa}', 'destroy')->name('destroy');
+    });
