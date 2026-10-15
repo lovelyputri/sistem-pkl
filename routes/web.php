@@ -135,3 +135,17 @@ Route::prefix('admin/siswa')
         Route::put('/{siswa}', 'update')->name('update');
         Route::delete('/{siswa}', 'destroy')->name('destroy');
     });
+Route::prefix('admin/guru')
+    ->name('admin.guru.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(GuruController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{guru}', 'show')->name('show');
+        Route::get('/{guru}/edit', 'edit')->name('edit');
+        Route::put('/{guru}', 'update')->name('update');
+        Route::put('/{guru}/penugasan-siswa', 'assignStudents')->name('assign-students');
+        Route::delete('/{guru}', 'destroy')->name('destroy');
+    });
