@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\\Http\\Controllers\\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Guru;
-use App\Models\Jurusan;
-use App\Models\Kelas;
-use App\Models\Sekolah;
-use App\Models\Siswa;
-use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\View\View;
+use App\\Http\\Controllers\\Controller;
+use App\\Models\\Guru;
+use App\\Models\\Jurusan;
+use App\\Models\\Kelas;
+use App\\Models\\Sekolah;
+use App\\Models\\Siswa;
+use App\\Models\\User;
+use Illuminate\\Http\\RedirectResponse;
+use Illuminate\\Http\\Request;
+use Illuminate\\Support\\Facades\\DB;
+use Illuminate\\Support\\Facades\\Hash;
+use Illuminate\\Validation\\Rule;
+use Illuminate\\View\\View;
 
 class SiswaController extends Controller
 {
@@ -28,13 +30,13 @@ class SiswaController extends Controller
 
         $siswa = Siswa::query()
             ->with(['user', 'sekolah', 'jurusan', 'kelas', 'guru'])
-            ->when($status !== '', fn ($query) => $query->whereHas('user', fn ($userQuery) => $userQuery->where('status', $status)))
+            ->when($status !== '', fn ($query) => $query->whereHas('user', fn ($q) => $q->where('status', $status)))
             ->when($sekolahId !== '' && ctype_digit((string) $sekolahId), fn ($query) => $query->where('sekolah_id', $sekolahId))
             ->when($cari !== '', function ($query) use ($cari) {
                 $query->where(function ($subQuery) use ($cari) {
                     $subQuery->where('nama_lengkap', 'like', "%{$cari}%")
                         ->orWhere('nisn', 'like', "%{$cari}%")
-                        ->orWhereHas('user', fn ($userQuery) => $userQuery->where('email', 'like', "%{$cari}%"));
+                        ->orWhereHas('user', fn ($q) => $q->where('email', 'like', "%{$cari}%"));
                 });
             })
             ->latest()
@@ -44,6 +46,71 @@ class SiswaController extends Controller
         $sekolahs = Sekolah::orderBy('nama_sekolah')->get();
 
         return view('admin.siswa.index', compact('siswa', 'cari', 'status', 'sekolahId', 'sekolahs'));
+    }
+
+    public function create(): View
+    {
+        return view('admin.siswa.create', [
+            'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
+            'jurusans' => Jurusan::orderBy('nama_jurusan')->get(),
+            'kelases' => Kelas::orderBy('nama_kelas')->get(),
+            'gurus' => Guru::orderBy('nama_lengkap')->get(),
+        ]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'nama_lengkap' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'nisn' => ['required', 'string', 'max:30', 'unique:siswas,nisn'],
+            'tempat_lahir' => ['required', 'string', 'max:100'],
+            'tanggal_lahir' => ['required', 'date'],
+            'jenis_kelamin' => ['required', Rule::in(['Laki-laki', 'Perempuan'])],
+            'no_telepon' => ['required', 'string', 'max:30'],
+            'sekolah_id' => ['required', 'exists:sekolahs,id'],
+            'jurusan_id' => ['required', 'exists:jurusans,id'],
+            'kelas_id' => ['required', 'exists:kelas,id'],
+            'guru_id' => ['nullable', 'exists:gurus,id'],
+            'tanggal_mulai_pkl' => ['nullable', 'date'],
+            'tanggal_selesai_pkl' => ['nullable', 'date', 'after_or_equal:tanggal_mulai_pkl'],
+        ], [
+            'email.unique' => 'Email sudah digunakan akun lain.',
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'nisn.unique' => 'NISN sudah terdaftar.',
+            'tanggal_selesai_pkl.after_or_equal' => 'Tanggal selesai PKL tidak boleh sebelum tanggal mulai.',
+        ]);
+
+        $siswa = DB::transaction(function () use ($data) {
+            $user = User::create([
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'role' => 'siswa',
+                // Akun yang dibuat admin langsung aktif tanpa alur persetujuan pendaftaran.
+                'status' => 'approved',
+            ]);
+
+            return Siswa::create([
+                'user_id' => $user->id,
+                'nama_lengkap' => $data['nama_lengkap'],
+                'nisn' => $data['nisn'],
+                'tempat_lahir' => $data['tempat_lahir'],
+                'tanggal_lahir' => $data['tanggal_lahir'],
+                'jenis_kelamin' => $data['jenis_kelamin'],
+                'no_telepon' => $data['no_telepon'],
+                'sekolah_id' => $data['sekolah_id'],
+                'jurusan_id' => $data['jurusan_id'],
+                'kelas_id' => $data['kelas_id'],
+                'guru_id' => $data['guru_id'] ?: null,
+                'tanggal_mulai_pkl' => $data['tanggal_mulai_pkl'] ?: null,
+                'tanggal_selesai_pkl' => $data['tanggal_selesai_pkl'] ?: null,
+            ]);
+        });
+
+        return redirect()->route('admin.siswa.show', $siswa)
+            ->with('success', 'Siswa berhasil ditambahkan. Akun siswa sudah aktif dan dapat digunakan untuk login.');
     }
 
     public function show(Siswa $siswa): View
@@ -98,7 +165,7 @@ class SiswaController extends Controller
     {
         $user = $siswa->user;
         if ($user) {
-            // Menghapus akun juga menghapus data jurnal dan absensi yang terkait melalui foreign key cascade.
+            // Menghapus akun juga menghapus jurnal dan absensi terkait melalui foreign key cascade.
             $user->delete();
         } else {
             $siswa->delete();
