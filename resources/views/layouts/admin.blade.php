@@ -50,7 +50,7 @@
         <div class="admin-nav-title">Menu Admin</div>
         <a class="admin-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a>
         <a class="admin-nav-link" href="{{ route('admin.siswa.approval.index') }}">Persetujuan Siswa</a>
-        <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-siswa">Data Siswa</a>
+        <a class="admin-nav-link {{ request()->routeIs('admin.siswa.index', 'admin.siswa.show', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">Data Siswa</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-guru">Guru Pembimbing</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-lainnya">Sekolah & Jurusan</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-lainnya">Perusahaan PKL</a>
