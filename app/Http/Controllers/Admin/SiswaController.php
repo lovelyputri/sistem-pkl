@@ -72,7 +72,7 @@ class SiswaController extends Controller
             'sekolah_id' => ['required', 'exists:sekolahs,id'],
             'jurusan_id' => ['required', 'exists:jurusans,id'],
             'kelas_id' => ['required', 'exists:kelas,id'],
-            'guru_id' => ['nullable', 'exists:gurus,id'],
+            'guru_id' => ['nullable', Rule::exists('gurus', 'id')->where(fn ($query) => $query->where('sekolah_id', $request->input('sekolah_id')))],
             'tanggal_mulai_pkl' => ['nullable', 'date'],
             'tanggal_selesai_pkl' => ['nullable', 'date', 'after_or_equal:tanggal_mulai_pkl'],
         ], [
