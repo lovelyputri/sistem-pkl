@@ -12,9 +12,10 @@
 .student-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .student-option{display:flex;gap:10px;border:1px solid #e5eaf2;border-radius:9px;padding:12px;font-size:12px}
 .student-option small{display:block;color:#64748b;margin-top:5px}
-.student-option.is-assigned{background:#e5e7eb!important;border:1px solid #cbd5e1!important;color:#6b7280!important;cursor:not-allowed;opacity:.8}
-.student-option.is-assigned small{color:#6b7280!important}
+.student-option.is-assigned,.student-option.is-selected{background:#e5e7eb!important;border:1px solid #cbd5e1!important;color:#6b7280!important;cursor:not-allowed;opacity:.9}
+.student-option.is-assigned small,.student-option.is-selected small{color:#6b7280!important}
 .student-option.is-assigned input{cursor:not-allowed;accent-color:#9ca3af;opacity:.65}
+.student-option.is-selected input{accent-color:#6b7280}
 .student-option .assignment-status{display:inline-block;margin-top:5px;padding:3px 6px;border-radius:5px;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:600}
 @media(max-width:650px){.guru-profile-grid,.student-options{grid-template-columns:1fr}.guru-profile-card{padding:15px}}
 </style>
@@ -40,16 +41,58 @@
 @endsection
 @push('scripts')
 <script>
+const studentOptions = document.getElementById('studentOptions');
 const search = document.getElementById('studentSearch');
+
+function updateStudentOption(row) {
+ const checkbox = row.querySelector('input[type="checkbox"]');
+ // Pilihan yang dicentang berubah abu-abu dan pindah ke bagian paling bawah.
+ row.classList.toggle('is-selected', checkbox.checked && !row.classList.contains('is-assigned'));
+}
+
+function sortStudentOptions() {
+ if (!studentOptions) return;
+ const rows = Array.from(studentOptions.querySelectorAll('[data-search]'));
+ rows.sort((a, b) => {
+   const aBottom = a.classList.contains('is-assigned') || a.querySelector('input').checked;
+   const bBottom = b.classList.contains('is-assigned') || b.querySelector('input').checked;
+   if (aBottom !== bBottom) return aBottom ? 1 : -1;
+   return a.dataset.search.localeCompare(b.dataset.search);
+ });
+ rows.forEach(row => studentOptions.appendChild(row));
+}
+
+if (studentOptions) {
+ studentOptions.querySelectorAll('[data-search]').forEach(row => {
+   updateStudentOption(row);
+   const checkbox = row.querySelector('input[type="checkbox"]');
+   checkbox.addEventListener('change', () => {
+     updateStudentOption(row);
+     sortStudentOptions();
+   });
+ });
+ sortStudentOptions();
+}
+
 if (search) search.addEventListener('input', function () {
  const term = this.value.toLowerCase().trim();
- document.querySelectorAll('#studentOptions [data-search]').forEach(row => row.style.display = row.dataset.search.includes(term) ? 'flex' : 'none');
+ document.querySelectorAll('#studentOptions [data-search]').forEach(row => {
+   row.style.display = row.dataset.search.includes(term) ? 'flex' : 'none';
+ });
 });
+
 const select = document.getElementById('selectVisible');
 if (select) select.addEventListener('click', function () {
  const rows = Array.from(document.querySelectorAll('#studentOptions [data-search]')).filter(row => row.style.display !== 'none');
- const check = rows.some(row => !row.querySelector('input').checked);
- rows.forEach(row => row.querySelector('input').checked = check);
+ const check = rows.some(row => !row.querySelector('input').checked && !row.classList.contains('is-assigned'));
+ rows.forEach(row => {
+   const checkbox = row.querySelector('input');
+   if (!checkbox.disabled) {
+     checkbox.checked = check;
+     updateStudentOption(row);
+   }
+ });
+ sortStudentOptions();
 });
 </script>
 @endpush
