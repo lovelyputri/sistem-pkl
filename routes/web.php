@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SiswaApprovalController;
 use Illuminate\Support\Facades\Route;
 
 // =========================
@@ -102,3 +103,18 @@ Route::get('/guru/dashboard', function () {
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'role:admin'])
     ->name('admin.dashboard');
+
+
+// =========================
+// PERSETUJUAN PENDAFTARAN SISWA
+// =========================
+
+Route::prefix('admin/siswa/approval')
+    ->name('admin.siswa.approval.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(SiswaApprovalController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::patch('/{user}/approve', 'approve')->name('approve');
+        Route::patch('/{user}/reject', 'reject')->name('reject');
+    });
