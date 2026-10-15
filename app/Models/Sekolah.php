@@ -12,6 +12,11 @@ class Sekolah extends Model
         'alamat',
     ];
 
+    public function gurus(): HasMany
+    {
+        return $this->hasMany(Guru::class);
+    }
+
     public function siswas(): HasMany
     {
         return $this->hasMany(Siswa::class);
