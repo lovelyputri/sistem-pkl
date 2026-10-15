@@ -49,6 +49,7 @@
         <a class="admin-brand" href="{{ route('admin.dashboard') }}">GUSPELOR.NET<small>Sistem Informasi PKL</small></a>
         <div class="admin-nav-title">Menu Admin</div>
         <a class="admin-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a>
+        <a class="admin-nav-link" href="{{ route('admin.siswa.approval.index') }}">Persetujuan Siswa</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-siswa">Data Siswa</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-guru">Guru Pembimbing</a>
         <a class="admin-nav-link" href="{{ route('admin.dashboard') }}#data-lainnya">Sekolah & Jurusan</a>
