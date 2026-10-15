@@ -115,6 +115,7 @@ Route::prefix('admin/siswa/approval')
     ->controller(SiswaApprovalController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('/{user}', 'show')->name('show');
         Route::patch('/{user}/approve', 'approve')->name('approve');
         Route::patch('/{user}/reject', 'reject')->name('reject');
     });
