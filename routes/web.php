@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaApprovalController;
 use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\GuruController;
 use Illuminate\Support\Facades\Route;
 
 // =========================
