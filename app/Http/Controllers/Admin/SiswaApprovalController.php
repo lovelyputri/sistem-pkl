@@ -5,36 +5,50 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SiswaApprovalController extends Controller
 {
     /**
-     * Menampilkan pendaftaran siswa yang menunggu keputusan Admin.
+     * Menampilkan pendaftaran siswa berdasarkan status.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        $status = $request->query('status', 'pending');
+
+        if (! in_array($status, ['pending', 'approved', 'rejected'], true)) {
+            $status = 'pending';
+        }
+
         $pendaftar = User::query()
             ->where('role', 'siswa')
-            ->where('status', 'pending')
+            ->where('status', $status)
             ->with(['siswa.sekolah', 'siswa.jurusan', 'siswa.kelas'])
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
-        $totalPending = User::query()
+        $jumlahStatus = User::query()
             ->where('role', 'siswa')
-            ->where('status', 'pending')
-            ->count();
+            ->selectRaw('status, COUNT(*) as total')
+            ->whereIn('status', ['pending', 'approved', 'rejected'])
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        $totalPending = $jumlahStatus->get('pending', 0);
+        $totalApproved = $jumlahStatus->get('approved', 0);
+        $totalRejected = $jumlahStatus->get('rejected', 0);
 
         return view('admin.siswa.approval.index', compact(
             'pendaftar',
-            'totalPending'
+            'status',
+            'totalPending',
+            'totalApproved',
+            'totalRejected'
         ));
     }
 
-    /**
-     * Menyetujui pendaftaran siswa.
-     */
     public function approve(User $user): RedirectResponse
     {
         if ($user->role !== 'siswa') {
@@ -42,21 +56,16 @@ class SiswaApprovalController extends Controller
         }
 
         if ($user->status !== 'pending') {
-            return redirect()
-                ->route('admin.siswa.approval.index')
+            return redirect()->route('admin.siswa.approval.index')
                 ->with('info', 'Pendaftaran ini sudah diproses sebelumnya.');
         }
 
         $user->update(['status' => 'approved']);
 
-        return redirect()
-            ->route('admin.siswa.approval.index')
+        return redirect()->route('admin.siswa.approval.index')
             ->with('success', 'Pendaftaran siswa berhasil disetujui.');
     }
 
-    /**
-     * Menolak pendaftaran siswa.
-     */
     public function reject(User $user): RedirectResponse
     {
         if ($user->role !== 'siswa') {
@@ -64,15 +73,13 @@ class SiswaApprovalController extends Controller
         }
 
         if ($user->status !== 'pending') {
-            return redirect()
-                ->route('admin.siswa.approval.index')
+            return redirect()->route('admin.siswa.approval.index')
                 ->with('info', 'Pendaftaran ini sudah diproses sebelumnya.');
         }
 
         $user->update(['status' => 'rejected']);
 
-        return redirect()
-            ->route('admin.siswa.approval.index')
+        return redirect()->route('admin.siswa.approval.index')
             ->with('success', 'Pendaftaran siswa berhasil ditolak.');
     }
 }
