@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\Absensi;
 use App\Models\Guru;
 use App\Models\Jurnal;
 use App\Models\Siswa;
@@ -16,13 +15,6 @@ class JurnalController extends Controller
     {
         $guru = Guru::where('user_id', auth()->id())->firstOrFail();
         $siswaIds = Siswa::where('guru_id', $guru->id)->select('id');
-        $totalSiswa = (clone $siswaIds)->count();
-        $absensiHariIni = Absensi::whereIn('siswa_id', (clone $siswaIds))
-            ->whereDate('tanggal', today());
-        $sudahAbsen = (clone $absensiHariIni)->distinct('siswa_id')->count('siswa_id');
-        $totalHadir = (clone $absensiHariIni)->whereIn('status', ['hadir', 'Hadir'])->count();
-        $totalIzinSakit = (clone $absensiHariIni)->whereIn('status', ['izin', 'Izin', 'sakit', 'Sakit'])->count();
-        $totalJurnal = Jurnal::whereIn('siswa_id', (clone $siswaIds))->count();
 
         $query = Jurnal::with('siswa')->whereIn('siswa_id', (clone $siswaIds));
         if ($request->filled('cari')) {
@@ -41,13 +33,9 @@ class JurnalController extends Controller
         return view('guru.jurnal.index', [
             'guru' => $guru,
             'jurnals' => $query->latest('tanggal')->paginate(15)->withQueryString(),
-            'totalSiswa' => $totalSiswa,
-            'sudahAbsen' => $sudahAbsen,
-            'belumAbsen' => max(0, $totalSiswa - $sudahAbsen),
-            'totalAbsensiHariIni' => (clone $absensiHariIni)->count(),
-            'totalHadir' => $totalHadir,
-            'totalIzinSakit' => $totalIzinSakit,
-            'totalJurnal' => $totalJurnal,
+            'totalJurnal' => Jurnal::whereIn('siswa_id', (clone $siswaIds))->count(),
+            'jurnalHariIni' => Jurnal::whereIn('siswa_id', (clone $siswaIds))->whereDate('tanggal', today())->count(),
+            'jurnalBulanIni' => Jurnal::whereIn('siswa_id', (clone $siswaIds))->whereMonth('tanggal', now()->month)->whereYear('tanggal', now()->year)->count(),
         ]);
     }
 }
