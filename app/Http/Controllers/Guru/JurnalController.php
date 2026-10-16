@@ -1,20 +1,19 @@
 <?php
 
-namespace App\\Http\\Controllers\\Guru;
+namespace App\Http\Controllers\Guru;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Models\\Guru;
-use App\\Models\\Jurnal;
-use App\\Models\\Siswa;
-use Illuminate\\Http\\Request;
-use Illuminate\\View\\View;
+use App\Http\Controllers\Controller;
+use App\Models\Guru;
+use App\Models\Jurnal;
+use App\Models\Siswa;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class JurnalController extends Controller
 {
     public function index(Request $request): View
     {
         $guru = Guru::where('user_id', auth()->id())->firstOrFail();
-
         $siswaIds = Siswa::where('guru_id', $guru->id)->select('id');
 
         $query = Jurnal::with('siswa')->whereIn('siswa_id', $siswaIds);
