@@ -96,10 +96,17 @@ Route::get('/siswa/dashboard', function () {
 // DASHBOARD GURU
 // =========================
 
-Route::get('/guru/dashboard', function () {
-    return view('dashboard.guru');
-})->middleware(['auth', 'role:guru'])
-  ->name('guru.dashboard');
+Route::prefix('guru')
+    ->name('guru.')
+    ->middleware(['auth', 'role:guru'])
+    ->controller(GuruDashboardController::class)
+    ->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+        Route::get('/siswa', 'siswa')->name('siswa.index');
+        Route::get('/absensi', 'absensi')->name('absensi.index');
+        Route::get('/jurnal', 'jurnal')->name('jurnal.index');
+        Route::get('/profil', 'profil')->name('profil');
+    });
 
 // =========================
 // DASHBOARD ADMIN
