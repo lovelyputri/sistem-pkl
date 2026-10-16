@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
+use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use Illuminate\Support\Facades\Route;
 
 // =========================
