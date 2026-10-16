@@ -1,10 +1,10 @@
 <?php
 
-namespace App\\Http\\Controllers\\Guru;
+namespace App\Http\Controllers\Guru;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Models\\Guru;
-use Illuminate\\View\\View;
+use App\Http\Controllers\Controller;
+use App\Models\Guru;
+use Illuminate\View\View;
 
 class ProfilController extends Controller
 {
