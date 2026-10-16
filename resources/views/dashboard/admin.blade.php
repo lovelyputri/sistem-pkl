@@ -20,10 +20,6 @@
             <div class="admin-card-label">Pendaftaran Menunggu</div>
             <div class="admin-card-number">{{ $siswaPending }}</div>
         </article>
-        <article class="admin-card">
-            <div class="admin-card-label">Perusahaan PKL</div>
-            <div class="admin-card-number">{{ $totalPerusahaan }}</div>
-        </article>
     </div>
 
     <section class="admin-section" id="data-siswa">
@@ -32,7 +28,7 @@
         <div class="admin-shortcuts">
             <div class="admin-shortcut">Data Siswa<span>Melihat data siswa dan memproses pendaftaran.</span></div>
             <div class="admin-shortcut" id="data-guru">Guru Pembimbing<span>Mengelola data guru dan penugasan siswa.</span></div>
-            <div class="admin-shortcut" id="data-lainnya">Data Pendukung<span>Mengelola sekolah, jurusan, kelas, dan perusahaan PKL.</span></div>
+            <div class="admin-shortcut" id="data-lainnya">Data Pendukung<span>Mengelola sekolah, jurusan, dan kelas.</span></div>
         </div>
     </section>
 @endsection

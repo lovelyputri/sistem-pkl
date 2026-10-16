@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\SiswaApprovalController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\MonitoringController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
 use Illuminate\Support\Facades\Route;
 
@@ -178,3 +179,8 @@ Route::prefix('admin')
         Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
     });
 
+
+Route::prefix('admin')->name('admin.settings.')->middleware(['auth', 'role:admin'])->controller(SettingsController::class)->group(function () {
+    Route::get('/pengaturan', 'edit')->name('edit');
+    Route::put('/pengaturan', 'update')->name('update');
+});

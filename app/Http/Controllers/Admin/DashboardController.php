@@ -24,18 +24,11 @@ class DashboardController extends Controller
             ->whereDate('tanggal', today())
             ->count();
 
-        // Tabel perusahaan tersedia setelah migration perusahaan dijalankan.
-        $totalPerusahaan = 0;
-        if (DB::getSchemaBuilder()->hasTable('perusahaans')) {
-            $totalPerusahaan = DB::table('perusahaans')->count();
-        }
-
         return view('dashboard.admin', compact(
             'totalSiswa',
             'totalGuru',
             'siswaPending',
-            'absensiHariIni',
-            'totalPerusahaan'
+            'absensiHariIni'
         ));
     }
 }
