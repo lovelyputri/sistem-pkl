@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
@@ -34,10 +35,19 @@ class SekolahJurusanController extends Controller
         $data = $request->validate([
             'nama_sekolah' => ['required', 'string', 'max:255', 'unique:sekolahs,nama_sekolah'],
             'alamat' => ['nullable', 'string', 'max:1000'],
+            'no_telepon' => ['nullable', 'string', 'max:30'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
+
+        if ($request->hasFile('logo')) {
+            $data['logo'] = $request->file('logo')->store('logos/sekolah', 'public');
+        }
+
         Sekolah::create($data);
 
-        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])->with('success', 'Data sekolah berhasil ditambahkan.');
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])
+            ->with('success', 'Data sekolah berhasil ditambahkan.');
     }
 
     public function updateSekolah(Request $request, Sekolah $sekolah): RedirectResponse
@@ -45,10 +55,25 @@ class SekolahJurusanController extends Controller
         $data = $request->validate([
             'nama_sekolah' => ['required', 'string', 'max:255', Rule::unique('sekolahs', 'nama_sekolah')->ignore($sekolah->id)],
             'alamat' => ['nullable', 'string', 'max:1000'],
+            'no_telepon' => ['nullable', 'string', 'max:30'],
+            'email' => ['nullable', 'email', 'max:255'],
+            'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
+
+        unset($data['logo']);
+
+        if ($request->hasFile('logo')) {
+            $data['logo'] = $request->file('logo')->store('logos/sekolah', 'public');
+
+            if ($sekolah->logo) {
+                Storage::disk('public')->delete($sekolah->logo);
+            }
+        }
+
         $sekolah->update($data);
 
-        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])->with('success', 'Data sekolah berhasil diperbarui.');
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])
+            ->with('success', 'Data sekolah berhasil diperbarui.');
     }
 
     public function destroySekolah(Sekolah $sekolah): RedirectResponse
@@ -56,9 +81,15 @@ class SekolahJurusanController extends Controller
         if ($sekolah->siswas()->exists() || $sekolah->gurus()->exists()) {
             return back()->with('error', 'Sekolah tidak bisa dihapus karena masih digunakan oleh data siswa atau guru. Ubah data terkait terlebih dahulu.');
         }
+
+        if ($sekolah->logo) {
+            Storage::disk('public')->delete($sekolah->logo);
+        }
+
         $sekolah->delete();
 
-        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])->with('success', 'Data sekolah berhasil dihapus.');
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'sekolah'])
+            ->with('success', 'Data sekolah berhasil dihapus.');
     }
 
     public function storeJurusan(Request $request): RedirectResponse
@@ -68,7 +99,8 @@ class SekolahJurusanController extends Controller
         ]);
         Jurusan::create($data);
 
-        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])->with('success', 'Data jurusan berhasil ditambahkan.');
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])
+            ->with('success', 'Data jurusan berhasil ditambahkan.');
     }
 
     public function updateJurusan(Request $request, Jurusan $jurusan): RedirectResponse
@@ -78,7 +110,8 @@ class SekolahJurusanController extends Controller
         ]);
         $jurusan->update($data);
 
-        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])->with('success', 'Data jurusan berhasil diperbarui.');
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])
+            ->with('success', 'Data jurusan berhasil diperbarui.');
     }
 
     public function destroyJurusan(Jurusan $jurusan): RedirectResponse
@@ -88,6 +121,7 @@ class SekolahJurusanController extends Controller
         }
         $jurusan->delete();
 
-        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])->with('success', 'Data jurusan berhasil dihapus.');
+        return redirect()->route('admin.sekolah-jurusan.index', ['bagian' => 'jurusan'])
+            ->with('success', 'Data jurusan berhasil dihapus.');
     }
 }

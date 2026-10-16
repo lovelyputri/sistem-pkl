@@ -10,6 +10,9 @@ class Sekolah extends Model
     protected $fillable = [
         'nama_sekolah',
         'alamat',
+        'no_telepon',
+        'email',
+        'logo',
     ];
 
     public function gurus(): HasMany
