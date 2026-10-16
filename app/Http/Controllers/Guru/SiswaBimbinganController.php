@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
-use App\Models\Absensi;
 use App\Models\Guru;
-use App\Models\Jurnal;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -15,14 +13,10 @@ class SiswaBimbinganController extends Controller
     public function index(Request $request): View
     {
         $guru = Guru::where('user_id', auth()->id())->firstOrFail();
-        $siswaIds = Siswa::where('guru_id', $guru->id)->select('id');
-        $totalSiswa = (clone $siswaIds)->count();
-        $absensiHariIni = Absensi::whereIn('siswa_id', (clone $siswaIds))
-            ->whereDate('tanggal', today());
-        $sudahAbsen = (clone $absensiHariIni)->distinct('siswa_id')->count('siswa_id');
-        $totalHadir = (clone $absensiHariIni)->whereIn('status', ['hadir', 'Hadir'])->count();
-        $totalIzinSakit = (clone $absensiHariIni)->whereIn('status', ['izin', 'Izin', 'sakit', 'Sakit'])->count();
-        $totalJurnal = Jurnal::whereIn('siswa_id', (clone $siswaIds))->count();
+        $siswaQuery = Siswa::where('guru_id', $guru->id);
+        $totalSiswa = (clone $siswaQuery)->count();
+        $totalSekolah = (clone $siswaQuery)->whereNotNull('sekolah_id')->distinct()->count('sekolah_id');
+        $totalJurusan = (clone $siswaQuery)->whereNotNull('jurusan_id')->distinct()->count('jurusan_id');
 
         $query = Siswa::with(['sekolah', 'kelas', 'jurusan', 'user'])->where('guru_id', $guru->id);
         if ($request->filled('cari')) {
@@ -34,12 +28,8 @@ class SiswaBimbinganController extends Controller
             'guru' => $guru,
             'siswas' => $query->orderBy('nama_lengkap')->paginate(15)->withQueryString(),
             'totalSiswa' => $totalSiswa,
-            'sudahAbsen' => $sudahAbsen,
-            'belumAbsen' => max(0, $totalSiswa - $sudahAbsen),
-            'totalAbsensiHariIni' => (clone $absensiHariIni)->count(),
-            'totalHadir' => $totalHadir,
-            'totalIzinSakit' => $totalIzinSakit,
-            'totalJurnal' => $totalJurnal,
+            'totalSekolah' => $totalSekolah,
+            'totalJurusan' => $totalJurusan,
         ]);
     }
 }
