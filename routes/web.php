@@ -8,7 +8,13 @@ use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
+
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Guru\SiswaBimbinganController;
+use App\Http\Controllers\Guru\MonitoringAbsensiController;
+use App\Http\Controllers\Guru\JurnalController;
+use App\Http\Controllers\Guru\ProfilController;
+
 use Illuminate\Support\Facades\Route;
 
 // =========================
@@ -67,13 +73,30 @@ Route::post('/register/selesai', [
     'registerFinish'
 ])->name('register.finish');
 
-// Lupa password
- Route::get('/lupa-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
-    Route::post('/lupa-password', [AuthController::class, 'sendResetLink'])
-        ->middleware('throttle:5,1')
-        ->name('password.email');
-    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
-    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+// =========================
+// LUPA PASSWORD
+// =========================
+
+Route::get('/lupa-password', [
+    AuthController::class,
+    'showForgotPassword'
+])->name('password.request');
+
+Route::post('/lupa-password', [
+    AuthController::class,
+    'sendResetLink'
+])->middleware('throttle:5,1')
+  ->name('password.email');
+
+Route::get('/reset-password/{token}', [
+    AuthController::class,
+    'showResetPassword'
+])->name('password.reset');
+
+Route::post('/reset-password', [
+    AuthController::class,
+    'resetPassword'
+])->name('password.update');
 
 // =========================
 // LOGOUT
@@ -100,23 +123,48 @@ Route::get('/siswa/dashboard', function () {
 Route::prefix('guru')
     ->name('guru.')
     ->middleware(['auth', 'role:guru'])
-    ->controller(GuruDashboardController::class)
     ->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard');
-        Route::get('/siswa', 'siswa')->name('siswa.index');
-        Route::get('/absensi', 'absensi')->name('absensi.index');
-        Route::get('/jurnal', 'jurnal')->name('jurnal.index');
-        Route::get('/profil', 'profil')->name('profil');
+
+        // Dashboard Guru
+        Route::get('/dashboard', [
+            GuruDashboardController::class,
+            'index'
+        ])->name('dashboard');
+
+        // Siswa bimbingan
+        Route::get('/siswa', [
+            SiswaBimbinganController::class,
+            'index'
+        ])->name('siswa.index');
+
+        // Monitoring absensi
+        Route::get('/absensi', [
+            MonitoringAbsensiController::class,
+            'index'
+        ])->name('absensi.index');
+
+        // Monitoring jurnal
+        Route::get('/jurnal', [
+            JurnalController::class,
+            'index'
+        ])->name('jurnal.index');
+
+        // Profil Guru
+        Route::get('/profil', [
+            ProfilController::class,
+            'index'
+        ])->name('profil');
     });
 
 // =========================
 // DASHBOARD ADMIN
 // =========================
 
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'role:admin'])
-    ->name('admin.dashboard');
-
+Route::get('/admin/dashboard', [
+    DashboardController::class,
+    'index'
+])->middleware(['auth', 'role:admin'])
+  ->name('admin.dashboard');
 
 // =========================
 // PERSETUJUAN PENDAFTARAN SISWA
@@ -133,6 +181,9 @@ Route::prefix('admin/siswa/approval')
         Route::patch('/{user}/reject', 'reject')->name('reject');
     });
 
+// =========================
+// KELOLA SISWA ADMIN
+// =========================
 
 Route::prefix('admin/siswa')
     ->name('admin.siswa.')
@@ -147,6 +198,11 @@ Route::prefix('admin/siswa')
         Route::put('/{siswa}', 'update')->name('update');
         Route::delete('/{siswa}', 'destroy')->name('destroy');
     });
+
+// =========================
+// KELOLA GURU ADMIN
+// =========================
+
 Route::prefix('admin/guru')
     ->name('admin.guru.')
     ->middleware(['auth', 'role:admin'])
@@ -158,9 +214,16 @@ Route::prefix('admin/guru')
         Route::get('/{guru}', 'show')->name('show');
         Route::get('/{guru}/edit', 'edit')->name('edit');
         Route::put('/{guru}', 'update')->name('update');
-        Route::put('/{guru}/penugasan-siswa', 'assignStudents')->name('assign-students');
+        Route::put(
+            '/{guru}/penugasan-siswa',
+            'assignStudents'
+        )->name('assign-students');
         Route::delete('/{guru}', 'destroy')->name('destroy');
     });
+
+// =========================
+// KELOLA SEKOLAH DAN JURUSAN
+// =========================
 
 Route::prefix('admin/sekolah-jurusan')
     ->name('admin.sekolah-jurusan.')
@@ -168,27 +231,54 @@ Route::prefix('admin/sekolah-jurusan')
     ->controller(SekolahJurusanController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/sekolah', 'storeSekolah')->name('sekolah.store');
-        Route::put('/sekolah/{sekolah}', 'updateSekolah')->name('sekolah.update');
-        Route::delete('/sekolah/{sekolah}', 'destroySekolah')->name('sekolah.destroy');
-        Route::post('/jurusan', 'storeJurusan')->name('jurusan.store');
-        Route::put('/jurusan/{jurusan}', 'updateJurusan')->name('jurusan.update');
-        Route::delete('/jurusan/{jurusan}', 'destroyJurusan')->name('jurusan.destroy');
+
+        Route::post('/sekolah', 'storeSekolah')
+            ->name('sekolah.store');
+
+        Route::put('/sekolah/{sekolah}', 'updateSekolah')
+            ->name('sekolah.update');
+
+        Route::delete('/sekolah/{sekolah}', 'destroySekolah')
+            ->name('sekolah.destroy');
+
+        Route::post('/jurusan', 'storeJurusan')
+            ->name('jurusan.store');
+
+        Route::put('/jurusan/{jurusan}', 'updateJurusan')
+            ->name('jurusan.update');
+
+        Route::delete('/jurusan/{jurusan}', 'destroyJurusan')
+            ->name('jurusan.destroy');
     });
 
+// =========================
+// MONITORING ADMIN
+// =========================
 
 Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'role:admin'])
     ->controller(MonitoringController::class)
     ->group(function () {
-        Route::get('/absensi', 'absensi')->name('absensi.index');
-        Route::get('/riwayat-absensi', 'riwayatAbsensi')->name('absensi.riwayat');
-        Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
+        Route::get('/absensi', 'absensi')
+            ->name('absensi.index');
+
+        Route::get('/riwayat-absensi', 'riwayatAbsensi')
+            ->name('absensi.riwayat');
+
+        Route::get('/jurnal-harian', 'jurnal')
+            ->name('jurnal.index');
     });
 
+// =========================
+// PENGATURAN ADMIN
+// =========================
 
-Route::prefix('admin')->name('admin.settings.')->middleware(['auth', 'role:admin'])->controller(SettingsController::class)->group(function () {
-    Route::get('/pengaturan', 'edit')->name('edit');
-    Route::put('/pengaturan', 'update')->name('update');
-});
+Route::prefix('admin')
+    ->name('admin.settings.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(SettingsController::class)
+    ->group(function () {
+        Route::get('/pengaturan', 'edit')->name('edit');
+        Route::put('/pengaturan', 'update')->name('update');
+    });
