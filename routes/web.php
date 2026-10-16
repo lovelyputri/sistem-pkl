@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaApprovalController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\MonitoringController;
+use App\Http\Controllers\Admin\SekolahJurusanController;
 use Illuminate\Support\Facades\Route;
 
 // =========================
@@ -164,3 +166,15 @@ Route::prefix('admin/sekolah-jurusan')
         Route::put('/jurusan/{jurusan}', 'updateJurusan')->name('jurusan.update');
         Route::delete('/jurusan/{jurusan}', 'destroyJurusan')->name('jurusan.destroy');
     });
+
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'role:admin'])
+    ->controller(MonitoringController::class)
+    ->group(function () {
+        Route::get('/absensi', 'absensi')->name('absensi.index');
+        Route::get('/riwayat-absensi', 'riwayatAbsensi')->name('absensi.riwayat');
+        Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
+    });
+
