@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SiswaApprovalController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
 use Illuminate\Support\Facades\Route;
 
