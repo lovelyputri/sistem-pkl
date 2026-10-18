@@ -65,31 +65,27 @@ class AuthController extends Controller
         $user = Auth::user();
 
         /*
-         * Siswa yang masih menunggu persetujuan admin
-         * tidak boleh masuk dashboard.
+         * Siswa hanya boleh login jika statusnya benar-benar approved.
+         * Status selain approved (pending, rejected, atau tidak valid)
+         * tidak boleh mendapatkan akses ke aplikasi.
          */
-        if ($user->role === 'siswa' && $user->status === 'pending') {
+        if ($user->role === 'siswa' && $user->status !== 'approved') {
+            $message = match ($user->status) {
+                'pending' => 'Akun kamu masih menunggu persetujuan admin.',
+                'rejected' => 'Pendaftaran akun kamu ditolak oleh admin.',
+                default => 'Akun kamu belum disetujui oleh admin.',
+            };
 
             Auth::logout();
 
-            return back()
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()
+                ->route('login')
                 ->withInput($request->only('username'))
                 ->withErrors([
-                    'username' => 'Akun kamu masih menunggu persetujuan admin.',
-                ]);
-        }
-
-        /*
-         * Siswa yang ditolak admin tidak boleh login.
-         */
-        if ($user->role === 'siswa' && $user->status === 'rejected') {
-
-            Auth::logout();
-
-            return back()
-                ->withInput($request->only('username'))
-                ->withErrors([
-                    'username' => 'Pendaftaran akun kamu ditolak oleh admin.',
+                    'username' => $message,
                 ]);
         }
 
