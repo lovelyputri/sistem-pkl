@@ -15,6 +15,11 @@ use App\Http\Controllers\Guru\MonitoringAbsensiController;
 use App\Http\Controllers\Guru\JurnalController;
 use App\Http\Controllers\Guru\ProfilController;
 
+use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
+use App\Http\Controllers\Siswa\AbsensiController as SiswaAbsensiController;
+use App\Http\Controllers\Siswa\JurnalController as SiswaJurnalController;
+use App\Http\Controllers\Siswa\ProfilController as SiswaProfilController;
+
 use Illuminate\Support\Facades\Route;
 
 // =========================
@@ -111,10 +116,37 @@ Route::post('/logout', [
 // DASHBOARD SISWA
 // =========================
 
-Route::get('/siswa/dashboard', function () {
-    return view('dashboard.siswa');
-})->middleware(['auth', 'role:siswa'])
-  ->name('siswa.dashboard');
+Route::prefix('siswa')
+    ->name('siswa.')
+    ->middleware(['auth', 'role:siswa'])
+    ->group(function () {
+        Route::get('/dashboard', [SiswaDashboardController::class, 'index'])
+            ->name('dashboard');
+
+        Route::get('/absensi', [SiswaAbsensiController::class, 'index'])
+            ->name('absensi.index');
+        Route::post('/absensi', [SiswaAbsensiController::class, 'store'])
+            ->middleware('throttle:5,1')
+            ->name('absensi.store');
+
+        Route::get('/jurnal', [SiswaJurnalController::class, 'index'])
+            ->name('jurnal.index');
+        Route::get('/jurnal/tambah', [SiswaJurnalController::class, 'create'])
+            ->name('jurnal.create');
+        Route::post('/jurnal', [SiswaJurnalController::class, 'store'])
+            ->name('jurnal.store');
+        Route::get('/jurnal/{jurnal}/edit', [SiswaJurnalController::class, 'edit'])
+            ->name('jurnal.edit');
+        Route::put('/jurnal/{jurnal}', [SiswaJurnalController::class, 'update'])
+            ->name('jurnal.update');
+        Route::delete('/jurnal/{jurnal}', [SiswaJurnalController::class, 'destroy'])
+            ->name('jurnal.destroy');
+
+        Route::get('/profil', [SiswaProfilController::class, 'edit'])
+            ->name('profil.edit');
+        Route::put('/profil', [SiswaProfilController::class, 'update'])
+            ->name('profil.update');
+    });
 
 // =========================
 // DASHBOARD GURU
