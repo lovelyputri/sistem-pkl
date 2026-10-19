@@ -26,7 +26,7 @@ class ProfilController extends Controller
         $validated = $request->validate([
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore(auth()->id())],
             'nama_lengkap' => ['required', 'string', 'max:255'],
-            'tempat_lahir' => ['nullable', 'string', 'max:100'],
+            'tempat_lahir' => ['required', 'string', 'max:100'],
             'tanggal_lahir' => ['nullable', 'date', 'before:today'],
             'jenis_kelamin' => ['nullable', Rule::in(['Laki-laki', 'Perempuan'])],
             'no_telepon' => ['nullable', 'string', 'max:25'],
