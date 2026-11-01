@@ -9,11 +9,12 @@
 @section('content')
 <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px"><div><h1>Edit Guru Pembimbing</h1><p class="admin-intro" style="margin-bottom:0">Perbarui identitas, email akun, atau sekolah guru.</p></div><a href="{{ route('admin.guru.show',$guru) }}" style="padding:10px 13px;border:1px solid #d7deea;border-radius:9px;background:#fff;font-size:12px">← Kembali ke Profil</a></div>
 @if($errors->any())<div style="padding:14px;background:#fff1f2;color:#9f1239;border-radius:9px;margin-bottom:16px;font-size:13px"><strong>Periksa data berikut:</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
-<form method="POST" action="{{ route('admin.guru.update',$guru) }}" class="gf-card">@csrf @method('PUT')
+<form method="POST" enctype="multipart/form-data" action="{{ route('admin.guru.update',$guru) }}" class="gf-card">@csrf @method('PUT')
 <div class="gf-grid">
 <div class="gf-field"><label for="nama_lengkap">Nama lengkap *</label><input id="nama_lengkap" name="nama_lengkap" value="{{ old('nama_lengkap',$guru->nama_lengkap) }}" required maxlength="255"></div>
 <div class="gf-field"><label for="nip">NIP</label><input id="nip" name="nip" value="{{ old('nip',$guru->nip) }}" maxlength="50"></div>
 <div class="gf-field"><label for="no_telepon">Nomor telepon</label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon',$guru->no_telepon) }}" maxlength="30"></div>
+<div class="gf-field"><label for="foto_profil">Foto profil</label>@if($guru->foto_profil)<img src="{{ asset('storage/' . $guru->foto_profil) }}" alt="Foto profil {{ $guru->nama_lengkap }}" style="width:76px;height:76px;object-fit:cover;border-radius:50%;display:block;margin-bottom:10px">@endif<input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Biarkan kosong jika tidak ingin mengganti foto. Maksimal 2 MB.</small></div>
 <div class="gf-field"><label for="email">Email akun *</label><input id="email" type="email" name="email" value="{{ old('email',$guru->user?->email) }}" required><small>Email baru digunakan untuk login berikutnya.</small></div>
 <div class="gf-field"><label for="sekolah_id">Sekolah *</label><select id="sekolah_id" name="sekolah_id" required>@foreach($sekolahs as $sekolah)<option value="{{ $sekolah->id }}" @selected((string)old('sekolah_id',$guru->sekolah_id)===(string)$sekolah->id)>{{ $sekolah->nama_sekolah }}</option>@endforeach</select><small>Jika sekolah diganti, penugasan siswa lama akan dilepas agar tidak tercampur antar sekolah.</small></div>
 </div>
