@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Admin\GuruHelper;
 use App\Models\Guru;
 use App\Models\Sekolah;
 use App\Models\Siswa;
@@ -18,26 +19,12 @@ class GuruController extends Controller
 {
     public function index(Request $request): View
     {
-        $cari = trim((string) $request->query('cari', ''));
-        $sekolahId = $request->query('sekolah_id', '');
-        $gurus = Guru::with(['user', 'sekolah'])->withCount('siswas')
-            ->when($sekolahId !== '' && ctype_digit((string) $sekolahId), fn ($q) => $q->where('sekolah_id', $sekolahId))
-            ->when($cari !== '', fn ($q) => $q->where(function ($sub) use ($cari) {
-                $sub->where('nama_lengkap', 'like', "%{$cari}%")
-                    ->orWhere('nip', 'like', "%{$cari}%")
-                    ->orWhereHas('user', fn ($u) => $u->where('email', 'like', "%{$cari}%"));
-            }))
-            ->latest()->paginate(10)->withQueryString();
-
-        return view('admin.guru.index', [
-            'gurus' => $gurus, 'cari' => $cari, 'sekolahId' => $sekolahId,
-            'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
-        ]);
+        return view('admin.guru.index', GuruHelper::getDataIndex($request));
     }
 
     public function create(): View
     {
-        return view('admin.guru.create', ['sekolahs' => Sekolah::orderBy('nama_sekolah')->get()]);
+        return view('admin.guru.create', GuruHelper::getFormOptions());
     }
 
     public function store(Request $request): RedirectResponse
@@ -73,26 +60,17 @@ class GuruController extends Controller
 
     public function show(Guru $guru): View
     {
-        $guru->load(['user', 'sekolah', 'siswas' => fn ($q) => $q->with(['user', 'kelas', 'jurusan'])->orderBy('nama_lengkap')]);
-        // Tampilkan semua siswa dari sekolah yang sama agar siswa yang sudah
-        // ditugaskan ke guru lain terlihat abu-abu dan tidak bisa dipilih.
-        $calonSiswa = Siswa::with(['user', 'kelas', 'jurusan'])
-            ->where('sekolah_id', $guru->sekolah_id)
-            // Siswa yang sudah dimiliki guru lain diletakkan paling bawah.
-            ->orderByRaw('CASE WHEN guru_id IS NOT NULL AND guru_id != ? THEN 1 ELSE 0 END', [$guru->id])
-            ->orderBy('nama_lengkap')
-            ->get();
-
-        return view('admin.guru.show', compact('guru', 'calonSiswa'));
+        return view('admin.guru.show', GuruHelper::getDataShow($guru));
     }
 
     public function edit(Guru $guru): View
     {
         $guru->load('user');
-        return view('admin.guru.edit', [
-            'guru' => $guru,
-            'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
-        ]);
+
+        return view('admin.guru.edit', array_merge(
+            ['guru' => $guru],
+            GuruHelper::getFormOptions()
+        ));
     }
 
     public function update(Request $request, Guru $guru): RedirectResponse
