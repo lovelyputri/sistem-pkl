@@ -34,7 +34,7 @@
 <div style="padding:15px 17px;background:#eef4ff;border:1px solid #d9e5ff;border-radius:11px;color:#244a9b;font-size:12px;line-height:1.7;margin-bottom:20px">
     <strong>Akun langsung aktif</strong><br>Setelah disimpan, siswa dapat login menggunakan email dan password yang dibuat di formulir ini. Beri tahu siswa password awalnya secara pribadi.
 </div>
-<form class="student-form" method="POST" action="{{ route('admin.siswa.store') }}">
+<form class="student-form" method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.store') }}">
 @csrf
 <section class="form-section">
     <div class="section-heading"><div class="section-number">01</div><div><h2>Identitas Siswa</h2><p>Informasi dasar untuk mengenali siswa.</p></div></div>
