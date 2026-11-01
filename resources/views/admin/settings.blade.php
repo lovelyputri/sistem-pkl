@@ -27,7 +27,12 @@
             @csrf
             @method('PUT')
 
-            <h2>Informasi Akun</h2>
+            <h2>Informasi Profil Admin</h2>
+            <label for="nama_akun">Nama akun admin</label>
+            <input id="nama_akun" type="text" name="nama_akun" value="{{ old('nama_akun', $admin->nama_akun ?? 'Admin') }}" maxlength="100" required>
+            <label for="foto_profil">Foto profil admin</label>
+            <input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp">
+            @if($admin->foto_profil)<img src="{{ asset('storage/'.$admin->foto_profil) }}" alt="Foto profil admin" style="width:76px;height:76px;border-radius:50%;object-fit:cover;margin-top:10px">@endif
             <label for="email">Email admin</label>
             <input id="email" type="email" name="email" value="{{ old('email', $admin->email) }}" required autocomplete="email">
 
