@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -48,5 +49,25 @@ class ProfilController extends Controller
 
         return redirect()->route('siswa.profil')->with('success','Profil berhasil diperbarui.');
     }
+
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed', 'different:current_password'],
+        ], [
+            'current_password.current_password' => 'Password lama tidak sesuai.',
+            'password.min' => 'Password baru minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password baru tidak sama.',
+            'password.different' => 'Password baru harus berbeda dari password lama.',
+        ]);
+
+        $request->user()->forceFill([
+            'password' => Hash::make($data['password']),
+        ])->save();
+
+        return redirect()->route('siswa.profil')->with('password_success', 'Password berhasil diperbarui.');
+    }
+
 }
 
