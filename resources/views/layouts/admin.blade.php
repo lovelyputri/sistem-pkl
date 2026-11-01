@@ -62,7 +62,8 @@
         <header class="admin-topbar">
             <strong>@yield('page-heading', 'Panel Admin')</strong>
             <div class="admin-user">
-                <div><div class="admin-user-name">{{ auth()->user()->email ?? 'Administrator' }}</div><div class="admin-user-role">Administrator</div></div>
+                <img src="{{ auth()->user()->foto_profil ? asset('storage/'.auth()->user()->foto_profil) : asset('images/logo.png') }}" alt="Foto akun" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid #e2e8f0">
+                <div><div class="admin-user-name">{{ auth()->user()->nama_akun ?: 'Admin' }}</div><div class="admin-user-role">Administrator</div></div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="admin-logout" type="submit">Keluar</button>

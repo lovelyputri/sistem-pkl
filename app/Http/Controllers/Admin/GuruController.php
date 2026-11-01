@@ -43,24 +43,28 @@ class GuruController extends Controller
             $data['foto_profil'] = $request->file('foto_profil')->store('foto-profil/guru', 'public');
         }
 
-        $guru = DB::transaction(function () use ($data) {
-            $user = User::create([
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'role' => 'guru',
-                'status' => 'approved',
-            ]);
+        try {
+            $guru = DB::transaction(function () use ($data) {
+                $user = User::create([
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                    'role' => 'guru',
+                    'status' => 'approved',
+                ]);
 
-            return Guru::create([
-                'user_id' => $user->id,
-                'sekolah_id' => $data['sekolah_id'],
-                'nama_lengkap' => $data['nama_lengkap'],
-                'foto_profil' => $data['foto_profil'] ?? $guru->foto_profil,
-                'foto_profil' => $data['foto_profil'] ?? null,
-                'nip' => $data['nip'] ?: null,
-                'no_telepon' => $data['no_telepon'] ?: null,
-            ]);
-        });
+                return Guru::create([
+                    'user_id' => $user->id,
+                    'sekolah_id' => $data['sekolah_id'],
+                    'nama_lengkap' => $data['nama_lengkap'],
+                    'foto_profil' => $data['foto_profil'] ?? null,
+                    'nip' => $data['nip'] ?: null,
+                    'no_telepon' => $data['no_telepon'] ?: null,
+                ]);
+            });
+        } catch (\Throwable $exception) {
+            if (!empty($data['foto_profil'])) Storage::disk('public')->delete($data['foto_profil']);
+            throw $exception;
+        }
 
         return redirect()->route('admin.guru.show', $guru)->with('success', 'Guru pembimbing berhasil ditambahkan.');
     }
@@ -96,22 +100,26 @@ class GuruController extends Controller
             $data['foto_profil'] = $request->file('foto_profil')->store('foto-profil/guru', 'public');
         }
 
-        DB::transaction(function () use ($data, $guru) {
-            if ((string) $guru->sekolah_id !== (string) $data['sekolah_id']) {
-                $guru->siswas()->update(['guru_id' => null]);
-            }
-            $guru->update([
-                'nama_lengkap' => $data['nama_lengkap'],
-                'nip' => $data['nip'] ?: null,
-                'no_telepon' => $data['no_telepon'] ?: null,
-                'sekolah_id' => $data['sekolah_id'],
-            ]);
-            $guru->user()->update(['email' => $data['email']]);
-        });
-
-        if (! empty($data['foto_profil']) && $fotoLama) {
-            Storage::disk('public')->delete($fotoLama);
+        try {
+            DB::transaction(function () use ($data, $guru) {
+                if ((string) $guru->sekolah_id !== (string) $data['sekolah_id']) {
+                    $guru->siswas()->update(['guru_id' => null]);
+                }
+                $guru->update([
+                    'nama_lengkap' => $data['nama_lengkap'],
+                    'nip' => $data['nip'] ?: null,
+                    'no_telepon' => $data['no_telepon'] ?: null,
+                    'sekolah_id' => $data['sekolah_id'],
+                    'foto_profil' => $data['foto_profil'] ?? $guru->foto_profil,
+                ]);
+                $guru->user()->update(['email' => $data['email']]);
+            });
+        } catch (\Throwable $exception) {
+            if (!empty($data['foto_profil']) && $data['foto_profil'] !== $fotoLama) Storage::disk('public')->delete($data['foto_profil']);
+            throw $exception;
         }
+
+        if (!empty($data['foto_profil']) && $fotoLama) Storage::disk('public')->delete($fotoLama);
 
         return redirect()->route('admin.guru.show', $guru)->with('success', 'Data guru pembimbing berhasil diperbarui.');
     }
@@ -137,12 +145,16 @@ class GuruController extends Controller
             if ($ids !== []) {
                 Siswa::whereIn('id', $ids)
                     ->where('sekolah_id', $guru->sekolah_id)
+                    ->where(function ($query) {
+                        $query->whereNull('tanggal_selesai_pkl')
+                            ->orWhereDate('tanggal_selesai_pkl', '>=', today());
+                    })
                     ->whereNull('guru_id')
                     ->update(['guru_id' => $guru->id]);
             }
         });
 
-        return redirect()->route('admin.guru.show', $guru)->with('success', 'Penugasan siswa berhasil diperbarui.');
+        return redirect()->route('admin.guru.show', $guru)->with('success', 'Penugasan siswa aktif berhasil diperbarui.');
     }
 
     public function destroy(Guru $guru): RedirectResponse
@@ -150,11 +162,8 @@ class GuruController extends Controller
         DB::transaction(function () use ($guru) {
             $guru->siswas()->update(['guru_id' => null]);
             $user = $guru->user;
-            if ($user) {
-                $user->delete();
-            } else {
-                $guru->delete();
-            }
+            if ($user) $user->delete();
+            else $guru->delete();
         });
 
         return redirect()->route('admin.guru.index')->with('success', 'Guru berhasil dihapus dan penugasan siswanya dilepas.');

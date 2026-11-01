@@ -104,7 +104,7 @@
 
 <form class="guru-form" method="GET">
     <input type="date" name="tanggal" value="{{ request('tanggal') }}">
-    <select name="status"><option value="">Semua status</option>@foreach(['hadir','izin','sakit','alpha','terlambat'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ ucfirst($status) }}</option>@endforeach</select>
+    <select name="status"><option value="">Semua status</option>@foreach(['Hadir','Terlambat','Izin','Sakit','Alpa'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ ucfirst($status) }}</option>@endforeach</select>
     <button class="guru-btn">Terapkan filter</button>
     <a class="guru-btn" style="background:#e8edf7;color:#17357f" href="{{ route('guru.absensi.index') }}">Reset</a>
 </form>

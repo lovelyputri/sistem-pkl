@@ -46,11 +46,16 @@ class GuruHelper
         $guru->load([
             'user',
             'sekolah',
-            'siswas' => fn ($q) => $q->with(['user', 'kelas', 'jurusan'])->orderBy('nama_lengkap'),
+            'siswas' => fn ($q) => $q->where(function ($query) {
+                $query->whereNull('tanggal_selesai_pkl')->orWhereDate('tanggal_selesai_pkl', '>=', today());
+            })->with(['user', 'kelas', 'jurusan'])->orderBy('nama_lengkap'),
         ]);
 
         $calonSiswa = Siswa::with(['user', 'kelas', 'jurusan'])
             ->where('sekolah_id', $guru->sekolah_id)
+            ->where(function ($query) {
+                $query->whereNull('tanggal_selesai_pkl')->orWhereDate('tanggal_selesai_pkl', '>=', today());
+            })
             ->orderByRaw('CASE WHEN guru_id IS NOT NULL AND guru_id != ? THEN 1 ELSE 0 END', [$guru->id])
             ->orderBy('nama_lengkap')
             ->get();

@@ -66,4 +66,11 @@ class Siswa extends Model
     {
         return $this->hasMany(Absensi::class);
     }
+
+    public function getStatusMagangAttribute(): string
+    {
+        return $this->tanggal_selesai_pkl && $this->tanggal_selesai_pkl->lt(today())
+            ? 'Alumni'
+            : 'Aktif';
+    }
 }

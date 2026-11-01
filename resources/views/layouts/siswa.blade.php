@@ -22,7 +22,7 @@
 <a class="siswa-link {{ request()->routeIs('siswa.profil')?'active':'' }}" href="{{ route('siswa.profil') }}">Profil Saya</a>
 </aside>
 <main class="siswa-main">
-<header class="siswa-topbar"><strong>@yield('page-heading','Panel Siswa')</strong><div class="siswa-user"><span>{{ auth()->user()->email ?? 'Siswa' }}</span><form method="POST" action="{{ route('logout') }}">@csrf<button class="siswa-logout" type="submit">Keluar</button></form></div></header>
+<header class="siswa-topbar"><div style="display:flex;align-items:center;gap:10px"><img src="{{ asset('images/logo.png') }}" alt="GUSPELOR" style="width:30px;height:30px;object-fit:contain"><strong>@yield('page-heading','Panel Siswa')</strong></div><div class="siswa-user"><img src="{{ auth()->user()->siswa?->foto_profil ? asset('storage/'.auth()->user()->siswa->foto_profil) : asset('images/logo.png') }}" alt="Foto akun" style="width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid #e2e8f0"><strong style="color:#334155">Siswa</strong><form method="POST" action="{{ route('logout') }}">@csrf<button class="siswa-logout" type="submit">Keluar</button></form></div></header>
 <section class="siswa-content">
 @if(session('success'))<div class="siswa-alert success">{{ session('success') }}</div>@endif
 @if(session('error'))<div class="siswa-alert error">{{ session('error') }}</div>@endif
