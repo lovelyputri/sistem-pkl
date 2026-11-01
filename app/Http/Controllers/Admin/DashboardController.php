@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Admin\DashboardHelper;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -12,23 +13,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $totalSiswa = DB::table('siswas')->count();
-        $totalGuru = DB::table('gurus')->count();
-
-        $siswaPending = DB::table('users')
-            ->where('role', 'siswa')
-            ->where('status', 'pending')
-            ->count();
-
-        $absensiHariIni = DB::table('absensis')
-            ->whereDate('tanggal', today())
-            ->count();
-
-        return view('dashboard.admin', compact(
-            'totalSiswa',
-            'totalGuru',
-            'siswaPending',
-            'absensiHariIni'
-        ));
+        return view('dashboard.admin', DashboardHelper::getSummary());
     }
+
 }
