@@ -16,6 +16,12 @@ use App\\Http\\Controllers\\Guru\\JurnalController;
 use App\\Http\\Controllers\\Guru\\ProfilController;
 use App\\Http\\Controllers\\Guru\\PengingatController;
 
+use App\\Http\\Controllers\\Siswa\\DashboardController as SiswaDashboardController;
+use App\\Http\\Controllers\\Siswa\\ProfilController as SiswaProfilController;
+use App\\Http\\Controllers\\Siswa\\AbsensiController as SiswaAbsensiController;
+use App\\Http\\Controllers\\Siswa\\JurnalController as SiswaJurnalController;
+use App\\Http\\Controllers\\Siswa\\NotifikasiController as SiswaNotifikasiController;
+
 use Illuminate\\Support\\Facades\\Route;
 
 Route::get('/', function () {
@@ -36,9 +42,27 @@ Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::get('/siswa/dashboard', function () {
-    return view('dashboard.siswa');
-})->middleware(['auth', 'role:siswa'])->name('siswa.dashboard');
+Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->group(function () {
+    Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/profil', [SiswaProfilController::class, 'index'])->name('profil');
+    Route::put('/profil', [SiswaProfilController::class, 'update'])->name('profil.update');
+
+    Route::get('/absensi', [SiswaAbsensiController::class, 'index'])->name('absensi.index');
+    Route::post('/absensi', [SiswaAbsensiController::class, 'store'])->name('absensi.store');
+
+    Route::get('/jurnal', [SiswaJurnalController::class, 'index'])->name('jurnal.index');
+    Route::get('/jurnal/tulis', [SiswaJurnalController::class, 'create'])->name('jurnal.create');
+    Route::post('/jurnal', [SiswaJurnalController::class, 'store'])->name('jurnal.store');
+    Route::get('/jurnal/{jurnal}', [SiswaJurnalController::class, 'show'])->name('jurnal.show');
+    Route::get('/jurnal/{jurnal}/edit', [SiswaJurnalController::class, 'edit'])->name('jurnal.edit');
+    Route::put('/jurnal/{jurnal}', [SiswaJurnalController::class, 'update'])->name('jurnal.update');
+    Route::delete('/jurnal/{jurnal}', [SiswaJurnalController::class, 'destroy'])->name('jurnal.destroy');
+
+    Route::get('/notifikasi', [SiswaNotifikasiController::class, 'index'])->name('notifikasi.index');
+    Route::post('/notifikasi/{notification}/baca', [SiswaNotifikasiController::class, 'read'])->name('notifikasi.read');
+    Route::post('/notifikasi/baca-semua', [SiswaNotifikasiController::class, 'readAll'])->name('notifikasi.read-all');
+});
 
 Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
