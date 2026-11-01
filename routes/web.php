@@ -46,6 +46,7 @@ Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(f
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
+    Route::put('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.password.update');
 });
 
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])
