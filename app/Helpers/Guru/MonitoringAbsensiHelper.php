@@ -36,6 +36,14 @@ class MonitoringAbsensiHelper
             $status = '';
         }
 
+        $siswaBelumAbsen = Siswa::with('user')
+            ->where('guru_id', $guru->id)
+            ->whereDoesntHave('absensis', function ($builder) {
+                $builder->whereDate('tanggal', today());
+            })
+            ->orderBy('nama_lengkap')
+            ->get();
+
         return [
             'guru' => $guru,
             'absensis' => PaginateHelper::paginate($query->latest('tanggal'), 15),
@@ -45,6 +53,7 @@ class MonitoringAbsensiHelper
             'totalAlpha' => (clone $absensiHariIni)->whereIn('status', ['alpha', 'Alpha'])->count(),
             'totalSiswa' => $totalSiswa,
             'belumAbsen' => max(0, $totalSiswa - $sudahAbsen),
+            'siswaBelumAbsen' => $siswaBelumAbsen,
             'tanggal' => $tanggal,
             'status' => $status,
         ];
