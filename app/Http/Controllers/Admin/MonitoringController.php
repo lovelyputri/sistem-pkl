@@ -19,4 +19,10 @@ class MonitoringController extends Controller
         return view('admin.monitoring.jurnal', MonitoringHelper::getDataJurnal($request));
     }
 
+    public function showJurnal(\\App\\Models\\Jurnal $jurnal): View
+    {
+        $jurnal->load('siswa.sekolah', 'siswa.jurusan', 'siswa.kelas');
+        return view('admin.monitoring.jurnal-show', compact('jurnal'));
+    }
+
 }
