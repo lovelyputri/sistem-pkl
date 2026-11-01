@@ -18,7 +18,7 @@
 <a class="siswa-link {{ request()->routeIs('siswa.dashboard')?'active':'' }}" href="{{ route('siswa.dashboard') }}">Dashboard</a>
 <a class="siswa-link {{ request()->routeIs('siswa.absensi.*')?'active':'' }}" href="{{ route('siswa.absensi.index') }}">Absensi</a>
 <a class="siswa-link {{ request()->routeIs('siswa.jurnal.*')?'active':'' }}" href="{{ route('siswa.jurnal.index') }}">Jurnal Harian</a>
-<a class="siswa-link {{ request()->routeIs('siswa.notifikasi.*')?'active':'' }}" href="{{ route('siswa.notifikasi.index') }}">Notifikasi @if(($jumlahNotifikasi ?? 0)>0)<span class="siswa-bubble">{{ $jumlahNotifikasi }}</span>@endif</a>
+<a class="siswa-link {{ request()->routeIs('siswa.notifikasi.*')?'active':'' }}" href="{{ route('siswa.notifikasi.index') }}">Notifikasi @if(auth()->user()->unreadNotifications()->count()>0)<span class="siswa-bubble">{{ auth()->user()->unreadNotifications()->count() }}</span>@endif</a>
 <a class="siswa-link {{ request()->routeIs('siswa.profil')?'active':'' }}" href="{{ route('siswa.profil') }}">Profil Saya</a>
 </aside>
 <main class="siswa-main">
