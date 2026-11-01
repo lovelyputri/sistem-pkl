@@ -13,7 +13,7 @@ use App\\Http\\Controllers\\Guru\\DashboardController as GuruDashboardController
 use App\\Http\\Controllers\\Guru\\SiswaBimbinganController;
 use App\\Http\\Controllers\\Guru\\MonitoringAbsensiController;
 use App\\Http\\Controllers\\Guru\\JurnalController;
-use App\\Http\\Controllers\\Guru\\ProfilController;
+use App\\Http\\Controllers\\Guru\\ProfilController;\nuse App\\Http\\Controllers\\Guru\\PengingatController;
 
 use Illuminate\\Support\\Facades\\Route;
 
@@ -43,7 +43,7 @@ Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(f
     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
     Route::get('/siswa', [SiswaBimbinganController::class, 'index'])->name('siswa.index');
     Route::get('/absensi', [MonitoringAbsensiController::class, 'index'])->name('absensi.index');
-    Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');
+    Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');\n    Route::post('/siswa/{siswa}/ingatkan', [PengingatController::class, 'store'])->name('pengingat.store');
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
     Route::put('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.password.update');
