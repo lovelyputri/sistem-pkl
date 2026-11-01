@@ -16,6 +16,7 @@ class Siswa extends Model
         'kelas_id',
         'nama_lengkap',
         'foto_profil',
+        'alamat',
         'tempat_lahir',
         'nisn',
         'tanggal_lahir',
