@@ -49,6 +49,13 @@ class MonitoringAbsensiHelper
             ->orderBy('nama_lengkap')
             ->get();
 
+        $siswaMonitoring = Siswa::with(['absensis' => function ($builder) {
+                $builder->whereDate('tanggal', today());
+            }])
+            ->where('guru_id', $guru->id)
+            ->orderBy('nama_lengkap')
+            ->get();
+
         return [
             'guru' => $guru,
             'absensis' => PaginateHelper::paginate($query->latest('tanggal'), 15),
@@ -59,6 +66,7 @@ class MonitoringAbsensiHelper
             'totalSiswa' => $totalSiswa,
             'belumAbsen' => max(0, $totalSiswa - $sudahAbsen),
             'siswaBelumAbsen' => $siswaBelumAbsen,
+            'siswaMonitoring' => $siswaMonitoring,
             'tanggal' => $tanggal,
             'status' => $status,
         ];
