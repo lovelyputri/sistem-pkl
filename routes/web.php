@@ -68,6 +68,7 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->grou
 Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(function () {
     Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
     Route::get('/siswa', [SiswaBimbinganController::class, 'index'])->name('siswa.index');
+    Route::get('/siswa/{siswa}', [SiswaBimbinganController::class, 'show'])->name('siswa.show');
     Route::get('/absensi', [MonitoringAbsensiController::class, 'index'])->name('absensi.index');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');
     Route::post('/siswa/{siswa}/ingatkan', [PengingatController::class, 'store'])->name('pengingat.store');
