@@ -9,7 +9,7 @@ class NotifikasiHelper
 {
     public static function getDataIndex(Request $request): array
     {
-        $query = $request->user()->notifications()->latest();
+        $query = $request->user()->notifications()->getQuery()->latest();
         $filter = $request->string('status')->toString();
         if ($filter === 'belum_dibaca') $query->whereNull('read_at');
         if ($filter === 'sudah_dibaca') $query->whereNotNull('read_at');
