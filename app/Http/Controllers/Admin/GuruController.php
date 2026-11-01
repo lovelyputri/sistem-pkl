@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Helpers\Admin\GuruHelper;
 use App\Models\Guru;
-use App\Models\Sekolah;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
