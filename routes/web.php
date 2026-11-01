@@ -9,12 +9,12 @@ use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
 
-use App\\Http\\Controllers\\Guru\\DashboardController as GuruDashboardController;
-use App\\Http\\Controllers\\Guru\\SiswaBimbinganController;
-use App\\Http\\Controllers\\Guru\\MonitoringAbsensiController;
-use App\\Http\\Controllers\\Guru\\JurnalController;
-use App\\Http\\Controllers\\Guru\\ProfilController;
-use App\\Http\\Controllers\\Guru\\PengingatController;
+use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Guru\SiswaBimbinganController;
+use App\Http\Controllers\Guru\MonitoringAbsensiController;
+use App\Http\Controllers\Guru\JurnalController;
+use App\Http\Controllers\Guru\ProfilController;
+use App\Http\Controllers\Guru\PengingatController;
 
 use Illuminate\Support\Facades\Route;
 
