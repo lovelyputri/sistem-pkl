@@ -109,5 +109,5 @@
     <a class="guru-btn" style="background:#e8edf7;color:#17357f" href="{{ route('guru.absensi.index') }}">Reset</a>
 </form>
 
-<div class="guru-panel"><div class="guru-table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Siswa</th><th>Status</th><th>Keterangan</th></tr></thead><tbody>@forelse($absensis as $absensi)<tr><td>{{ $absensi->tanggal?->format('d M Y') }}</td><td>{{ $absensi->siswa->nama_lengkap ?? '-' }}</td><td>{{ ucfirst($absensi->status) }}</td><td>{{ $absensi->keterangan ?: '-' }}</td></tr>@empty<tr><td colspan="4" class="guru-muted">Belum ada catatan absensi untuk filter ini.</td></tr>@endforelse</tbody></table></div><div class="guru-pagination">{{ $absensis->links() }}</div></div>
+<div class="guru-panel"><div class="guru-table-wrap"><table><thead><tr><th>Tanggal</th><th>Waktu</th><th>Nama Siswa</th><th>Status</th><th>Keterangan</th></tr></thead><tbody>@forelse($absensis as $absensi)<tr><td>{{ $absensi->tanggal?->format('d M Y') }}</td><td>{{ $absensi->created_at?->format('H:i') ?? '-' }} WIB</td><td>{{ $absensi->siswa->nama_lengkap ?? '-' }}</td><td>{{ ucfirst($absensi->status) }}</td><td>{{ $absensi->keterangan ?: '-' }}</td></tr>@empty<tr><td colspan="5" class="guru-muted">Belum ada catatan absensi untuk filter ini.</td></tr>@endforelse</tbody></table></div><div class="guru-pagination">{{ $absensis->links() }}</div></div>
 @endsection
