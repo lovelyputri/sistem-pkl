@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Admin\SekolahJurusanHelper;
 use App\Models\Jurusan;
 use App\Models\Sekolah;
 use Illuminate\Http\RedirectResponse;
@@ -14,19 +15,7 @@ class SekolahJurusanController extends Controller
 {
     public function index(Request $request): View
     {
-        $cariSekolah = trim((string) $request->query('cari_sekolah', ''));
-        $cariJurusan = trim((string) $request->query('cari_jurusan', ''));
-
-        return view('admin.sekolah-jurusan.index', [
-            'sekolahs' => Sekolah::withCount('siswas')
-                ->when($cariSekolah !== '', fn ($q) => $q->where('nama_sekolah', 'like', "%{$cariSekolah}%"))
-                ->orderBy('nama_sekolah')->paginate(8, ['*'], 'halaman_sekolah')->withQueryString(),
-            'jurusans' => Jurusan::withCount('siswas')
-                ->when($cariJurusan !== '', fn ($q) => $q->where('nama_jurusan', 'like', "%{$cariJurusan}%"))
-                ->orderBy('nama_jurusan')->paginate(8, ['*'], 'halaman_jurusan')->withQueryString(),
-            'cariSekolah' => $cariSekolah,
-            'cariJurusan' => $cariJurusan,
-        ]);
+        return view('admin.sekolah-jurusan.index', SekolahJurusanHelper::getDataIndex($request));
     }
 
     public function storeSekolah(Request $request): RedirectResponse
