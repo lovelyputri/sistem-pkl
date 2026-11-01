@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Helpers\Admin;
+namespace App\\Helpers\\Admin;
 
-use App\Helpers\PaginateHelper;
-use App\Models\Guru;
-use App\Models\Jurusan;
-use App\Models\Kelas;
-use App\Models\Sekolah;
-use App\Models\Siswa;
-use Illuminate\Http\Request;
+use App\\Helpers\\PaginateHelper;
+use App\\Models\\Guru;
+use App\\Models\\Jurusan;
+use App\\Models\\Kelas;
+use App\\Models\\Sekolah;
+use App\\Models\\Siswa;
+use Illuminate\\Http\\Request;
 
 class SiswaHelper
 {
@@ -50,7 +50,18 @@ class SiswaHelper
             'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
             'jurusans' => Jurusan::orderBy('nama_jurusan')->get(),
             'kelases' => Kelas::orderBy('nama_kelas')->get(),
-            'gurus' => Guru::orderBy('nama_lengkap')->get(),
         ];
+    }
+
+    public static function getGurusBySekolah(int|string|null $sekolahId)
+    {
+        if (! $sekolahId || ! ctype_digit((string) $sekolahId)) {
+            return collect();
+        }
+
+        return Guru::query()
+            ->where('sekolah_id', $sekolahId)
+            ->orderBy('nama_lengkap')
+            ->get(['id', 'nama_lengkap']);
     }
 }
