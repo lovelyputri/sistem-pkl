@@ -1,18 +1,19 @@
 <?php
 
-namespace App\\Http\\Controllers\\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Helpers\\Admin\\SiswaHelper;
-use App\\Models\\Siswa;
-use App\\Models\\User;
-use Illuminate\\Http\\JsonResponse;
-use Illuminate\\Http\\RedirectResponse;
-use Illuminate\\Http\\Request;
-use Illuminate\\Support\\Facades\\DB;
-use Illuminate\\Support\\Facades\\Hash;
-use Illuminate\\Validation\\Rule;
-use Illuminate\\View\\View;
+use App\Http\Controllers\Controller;
+use App\Helpers\Admin\SiswaHelper;
+use App\Models\Siswa;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class SiswaController extends Controller
 {
@@ -48,6 +49,7 @@ class SiswaController extends Controller
             'jurusan_id' => ['required', 'exists:jurusans,id'],
             'kelas_id' => ['required', 'exists:kelas,id'],
             'guru_id' => ['nullable', Rule::exists('gurus', 'id')->where(fn ($query) => $query->where('sekolah_id', $request->input('sekolah_id')))],
+            'foto_profil' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'tanggal_mulai_pkl' => ['nullable', 'date'],
             'tanggal_selesai_pkl' => ['nullable', 'date', 'after_or_equal:tanggal_mulai_pkl'],
         ], [
@@ -57,6 +59,10 @@ class SiswaController extends Controller
             'nisn.unique' => 'NISN sudah terdaftar.',
             'tanggal_selesai_pkl.after_or_equal' => 'Tanggal selesai PKL tidak boleh sebelum tanggal mulai.',
         ]);
+
+        if ($request->hasFile('foto_profil')) {
+            $data['foto_profil'] = $request->file('foto_profil')->store('foto-profil/siswa', 'public');
+        }
 
         $siswa = DB::transaction(function () use ($data) {
             $user = User::create([
@@ -69,6 +75,7 @@ class SiswaController extends Controller
             return Siswa::create([
                 'user_id' => $user->id,
                 'nama_lengkap' => $data['nama_lengkap'],
+                'foto_profil' => $data['foto_profil'] ?? null,
                 'nisn' => $data['nisn'],
                 'tempat_lahir' => $data['tempat_lahir'],
                 'tanggal_lahir' => $data['tanggal_lahir'],
@@ -118,6 +125,7 @@ class SiswaController extends Controller
             'jurusan_id' => ['required', 'exists:jurusans,id'],
             'kelas_id' => ['required', 'exists:kelas,id'],
             'guru_id' => ['nullable', Rule::exists('gurus', 'id')->where(fn ($query) => $query->where('sekolah_id', $request->input('sekolah_id')))],
+            'foto_profil' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'tanggal_mulai_pkl' => ['nullable', 'date'],
             'tanggal_selesai_pkl' => ['nullable', 'date', 'after_or_equal:tanggal_mulai_pkl'],
         ], [
@@ -126,8 +134,17 @@ class SiswaController extends Controller
             'tanggal_selesai_pkl.after_or_equal' => 'Tanggal selesai PKL tidak boleh sebelum tanggal mulai.',
         ]);
 
+        $fotoLama = $siswa->foto_profil;
+        if ($request->hasFile('foto_profil')) {
+            $data['foto_profil'] = $request->file('foto_profil')->store('foto-profil/siswa', 'public');
+        } else {
+            unset($data['foto_profil']);
+        }
         $siswa->update(collect($data)->except(['email'])->all());
         $siswa->user()->update(['email' => $data['email']]);
+        if (! empty($data['foto_profil']) && $fotoLama) {
+            Storage::disk('public')->delete($fotoLama);
+        }
 
         return redirect()->route('admin.siswa.show', $siswa)->with('success', 'Data siswa berhasil diperbarui.');
     }
