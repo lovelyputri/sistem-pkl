@@ -36,7 +36,12 @@ class MonitoringAbsensiHelper
             $status = '';
         }
 
-        $siswaBelumAbsen = Siswa::with('user')
+        // Hanya siswa yang ditugaskan kepada guru yang sedang login.
+        // Status pengingat diambil agar tombol berubah setelah pengingat dikirim.
+        $siswaBelumAbsen = Siswa::with(['user.notifications' => function ($builder) {
+                $builder->where('data->reminder_type', 'absensi')
+                    ->where('data->reminder_date', today()->toDateString());
+            }])
             ->where('guru_id', $guru->id)
             ->whereDoesntHave('absensis', function ($builder) {
                 $builder->whereDate('tanggal', today());
