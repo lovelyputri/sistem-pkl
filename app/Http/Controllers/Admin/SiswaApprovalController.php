@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Admin\SiswaApprovalHelper;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,31 +13,7 @@ class SiswaApprovalController extends Controller
 {
     public function index(Request $request): View
     {
-        $cari = trim((string) $request->query('cari', ''));
-        $status = $request->query('status', '');
-
-        if (! in_array($status, ['', 'pending', 'approved', 'rejected'], true)) {
-            $status = '';
-        }
-
-        $pendaftar = User::query()
-            ->where('role', 'siswa')
-            ->with('siswa.sekolah')
-            ->when($status !== '', fn ($query) => $query->where('status', $status))
-            ->when($cari !== '', function ($query) use ($cari) {
-                $query->where(function ($subQuery) use ($cari) {
-                    $subQuery->where('email', 'like', "%{$cari}%")
-                        ->orWhereHas('siswa', function ($siswaQuery) use ($cari) {
-                            $siswaQuery->where('nama_lengkap', 'like', "%{$cari}%")
-                                ->orWhere('nisn', 'like', "%{$cari}%");
-                        });
-                });
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
-
-        return view('admin.siswa.approval.index', compact('pendaftar', 'cari', 'status'));
+        return view('admin.siswa.approval.index', SiswaApprovalHelper::getDataIndex($request));
     }
 
     public function show(User $user): View
