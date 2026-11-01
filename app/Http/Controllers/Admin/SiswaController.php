@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\\Http\\Controllers\\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Helpers\Admin\SiswaHelper;
-use App\Models\Siswa;
-use App\Models\User;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use Illuminate\View\View;
+use App\\Http\\Controllers\\Controller;
+use App\\Helpers\\Admin\\SiswaHelper;
+use App\\Models\\Siswa;
+use App\\Models\\User;
+use Illuminate\\Http\\JsonResponse;
+use Illuminate\\Http\\RedirectResponse;
+use Illuminate\\Http\\Request;
+use Illuminate\\Support\\Facades\\DB;
+use Illuminate\\Support\\Facades\\Hash;
+use Illuminate\\Validation\\Rule;
+use Illuminate\\View\\View;
 
 class SiswaController extends Controller
 {
@@ -23,6 +24,13 @@ class SiswaController extends Controller
     public function create(): View
     {
         return view('admin.siswa.create', SiswaHelper::getFormOptions());
+    }
+
+    public function gurusBySekolah(Request $request): JsonResponse
+    {
+        return response()->json(
+            SiswaHelper::getGurusBySekolah($request->query('sekolah_id'))
+        );
     }
 
     public function store(Request $request): RedirectResponse
@@ -55,7 +63,6 @@ class SiswaController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'role' => 'siswa',
-                // Akun yang dibuat admin langsung aktif tanpa alur persetujuan pendaftaran.
                 'status' => 'approved',
             ]);
 
@@ -110,7 +117,7 @@ class SiswaController extends Controller
             'sekolah_id' => ['required', 'exists:sekolahs,id'],
             'jurusan_id' => ['required', 'exists:jurusans,id'],
             'kelas_id' => ['required', 'exists:kelas,id'],
-            'guru_id' => ['nullable', 'exists:gurus,id'],
+            'guru_id' => ['nullable', Rule::exists('gurus', 'id')->where(fn ($query) => $query->where('sekolah_id', $request->input('sekolah_id')))],
             'tanggal_mulai_pkl' => ['nullable', 'date'],
             'tanggal_selesai_pkl' => ['nullable', 'date', 'after_or_equal:tanggal_mulai_pkl'],
         ], [
@@ -129,7 +136,6 @@ class SiswaController extends Controller
     {
         $user = $siswa->user;
         if ($user) {
-            // Menghapus akun juga menghapus jurnal dan absensi terkait melalui foreign key cascade.
             $user->delete();
         } else {
             $siswa->delete();
