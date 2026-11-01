@@ -6,7 +6,7 @@
 @push('styles')
 <style>
 .profile-head{background:linear-gradient(120deg,#17357f,#315fc4);border-radius:16px;padding:26px;color:#fff;display:flex;align-items:center;gap:18px;justify-content:space-between;flex-wrap:wrap}
-.profile-avatar{width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700}
+.profile-avatar{width:96px;height:96px;flex:0 0 96px;border-radius:50%;background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;object-fit:cover}
 .profile-head h1{font-size:22px;margin:0 0 7px}
 .profile-head p{margin:0;color:#dbe7ff;font-size:12px}
 .profile-actions{display:flex;gap:9px;flex-wrap:wrap}
@@ -29,7 +29,11 @@
 @if (session('success'))<div style="padding:13px 15px;background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:10px;margin-bottom:16px;font-size:13px">{{ session('success') }}</div>@endif
 <div class="profile-head">
     <div style="display:flex;align-items:center;gap:18px;min-width:0">
-        <div class="profile-avatar">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</div>
+        @if ($siswa->foto_profil)
+            <img class="profile-avatar" src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto {{ $siswa->nama_lengkap }}">
+        @else
+            <div class="profile-avatar">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</div>
+        @endif
         <div><h1>{{ $siswa->nama_lengkap }}</h1><p>NISN {{ $siswa->nisn }} · {{ $siswa->kelas?->nama_kelas ? 'Kelas '.$siswa->kelas->nama_kelas : 'Kelas belum diatur' }}</p><div style="margin-top:11px"><span style="display:inline-block;padding:5px 9px;border-radius:20px;background:rgba(255,255,255,.16);font-size:11px">{{ $siswa->user?->status === 'approved' ? 'Akun Aktif' : ($siswa->user?->status === 'rejected' ? 'Pendaftaran Ditolak' : 'Menunggu Persetujuan') }}</span></div></div>
     </div>
     <div class="profile-actions">
