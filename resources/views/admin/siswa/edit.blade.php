@@ -30,7 +30,7 @@
 @if ($errors->any())
 <div style="padding:14px 16px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;border-radius:10px;margin-bottom:18px;font-size:13px"><strong>Data belum bisa disimpan.</strong><ul style="margin:8px 0 0;padding-left:20px">@foreach ($errors->all() as $error)<li style="margin:3px 0">{{ $error }}</li>@endforeach</ul></div>
 @endif
-<form method="POST" action="{{ route('admin.siswa.update', $siswa) }}">
+<form method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.update', $siswa) }}">
 @csrf @method('PUT')
 <section class="edit-card">
     <div class="edit-card-head"><div class="num">01</div><div><h2>Identitas Pribadi</h2><p>Pastikan data sesuai dengan identitas siswa.</p></div></div>
@@ -41,6 +41,7 @@
         <div class="edit-field"><label for="tanggal_lahir">Tanggal lahir</label><input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir?->format('Y-m-d')) }}"></div>
         <div class="edit-field"><label for="jenis_kelamin">Jenis kelamin</label><select id="jenis_kelamin" name="jenis_kelamin"><option value="">Pilih jenis kelamin</option><option value="Laki-laki" @selected(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Laki-laki')>Laki-laki</option><option value="Perempuan" @selected(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Perempuan')>Perempuan</option></select></div>
         <div class="edit-field"><label for="no_telepon">Nomor telepon</label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $siswa->no_telepon) }}" maxlength="30"></div>
+        <div class="edit-field"><label for="foto_profil">Foto profil</label>@if($siswa->foto_profil)<img src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto profil {{ $siswa->nama_lengkap }}" style="width:76px;height:76px;object-fit:cover;border-radius:50%;display:block;margin-bottom:10px">@endif<input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Biarkan kosong jika tidak ingin mengganti foto. Maksimal 2 MB.</small></div>
     </div>
 </section>
 <section class="edit-card">
