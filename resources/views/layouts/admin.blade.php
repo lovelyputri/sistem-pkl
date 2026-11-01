@@ -54,7 +54,6 @@
         <a class="admin-nav-link {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}" href="{{ route('admin.guru.index') }}">Guru Pembimbing</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.sekolah-jurusan.*') ? 'active' : '' }}" href="{{ route('admin.sekolah-jurusan.index') }}">Sekolah & Jurusan</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.absensi.index') ? 'active' : '' }}" href="{{ route('admin.absensi.index') }}">Absensi</a>
-        <a class="admin-nav-link {{ request()->routeIs('admin.absensi.riwayat') ? 'active' : '' }}" href="{{ route('admin.absensi.riwayat') }}">Riwayat Absensi</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.jurnal.index') ? 'active' : '' }}" href="{{ route('admin.jurnal.index') }}">Jurnal Harian</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.edit') }}">Pengaturan Admin</a>
         <div class="admin-sidebar-footer">GUSPELOR.NET<br>Pengelolaan Praktik Kerja Lapangan</div>
