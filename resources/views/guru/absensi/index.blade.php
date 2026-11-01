@@ -15,7 +15,7 @@
     .reminder-avatar{width:38px;height:38px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:14px;font-weight:800}
     .reminder-name{font-size:13px;font-weight:700;color:#1e293b;margin:0 0 3px}
     .reminder-email{font-size:12px;color:#94a3b8;margin:0;overflow-wrap:anywhere}
-    .reminder-action{flex-shrink:0}
+    .reminder-action{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-shrink:0;flex-wrap:wrap}\n    .reminder-status{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:700;white-space:nowrap}\n    .reminder-status.pending{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}\n    .reminder-status.done{background:#dcfce7;color:#15803d}\n    .reminder-status.unavailable{background:#f1f5f9;color:#64748b}
     .reminder-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:10px;padding:9px 13px;background:#2563eb;color:#fff;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer;transition:background .18s ease}
     .reminder-btn:hover{background:#1d4ed8}
     .reminder-btn.sent{background:#dcfce7;color:#15803d;cursor:default}
@@ -23,7 +23,7 @@
     .reminder-feedback{padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:14px}
     .reminder-feedback.success{background:#ecfdf5;color:#047857}
     .reminder-feedback.error{background:#fff1f2;color:#be123c}
-    @media(max-width:640px){.reminder-panel{padding:16px}.reminder-head{flex-direction:column}.reminder-item{align-items:flex-start;flex-direction:column}.reminder-action,.reminder-btn{width:100%}}
+    @media(max-width:640px){.reminder-panel{padding:16px}.reminder-head{flex-direction:column}.reminder-item{align-items:flex-start;flex-direction:column}.reminder-action{width:100%;justify-content:flex-start}.reminder-action form{flex:1}.reminder-action .reminder-btn{width:100%}}
 </style>
 
 <h1>Monitoring Absensi</h1>
@@ -69,17 +69,20 @@
                     </div>
                     <div class="reminder-action">
                         @if($absensiHariIni)
-                            <span class="reminder-btn sent" style="background:#dcfce7;color:#15803d">✓ Sudah Absen</span>
-                        @elseif(!$siswa->user)
-                            <button type="button" class="reminder-btn sent" disabled>Akun tidak tersedia</button>
-                        @elseif($sudahDiingatkan)
-                            <button type="button" class="reminder-btn sent" disabled>✓ Sudah Diingatkan</button>
+                            <span class="reminder-status done">✓ Sudah Absen</span>
                         @else
-                            <form method="POST" action="{{ route('guru.pengingat.store', $siswa) }}" onsubmit="return confirm('Kirim pengingat absensi kepada {{ addslashes($siswa->nama_lengkap) }}?')">
-                                @csrf
-                                <input type="hidden" name="jenis" value="absensi">
-                                <button type="submit" class="reminder-btn">Kirim Pengingat <span aria-hidden="true">→</span></button>
-                            </form>
+                            <span class="reminder-status pending">Belum Absen</span>
+                            @if(!$siswa->user)
+                                <span class="reminder-status unavailable">Akun tidak tersedia</span>
+                            @elseif($sudahDiingatkan)
+                                <span class="reminder-status done">✓ Sudah Diingatkan</span>
+                            @else
+                                <form method="POST" action="{{ route('guru.pengingat.store', $siswa) }}" onsubmit="return confirm('Kirim pengingat absensi kepada {{ addslashes($siswa->nama_lengkap) }}?')">
+                                    @csrf
+                                    <input type="hidden" name="jenis" value="absensi">
+                                    <button type="submit" class="reminder-btn">Kirim Pengingat <span aria-hidden="true">→</span></button>
+                                </form>
+                            @endif
                         @endif
                     </div>
                 </div>
