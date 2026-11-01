@@ -9,11 +9,12 @@ use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
 
-use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
-use App\Http\Controllers\Guru\SiswaBimbinganController;
-use App\Http\Controllers\Guru\MonitoringAbsensiController;
-use App\Http\Controllers\Guru\JurnalController;
-use App\Http\Controllers\Guru\ProfilController;
+use App\\Http\\Controllers\\Guru\\DashboardController as GuruDashboardController;
+use App\\Http\\Controllers\\Guru\\SiswaBimbinganController;
+use App\\Http\\Controllers\\Guru\\MonitoringAbsensiController;
+use App\\Http\\Controllers\\Guru\\JurnalController;
+use App\\Http\\Controllers\\Guru\\ProfilController;
+use App\\Http\\Controllers\\Guru\\PengingatController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,7 @@ Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(f
     Route::get('/siswa', [SiswaBimbinganController::class, 'index'])->name('siswa.index');
     Route::get('/absensi', [MonitoringAbsensiController::class, 'index'])->name('absensi.index');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');
+    Route::post('/siswa/{siswa}/ingatkan', [PengingatController::class, 'store'])->name('pengingat.store');
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
     Route::put('/profil/password', [ProfilController::class, 'updatePassword'])->name('profil.password.update');

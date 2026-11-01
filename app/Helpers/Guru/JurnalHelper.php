@@ -34,6 +34,14 @@ class JurnalHelper
             $query->whereDate('tanggal', $tanggal);
         }
 
+        $siswaBelumMengisiJurnal = Siswa::with('user')
+            ->where('guru_id', $guru->id)
+            ->whereDoesntHave('jurnals', function ($builder) {
+                $builder->whereDate('tanggal', today());
+            })
+            ->orderBy('nama_lengkap')
+            ->get();
+
         return [
             'guru' => $guru,
             'jurnals' => PaginateHelper::paginate($query->latest('tanggal'), 15),
@@ -43,6 +51,7 @@ class JurnalHelper
                 ->whereMonth('tanggal', now()->month)
                 ->whereYear('tanggal', now()->year)
                 ->count(),
+            'siswaBelumMengisiJurnal' => $siswaBelumMengisiJurnal,
             'cari' => $cari,
             'tanggal' => $tanggal,
         ];
