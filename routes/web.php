@@ -1,21 +1,21 @@
 <?php
 
-use App\\Http\\Controllers\\AuthController;
-use App\\Http\\Controllers\\Admin\\DashboardController;
-use App\\Http\\Controllers\\Admin\\SiswaApprovalController;
-use App\\Http\\Controllers\\Admin\\SiswaController;
-use App\\Http\\Controllers\\Admin\\GuruController;
-use App\\Http\\Controllers\\Admin\\MonitoringController;
-use App\\Http\\Controllers\\Admin\\SettingsController;
-use App\\Http\\Controllers\\Admin\\SekolahJurusanController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SiswaApprovalController;
+use App\Http\Controllers\Admin\SiswaController;
+use App\Http\Controllers\Admin\GuruController;
+use App\Http\Controllers\Admin\MonitoringController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SekolahJurusanController;
 
-use App\\Http\\Controllers\\Guru\\DashboardController as GuruDashboardController;
-use App\\Http\\Controllers\\Guru\\SiswaBimbinganController;
-use App\\Http\\Controllers\\Guru\\MonitoringAbsensiController;
-use App\\Http\\Controllers\\Guru\\JurnalController;
-use App\\Http\\Controllers\\Guru\\ProfilController;
+use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
+use App\Http\Controllers\Guru\SiswaBimbinganController;
+use App\Http\Controllers\Guru\MonitoringAbsensiController;
+use App\Http\Controllers\Guru\JurnalController;
+use App\Http\Controllers\Guru\ProfilController;
 
-use Illuminate\\Support\\Facades\\Route;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('login');
