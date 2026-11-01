@@ -9,12 +9,13 @@
 @section('content')
 <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px"><div><h1>Tambah Guru Pembimbing</h1><p class="admin-intro" style="margin-bottom:0">Buat akun guru dan tentukan sekolah tempat guru membimbing siswa.</p></div><a href="{{ route('admin.guru.index') }}" style="padding:10px 13px;border:1px solid #d7deea;border-radius:9px;background:#fff;font-size:12px">← Kembali</a></div>
 @if($errors->any())<div style="padding:14px;background:#fff1f2;color:#9f1239;border-radius:9px;margin-bottom:16px;font-size:13px"><strong>Periksa data berikut:</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
-<form method="POST" action="{{ route('admin.guru.store') }}" class="gf-card">@csrf
+<form method="POST" enctype="multipart/form-data" action="{{ route('admin.guru.store') }}" class="gf-card">@csrf
 <div class="gf-head"><h2>Informasi Guru</h2><p>Isi identitas dan akun login guru pembimbing.</p></div>
 <div class="gf-grid">
 <div class="gf-field"><label for="nama_lengkap">Nama lengkap *</label><input id="nama_lengkap" name="nama_lengkap" value="{{ old('nama_lengkap') }}" required maxlength="255" placeholder="Nama lengkap guru"></div>
 <div class="gf-field"><label for="nip">NIP</label><input id="nip" name="nip" value="{{ old('nip') }}" maxlength="50" placeholder="Nomor induk pegawai (opsional)"></div>
 <div class="gf-field"><label for="no_telepon">Nomor telepon</label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" maxlength="30" placeholder="08xxxxxxxxxx"></div>
+<div class="gf-field"><label for="foto_profil">Foto profil</label><input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Opsional. JPG, JPEG, PNG, atau WEBP, maksimal 2 MB.</small></div>
 <div class="gf-field"><label for="sekolah_id">Sekolah *</label><select id="sekolah_id" name="sekolah_id" required><option value="">Pilih sekolah</option>@foreach($sekolahs as $sekolah)<option value="{{ $sekolah->id }}" @selected((string)old('sekolah_id')===(string)$sekolah->id)>{{ $sekolah->nama_sekolah }}</option>@endforeach</select><small>Guru hanya dapat diberi penugasan siswa dari sekolah ini.</small></div>
 <div class="gf-field"><label for="email">Email akun *</label><input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="guru@email.com"></div>
 <div class="gf-field"><label for="password">Password awal *</label><input id="password" type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="Minimal 8 karakter"></div>

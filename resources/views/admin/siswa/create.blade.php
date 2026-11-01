@@ -34,7 +34,7 @@
 <div style="padding:15px 17px;background:#eef4ff;border:1px solid #d9e5ff;border-radius:11px;color:#244a9b;font-size:12px;line-height:1.7;margin-bottom:20px">
     <strong>Akun langsung aktif</strong><br>Setelah disimpan, siswa dapat login menggunakan email dan password yang dibuat di formulir ini. Beri tahu siswa password awalnya secara pribadi.
 </div>
-<form class="student-form" method="POST" action="{{ route('admin.siswa.store') }}">
+<form class="student-form" method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.store') }}">
 @csrf
 <section class="form-section">
     <div class="section-heading"><div class="section-number">01</div><div><h2>Identitas Siswa</h2><p>Informasi dasar untuk mengenali siswa.</p></div></div>
@@ -45,6 +45,7 @@
         <div class="field"><label for="tanggal_lahir">Tanggal lahir <span class="required">*</span></label><input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required max="{{ now()->format('Y-m-d') }}"></div>
         <div class="field"><label for="jenis_kelamin">Jenis kelamin <span class="required">*</span></label><select id="jenis_kelamin" name="jenis_kelamin" required><option value="">Pilih jenis kelamin</option><option value="Laki-laki" @selected(old('jenis_kelamin') === 'Laki-laki')>Laki-laki</option><option value="Perempuan" @selected(old('jenis_kelamin') === 'Perempuan')>Perempuan</option></select></div>
         <div class="field"><label for="no_telepon">Nomor telepon <span class="required">*</span></label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08xxxxxxxxxx" required maxlength="30" inputmode="tel"></div>
+        <div class="field"><label for="foto_profil">Foto profil</label><input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Opsional. JPG, JPEG, PNG, atau WEBP, maksimal 2 MB.</small></div>
     </div>
 </section>
 <section class="form-section">

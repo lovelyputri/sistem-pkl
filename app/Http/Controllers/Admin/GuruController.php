@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -35,7 +36,12 @@ class GuruController extends Controller
             'nip' => ['nullable', 'string', 'max:50', 'unique:gurus,nip'],
             'no_telepon' => ['nullable', 'string', 'max:30'],
             'sekolah_id' => ['required', 'exists:sekolahs,id'],
+            'foto_profil' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
+
+        if ($request->hasFile('foto_profil')) {
+            $data['foto_profil'] = $request->file('foto_profil')->store('foto-profil/guru', 'public');
+        }
 
         $guru = DB::transaction(function () use ($data) {
             $user = User::create([
@@ -49,6 +55,8 @@ class GuruController extends Controller
                 'user_id' => $user->id,
                 'sekolah_id' => $data['sekolah_id'],
                 'nama_lengkap' => $data['nama_lengkap'],
+                'foto_profil' => $data['foto_profil'] ?? $guru->foto_profil,
+                'foto_profil' => $data['foto_profil'] ?? null,
                 'nip' => $data['nip'] ?: null,
                 'no_telepon' => $data['no_telepon'] ?: null,
             ]);
@@ -80,7 +88,13 @@ class GuruController extends Controller
             'nip' => ['nullable', 'string', 'max:50', Rule::unique('gurus', 'nip')->ignore($guru->id)],
             'no_telepon' => ['nullable', 'string', 'max:30'],
             'sekolah_id' => ['required', 'exists:sekolahs,id'],
+            'foto_profil' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
+
+        $fotoLama = $guru->foto_profil;
+        if ($request->hasFile('foto_profil')) {
+            $data['foto_profil'] = $request->file('foto_profil')->store('foto-profil/guru', 'public');
+        }
 
         DB::transaction(function () use ($data, $guru) {
             if ((string) $guru->sekolah_id !== (string) $data['sekolah_id']) {
@@ -94,6 +108,10 @@ class GuruController extends Controller
             ]);
             $guru->user()->update(['email' => $data['email']]);
         });
+
+        if (! empty($data['foto_profil']) && $fotoLama) {
+            Storage::disk('public')->delete($fotoLama);
+        }
 
         return redirect()->route('admin.guru.show', $guru)->with('success', 'Data guru pembimbing berhasil diperbarui.');
     }
