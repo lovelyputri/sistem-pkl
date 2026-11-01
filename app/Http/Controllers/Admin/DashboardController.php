@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\Admin\DashboardHelper;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
