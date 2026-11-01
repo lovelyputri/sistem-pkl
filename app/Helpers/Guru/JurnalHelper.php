@@ -34,24 +34,23 @@ class JurnalHelper
             $query->whereDate('tanggal', $tanggal);
         }
 
-        // Daftar dan status pengingat dibatasi hanya untuk siswa bimbingan guru ini.
-        $siswaBelumMengisiJurnal = Siswa::with(['user.notifications' => function ($builder) {
-                $builder->where('data->reminder_type', 'jurnal')
-                    ->where('data->reminder_date', today()->toDateString());
-            }])
+        // Semua siswa bimbingan ditampilkan dalam satu daftar dengan status jurnal hari ini.
+        $siswaBelumMengisiJurnal = Siswa::with([
+                'user.notifications' => function ($builder) {
+                    $builder->where('data->reminder_type', 'jurnal')
+                        ->where('data->reminder_date', today()->toDateString());
+                },
+                'jurnals' => function ($builder) {
+                    $builder->whereDate('tanggal', today());
+                },
+            ])
             ->where('guru_id', $guru->id)
-            ->whereDoesntHave('jurnals', function ($builder) {
-                $builder->whereDate('tanggal', today());
-            })
             ->orderBy('nama_lengkap')
             ->get();
 
-        $siswaMonitoring = Siswa::with(['jurnals' => function ($builder) {
-                $builder->whereDate('tanggal', today());
-            }])
-            ->where('guru_id', $guru->id)
-            ->orderBy('nama_lengkap')
-            ->get();
+        $jumlahBelumMengisiJurnal = $siswaBelumMengisiJurnal->filter(
+            fn ($siswa) => $siswa->jurnals->isEmpty()
+        )->count();
 
         return [
             'guru' => $guru,
@@ -63,7 +62,7 @@ class JurnalHelper
                 ->whereYear('tanggal', now()->year)
                 ->count(),
             'siswaBelumMengisiJurnal' => $siswaBelumMengisiJurnal,
-            'siswaMonitoring' => $siswaMonitoring,
+            'jumlahBelumMengisiJurnal' => $jumlahBelumMengisiJurnal,
             'cari' => $cari,
             'tanggal' => $tanggal,
         ];

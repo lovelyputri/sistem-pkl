@@ -40,9 +40,9 @@
         <div>
             <p class="reminder-kicker">Tindak lanjut jurnal</p>
             <h2 class="reminder-title">Pengingat Jurnal Harian</h2>
-            <p class="reminder-desc">Daftar ini hanya berisi siswa yang menjadi bimbinganmu dan belum mengisi jurnal hari ini.</p>
+            <p class="reminder-desc">Daftar siswa bimbingan beserta status pengisian jurnal hari ini. Pengingat hanya tersedia untuk siswa yang belum mengisi.</p>
         </div>
-        <span class="reminder-count">{{ $siswaBelumMengisiJurnal->count() }} siswa belum mengisi</span>
+        <span class="reminder-count">{{ $jumlahBelumMengisiJurnal }} siswa belum mengisi</span>
     </div>
 
     @if(session('success'))
@@ -53,10 +53,11 @@
     @endif
 
     @if($siswaBelumMengisiJurnal->isEmpty())
-        <div class="reminder-empty">Semua siswa bimbinganmu sudah mengisi jurnal hari ini.</div>
+        <div class="reminder-empty">Belum ada siswa yang ditugaskan kepadamu.</div>
     @else
         <div class="reminder-list">
             @foreach($siswaBelumMengisiJurnal as $siswa)
+                @php($jurnalHariIni = $siswa->jurnals->first())
                 @php($sudahDiingatkan = $siswa->user?->notifications?->isNotEmpty() ?? false)
                 <div class="reminder-item">
                     <div class="reminder-person">
@@ -67,7 +68,9 @@
                         </div>
                     </div>
                     <div class="reminder-action">
-                        @if(!$siswa->user)
+                        @if($jurnalHariIni)
+                            <span class="reminder-btn sent" style="background:#dcfce7;color:#15803d">✓ Sudah Mengisi</span>
+                        @elseif(!$siswa->user)
                             <button type="button" class="reminder-btn sent" disabled>Akun tidak tersedia</button>
                         @elseif($sudahDiingatkan)
                             <button type="button" class="reminder-btn sent" disabled>✓ Sudah Diingatkan</button>
@@ -83,42 +86,6 @@
             @endforeach
         </div>
     @endif
-</section>
-
-
-<section class="reminder-panel">
-    <div class="reminder-head">
-        <div>
-            <p class="reminder-kicker">Rekap hari ini</p>
-            <h2 class="reminder-title">Status Jurnal Siswa Bimbingan</h2>
-            <p class="reminder-desc">Semua siswa bimbingan ditampilkan di sini, termasuk yang sudah mengisi jurnal hari ini.</p>
-        </div>
-        <span class="reminder-count">{{ $siswaMonitoring->count() }} siswa</span>
-    </div>
-    <div class="guru-table-wrap">
-        <table>
-            <thead><tr><th>No.</th><th>Nama Siswa</th><th>Status Hari Ini</th><th>Judul Jurnal</th></tr></thead>
-            <tbody>
-                @forelse($siswaMonitoring as $index => $siswa)
-                    @php($jurnalHariIni = $siswa->jurnals->first())
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $siswa->nama_lengkap }}</td>
-                        <td>
-                            @if($jurnalHariIni)
-                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#dcfce7;color:#15803d;font-size:12px;font-weight:700">✓ Sudah Mengisi</span>
-                            @else
-                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#fff7ed;color:#c2410c;font-size:12px;font-weight:700">Belum Mengisi</span>
-                            @endif
-                        </td>
-                        <td>{{ $jurnalHariIni->judul ?? 'Belum ada jurnal' }}</td>
-                    </tr>
-                @empty
-                    <tr><td colspan="4" class="guru-muted">Belum ada siswa bimbingan.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
 </section>
 
 <form class="guru-form" method="GET"><input type="search" name="cari" value="{{ request('cari') }}" placeholder="Cari judul atau nama siswa"><input type="date" name="tanggal" value="{{ request('tanggal') }}"><button class="guru-btn">Cari jurnal</button><a class="guru-btn" style="background:#e8edf7;color:#17357f" href="{{ route('guru.jurnal.index') }}">Reset</a></form>

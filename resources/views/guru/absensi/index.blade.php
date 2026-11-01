@@ -40,9 +40,9 @@
         <div>
             <p class="reminder-kicker">Tindak lanjut kehadiran</p>
             <h2 class="reminder-title">Pengingat Absensi</h2>
-            <p class="reminder-desc">Daftar ini hanya berisi siswa yang menjadi bimbinganmu dan belum melakukan absensi hari ini.</p>
+            <p class="reminder-desc">Daftar siswa bimbingan beserta status absensi hari ini. Pengingat hanya tersedia untuk siswa yang belum absen.</p>
         </div>
-        <span class="reminder-count">{{ $siswaBelumAbsen->count() }} siswa belum absen</span>
+        <span class="reminder-count">{{ $jumlahBelumAbsen }} siswa belum absen</span>
     </div>
 
     @if(session('success'))
@@ -53,10 +53,11 @@
     @endif
 
     @if($siswaBelumAbsen->isEmpty())
-        <div class="reminder-empty">Semua siswa bimbinganmu sudah tercatat melakukan absensi hari ini.</div>
+        <div class="reminder-empty">Belum ada siswa yang ditugaskan kepadamu.</div>
     @else
         <div class="reminder-list">
             @foreach($siswaBelumAbsen as $siswa)
+                @php($absensiHariIni = $siswa->absensis->first())
                 @php($sudahDiingatkan = $siswa->user?->notifications?->isNotEmpty() ?? false)
                 <div class="reminder-item">
                     <div class="reminder-person">
@@ -67,7 +68,9 @@
                         </div>
                     </div>
                     <div class="reminder-action">
-                        @if(!$siswa->user)
+                        @if($absensiHariIni)
+                            <span class="reminder-btn sent" style="background:#dcfce7;color:#15803d">✓ Sudah Absen</span>
+                        @elseif(!$siswa->user)
                             <button type="button" class="reminder-btn sent" disabled>Akun tidak tersedia</button>
                         @elseif($sudahDiingatkan)
                             <button type="button" class="reminder-btn sent" disabled>✓ Sudah Diingatkan</button>
@@ -83,42 +86,6 @@
             @endforeach
         </div>
     @endif
-</section>
-
-
-<section class="reminder-panel">
-    <div class="reminder-head">
-        <div>
-            <p class="reminder-kicker">Rekap hari ini</p>
-            <h2 class="reminder-title">Status Absensi Siswa Bimbingan</h2>
-            <p class="reminder-desc">Semua siswa bimbingan ditampilkan di sini, termasuk yang sudah melakukan absensi hari ini.</p>
-        </div>
-        <span class="reminder-count">{{ $siswaMonitoring->count() }} siswa</span>
-    </div>
-    <div class="guru-table-wrap">
-        <table>
-            <thead><tr><th>No.</th><th>Nama Siswa</th><th>Status Hari Ini</th><th>Catatan</th></tr></thead>
-            <tbody>
-                @forelse($siswaMonitoring as $index => $siswa)
-                    @php($absensiHariIni = $siswa->absensis->first())
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $siswa->nama_lengkap }}</td>
-                        <td>
-                            @if($absensiHariIni)
-                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#dcfce7;color:#15803d;font-size:12px;font-weight:700">✓ Sudah Absen</span>
-                            @else
-                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#fff7ed;color:#c2410c;font-size:12px;font-weight:700">Belum Absen</span>
-                            @endif
-                        </td>
-                        <td>{{ $absensiHariIni ? ucfirst($absensiHariIni->status) : 'Belum ada catatan' }}</td>
-                    </tr>
-                @empty
-                    <tr><td colspan="4" class="guru-muted">Belum ada siswa bimbingan.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
 </section>
 
 <form class="guru-form" method="GET">
