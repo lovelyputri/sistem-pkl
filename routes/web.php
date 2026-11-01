@@ -71,6 +71,7 @@ Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(f
     Route::get('/siswa/{siswa}', [SiswaBimbinganController::class, 'show'])->name('siswa.show');
     Route::get('/absensi', [MonitoringAbsensiController::class, 'index'])->name('absensi.index');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');
+    Route::get('/jurnal/{jurnal}', [JurnalController::class, 'show'])->name('jurnal.show');
     Route::post('/siswa/{siswa}/ingatkan', [PengingatController::class, 'store'])->name('pengingat.store');
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil');
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
@@ -127,6 +128,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])
     ->controller(MonitoringController::class)->group(function () {
         Route::get('/absensi', 'absensi')->name('absensi.index');
         Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
+        Route::get('/jurnal-harian/{jurnal}', 'showJurnal')->name('jurnal.show');
     });
 
 Route::prefix('admin')->name('admin.settings.')->middleware(['auth', 'role:admin'])
