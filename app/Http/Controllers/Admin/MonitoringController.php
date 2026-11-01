@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\Admin\MonitoringHelper;
-use App\Models\Absensi;
-use App\Models\Jurnal;
-use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
