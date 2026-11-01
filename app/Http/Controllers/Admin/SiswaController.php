@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\Admin\SiswaHelper;
 use App\Models\Guru;
 use App\Models\Jurusan;
 use App\Models\Kelas;
@@ -20,42 +21,12 @@ class SiswaController extends Controller
 {
     public function index(Request $request): View
     {
-        $cari = trim((string) $request->query('cari', ''));
-        $status = $request->query('status', '');
-        $sekolahId = $request->query('sekolah_id', '');
-
-        if (! in_array($status, ['', 'pending', 'approved', 'rejected'], true)) {
-            $status = '';
-        }
-
-        $siswa = Siswa::query()
-            ->with(['user', 'sekolah', 'jurusan', 'kelas', 'guru'])
-            ->when($status !== '', fn ($query) => $query->whereHas('user', fn ($q) => $q->where('status', $status)))
-            ->when($sekolahId !== '' && ctype_digit((string) $sekolahId), fn ($query) => $query->where('sekolah_id', $sekolahId))
-            ->when($cari !== '', function ($query) use ($cari) {
-                $query->where(function ($subQuery) use ($cari) {
-                    $subQuery->where('nama_lengkap', 'like', "%{$cari}%")
-                        ->orWhere('nisn', 'like', "%{$cari}%")
-                        ->orWhereHas('user', fn ($q) => $q->where('email', 'like', "%{$cari}%"));
-                });
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
-
-        $sekolahs = Sekolah::orderBy('nama_sekolah')->get();
-
-        return view('admin.siswa.index', compact('siswa', 'cari', 'status', 'sekolahId', 'sekolahs'));
+        return view('admin.siswa.index', SiswaHelper::getDataIndex($request));
     }
 
     public function create(): View
     {
-        return view('admin.siswa.create', [
-            'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
-            'jurusans' => Jurusan::orderBy('nama_jurusan')->get(),
-            'kelases' => Kelas::orderBy('nama_kelas')->get(),
-            'gurus' => Guru::orderBy('nama_lengkap')->get(),
-        ]);
+        return view('admin.siswa.create', SiswaHelper::getFormOptions());
     }
 
     public function store(Request $request): RedirectResponse
@@ -124,13 +95,10 @@ class SiswaController extends Controller
     {
         $siswa->load('user');
 
-        return view('admin.siswa.edit', [
-            'siswa' => $siswa,
-            'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
-            'jurusans' => Jurusan::orderBy('nama_jurusan')->get(),
-            'kelases' => Kelas::orderBy('nama_kelas')->get(),
-            'gurus' => Guru::orderBy('nama_lengkap')->get(),
-        ]);
+        return view('admin.siswa.edit', array_merge(
+            ['siswa' => $siswa],
+            SiswaHelper::getFormOptions()
+        ));
     }
 
     public function update(Request $request, Siswa $siswa): RedirectResponse
