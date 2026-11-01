@@ -17,14 +17,16 @@ class AbsensiHelper
             [$year, $month] = explode('-', $request->string('bulan')->toString());
             $query->whereYear('tanggal', (int) $year)->whereMonth('tanggal', (int) $month);
         }
+        $base = Absensi::where('siswa_id', $siswa->id);
         return [
             'siswa' => $siswa,
-            'absensis' => PaginateHelper::paginate($query->latest('tanggal'), 15),
-            'absensiHariIni' => Absensi::where('siswa_id', $siswa->id)->whereDate('tanggal', today())->first(),
-            'totalHadir' => Absensi::where('siswa_id', $siswa->id)->where('status', 'Hadir')->count(),
-            'totalIzin' => Absensi::where('siswa_id', $siswa->id)->where('status', 'Izin')->count(),
-            'totalSakit' => Absensi::where('siswa_id', $siswa->id)->where('status', 'Sakit')->count(),
-            'totalAlpa' => Absensi::where('siswa_id', $siswa->id)->where('status', 'Alpa')->count(),
+            'absensis' => PaginateHelper::paginate($query->latest('tanggal')->latest('created_at'), 15),
+            'absensiHariIni' => (clone $base)->whereDate('tanggal', today())->first(),
+            'totalHadir' => (clone $base)->where('status', 'Hadir')->count(),
+            'totalTerlambat' => (clone $base)->where('status', 'Terlambat')->count(),
+            'totalIzin' => (clone $base)->where('status', 'Izin')->count(),
+            'totalSakit' => (clone $base)->where('status', 'Sakit')->count(),
+            'totalAlpa' => (clone $base)->where('status', 'Alpa')->count(),
         ];
     }
 }
