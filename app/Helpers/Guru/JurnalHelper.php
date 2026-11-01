@@ -46,6 +46,13 @@ class JurnalHelper
             ->orderBy('nama_lengkap')
             ->get();
 
+        $siswaMonitoring = Siswa::with(['jurnals' => function ($builder) {
+                $builder->whereDate('tanggal', today());
+            }])
+            ->where('guru_id', $guru->id)
+            ->orderBy('nama_lengkap')
+            ->get();
+
         return [
             'guru' => $guru,
             'jurnals' => PaginateHelper::paginate($query->latest('tanggal'), 15),
@@ -56,6 +63,7 @@ class JurnalHelper
                 ->whereYear('tanggal', now()->year)
                 ->count(),
             'siswaBelumMengisiJurnal' => $siswaBelumMengisiJurnal,
+            'siswaMonitoring' => $siswaMonitoring,
             'cari' => $cari,
             'tanggal' => $tanggal,
         ];

@@ -85,6 +85,42 @@
     @endif
 </section>
 
+
+<section class="reminder-panel">
+    <div class="reminder-head">
+        <div>
+            <p class="reminder-kicker">Rekap hari ini</p>
+            <h2 class="reminder-title">Status Jurnal Siswa Bimbingan</h2>
+            <p class="reminder-desc">Semua siswa bimbingan ditampilkan di sini, termasuk yang sudah mengisi jurnal hari ini.</p>
+        </div>
+        <span class="reminder-count">{{ $siswaMonitoring->count() }} siswa</span>
+    </div>
+    <div class="guru-table-wrap">
+        <table>
+            <thead><tr><th>No.</th><th>Nama Siswa</th><th>Status Hari Ini</th><th>Judul Jurnal</th></tr></thead>
+            <tbody>
+                @forelse($siswaMonitoring as $index => $siswa)
+                    @php($jurnalHariIni = $siswa->jurnals->first())
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $siswa->nama_lengkap }}</td>
+                        <td>
+                            @if($jurnalHariIni)
+                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#dcfce7;color:#15803d;font-size:12px;font-weight:700">✓ Sudah Mengisi</span>
+                            @else
+                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#fff7ed;color:#c2410c;font-size:12px;font-weight:700">Belum Mengisi</span>
+                            @endif
+                        </td>
+                        <td>{{ $jurnalHariIni->judul ?? 'Belum ada jurnal' }}</td>
+                    </tr>
+                @empty
+                    <tr><td colspan="4" class="guru-muted">Belum ada siswa bimbingan.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</section>
+
 <form class="guru-form" method="GET"><input type="search" name="cari" value="{{ request('cari') }}" placeholder="Cari judul atau nama siswa"><input type="date" name="tanggal" value="{{ request('tanggal') }}"><button class="guru-btn">Cari jurnal</button><a class="guru-btn" style="background:#e8edf7;color:#17357f" href="{{ route('guru.jurnal.index') }}">Reset</a></form>
 <div class="guru-panel"><div class="guru-table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Siswa</th><th>Judul</th><th>Kegiatan</th><th>Keterangan</th><th>Foto</th></tr></thead><tbody>@forelse($jurnals as $jurnal)<tr><td>{{ $jurnal->tanggal?->format('d M Y') }}</td><td>{{ $jurnal->siswa->nama_lengkap ?? '-' }}</td><td>{{ $jurnal->judul }}</td><td style="white-space:normal;min-width:220px">{{ $jurnal->kegiatan }}</td><td style="white-space:normal;min-width:160px">{{ $jurnal->keterangan ?: '-' }}</td><td>@if($jurnal->image)<a href="{{ asset('storage/'.$jurnal->image) }}" target="_blank" rel="noopener">Lihat foto</a>@else-@endif</td></tr>@empty<tr><td colspan="6" class="guru-muted">Belum ada jurnal untuk filter ini.</td></tr>@endforelse</tbody></table></div><div class="guru-pagination">{{ $jurnals->links() }}</div></div>
 @endsection

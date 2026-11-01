@@ -85,6 +85,42 @@
     @endif
 </section>
 
+
+<section class="reminder-panel">
+    <div class="reminder-head">
+        <div>
+            <p class="reminder-kicker">Rekap hari ini</p>
+            <h2 class="reminder-title">Status Absensi Siswa Bimbingan</h2>
+            <p class="reminder-desc">Semua siswa bimbingan ditampilkan di sini, termasuk yang sudah melakukan absensi hari ini.</p>
+        </div>
+        <span class="reminder-count">{{ $siswaMonitoring->count() }} siswa</span>
+    </div>
+    <div class="guru-table-wrap">
+        <table>
+            <thead><tr><th>No.</th><th>Nama Siswa</th><th>Status Hari Ini</th><th>Catatan</th></tr></thead>
+            <tbody>
+                @forelse($siswaMonitoring as $index => $siswa)
+                    @php($absensiHariIni = $siswa->absensis->first())
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $siswa->nama_lengkap }}</td>
+                        <td>
+                            @if($absensiHariIni)
+                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#dcfce7;color:#15803d;font-size:12px;font-weight:700">✓ Sudah Absen</span>
+                            @else
+                                <span style="display:inline-block;padding:5px 10px;border-radius:20px;background:#fff7ed;color:#c2410c;font-size:12px;font-weight:700">Belum Absen</span>
+                            @endif
+                        </td>
+                        <td>{{ $absensiHariIni ? ucfirst($absensiHariIni->status) : 'Belum ada catatan' }}</td>
+                    </tr>
+                @empty
+                    <tr><td colspan="4" class="guru-muted">Belum ada siswa bimbingan.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</section>
+
 <form class="guru-form" method="GET">
     <input type="date" name="tanggal" value="{{ request('tanggal') }}">
     <select name="status"><option value="">Semua status</option>@foreach(['hadir','izin','sakit','alpha','terlambat'] as $status)<option value="{{ $status }}" @selected(request('status')===$status)>{{ ucfirst($status) }}</option>@endforeach</select>
