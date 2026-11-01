@@ -53,7 +53,7 @@
         <div class="edit-field"><label for="sekolah_id">Sekolah <span class="edit-required">*</span></label><select id="sekolah_id" name="sekolah_id" required>@foreach($sekolahs as $row)<option value="{{ $row->id }}" @selected((string)old('sekolah_id', $siswa->sekolah_id) === (string)$row->id)>{{ $row->nama_sekolah }}</option>@endforeach</select></div>
         <div class="edit-field"><label for="jurusan_id">Jurusan <span class="edit-required">*</span></label><select id="jurusan_id" name="jurusan_id" required>@foreach($jurusans as $row)<option value="{{ $row->id }}" @selected((string)old('jurusan_id', $siswa->jurusan_id) === (string)$row->id)>{{ $row->nama_jurusan }}</option>@endforeach</select></div>
         <div class="edit-field"><label for="kelas_id">Kelas <span class="edit-required">*</span></label><select id="kelas_id" name="kelas_id" required>@foreach($kelases as $row)<option value="{{ $row->id }}" @selected((string)old('kelas_id', $siswa->kelas_id) === (string)$row->id)>Kelas {{ $row->nama_kelas }}</option>@endforeach</select></div>
-        <div class="edit-field"><label for="guru_id">Guru pembimbing</label><select id="guru_id" name="guru_id"><option value="">Belum ditentukan</option>@foreach($gurus as $row)<option value="{{ $row->id }}" @selected((string)old('guru_id', $siswa->guru_id) === (string)$row->id)>{{ $row->nama_lengkap }}</option>@endforeach</select></div>
+        <div class="edit-field"><label for="guru_id">Guru pembimbing</label><select id="guru_id" name="guru_id" disabled><option value="">Pilih sekolah terlebih dahulu</option></select><small>Pilihan guru akan mengikuti sekolah yang dipilih.</small></div>
     </div>
 </section>
 <section class="edit-card">
@@ -65,4 +65,67 @@
 </section>
 <div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-bottom:26px"><a href="{{ route('admin.siswa.show', $siswa) }}" style="padding:12px 16px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:13px;color:#475569">Batal</a><button type="submit" style="padding:12px 18px;border:0;background:#17357f;color:#fff;border-radius:9px;font-size:13px;font-weight:650;cursor:pointer">Simpan Perubahan</button></div>
 </form>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sekolahSelect = document.getElementById('sekolah_id');
+    const guruSelect = document.getElementById('guru_id');
+    const endpoint = @json(route('admin.siswa.guru-by-sekolah'));
+    const guruTerpilihAwal = @json(old('guru_id', $siswa->guru_id));
+
+    async function muatGuru(sekolahId, guruTerpilih = '') {
+        guruSelect.innerHTML = '';
+
+        if (!sekolahId) {
+            guruSelect.disabled = true;
+            guruSelect.add(new Option('Pilih sekolah terlebih dahulu', ''));
+            return;
+        }
+
+        guruSelect.disabled = true;
+        guruSelect.add(new Option('Memuat daftar guru...', ''));
+
+        try {
+            const response = await fetch(endpoint + '?sekolah_id=' + encodeURIComponent(sekolahId), {
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (!response.ok) {
+                throw new Error('Gagal mengambil daftar guru.');
+            }
+
+            const gurus = await response.json();
+            guruSelect.innerHTML = '';
+            guruSelect.add(new Option(
+                gurus.length ? 'Pilih guru pembimbing (opsional)' : 'Belum ada guru di sekolah ini',
+                ''
+            ));
+
+            gurus.forEach(function (guru) {
+                const option = new Option(guru.nama_lengkap, guru.id);
+                if (String(guru.id) === String(guruTerpilih)) {
+                    option.selected = true;
+                }
+                guruSelect.add(option);
+            });
+
+            guruSelect.disabled = false;
+        } catch (error) {
+            guruSelect.innerHTML = '';
+            guruSelect.add(new Option('Gagal memuat guru. Coba pilih sekolah lagi.', ''));
+            guruSelect.disabled = true;
+            console.error(error);
+        }
+    }
+
+    sekolahSelect.addEventListener('change', function () {
+        muatGuru(this.value);
+    });
+
+    muatGuru(sekolahSelect.value, guruTerpilihAwal);
+});
+</script>
+@endpush
+
 @endsection
