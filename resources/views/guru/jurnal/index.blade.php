@@ -4,26 +4,30 @@
 @section('content')
 <style>
     .reminder-panel{background:#fff;border:1px solid #e8edf5;border-radius:18px;padding:22px;margin:22px 0;box-shadow:0 5px 18px rgba(25,45,90,.04)}
-    .reminder-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+    .reminder-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
     .reminder-kicker{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#64748b;margin:0 0 6px}
     .reminder-title{font-size:19px;font-weight:750;color:#172554;margin:0 0 5px}
     .reminder-desc{font-size:13px;line-height:1.6;color:#64748b;margin:0}
     .reminder-count{flex-shrink:0;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:700}
-    .reminder-list{display:grid;gap:10px}
-    .reminder-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 15px;border:1px solid #edf0f5;border-radius:13px;background:#fcfdff}
+    .reminder-list{display:grid;gap:9px}
+    .reminder-item{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;border:1px solid #e8edf5;border-radius:13px;background:#fff;transition:border-color .18s ease,box-shadow .18s ease}.reminder-item:hover{border-color:#cbd8f4;box-shadow:0 3px 12px rgba(30,64,175,.05)}
     .reminder-person{display:flex;align-items:center;gap:12px;min-width:0}
     .reminder-avatar{width:38px;height:38px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:14px;font-weight:800}
     .reminder-name{font-size:13px;font-weight:700;color:#1e293b;margin:0 0 3px}
     .reminder-email{font-size:12px;color:#94a3b8;margin:0;overflow-wrap:anywhere}
-    .reminder-action{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-shrink:0;flex-wrap:wrap}\n    .reminder-status{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;padding:8px 11px;font-size:11px;font-weight:700;white-space:nowrap}\n    .reminder-status.pending{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}\n    .reminder-status.done{background:#dcfce7;color:#15803d}\n    .reminder-status.unavailable{background:#f1f5f9;color:#64748b}
-    .reminder-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:10px;padding:9px 13px;background:#2563eb;color:#fff;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer;transition:background .18s ease}
-    .reminder-btn:hover{background:#1d4ed8}
+    .reminder-action{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-shrink:0;flex-wrap:wrap}.reminder-action form{margin:0}
+    .reminder-status{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border-radius:9px;padding:7px 11px;font-size:11px;font-weight:700;white-space:nowrap;letter-spacing:.01em}
+    .reminder-status.pending{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa}
+    .reminder-status.done{background:#ecfdf5;color:#047857;border:1px solid #bbf7d0}
+    .reminder-status.unavailable{background:#f1f5f9;color:#64748b}
+    .reminder-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:34px;border:0;border-radius:9px;padding:8px 13px;background:#2457d6;color:#fff;font-size:11px;font-weight:700;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background .18s ease}
+    .reminder-btn:hover{background:#1d4ed8;box-shadow:0 3px 9px rgba(37,99,235,.18)}
     .reminder-btn.sent{background:#dcfce7;color:#15803d;cursor:default}
     .reminder-empty{padding:22px 14px;text-align:center;border:1px dashed #cbd5e1;border-radius:13px;color:#64748b;font-size:13px}
     .reminder-feedback{padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:14px}
     .reminder-feedback.success{background:#ecfdf5;color:#047857}
     .reminder-feedback.error{background:#fff1f2;color:#be123c}
-    @media(max-width:640px){.reminder-panel{padding:16px}.reminder-head{flex-direction:column}.reminder-item{align-items:flex-start;flex-direction:column}.reminder-action{width:100%;justify-content:flex-start}.reminder-action form{flex:1}.reminder-action .reminder-btn{width:100%}}
+    @media(max-width:700px){.reminder-panel{padding:16px}.reminder-head{align-items:flex-start;flex-direction:column}.reminder-count{align-self:flex-start}.reminder-item{align-items:flex-start;flex-direction:column;gap:12px}.reminder-action{width:100%;justify-content:flex-start}.reminder-action form{flex:1}.reminder-action .reminder-btn{width:100%}}
 </style>
 
 <h1>Jurnal Harian Siswa</h1>
