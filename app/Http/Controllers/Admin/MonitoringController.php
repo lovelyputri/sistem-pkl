@@ -14,11 +14,6 @@ class MonitoringController extends Controller
         return view('admin.monitoring.absensi', MonitoringHelper::getDataAbsensi($request));
     }
 
-    public function riwayatAbsensi(Request $request): View
-    {
-        return $this->absensi($request);
-    }
-
     public function jurnal(Request $request): View
     {
         return view('admin.monitoring.jurnal', MonitoringHelper::getDataJurnal($request));
