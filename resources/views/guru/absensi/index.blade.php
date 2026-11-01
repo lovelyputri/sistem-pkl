@@ -2,6 +2,30 @@
 @section('title','Monitoring Absensi')
 @section('page-heading','Monitoring Absensi')
 @section('content')
+<style>
+    .reminder-panel{background:#fff;border:1px solid #e8edf5;border-radius:18px;padding:22px;margin:22px 0;box-shadow:0 5px 18px rgba(25,45,90,.04)}
+    .reminder-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:18px}
+    .reminder-kicker{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#64748b;margin:0 0 6px}
+    .reminder-title{font-size:19px;font-weight:750;color:#172554;margin:0 0 5px}
+    .reminder-desc{font-size:13px;line-height:1.6;color:#64748b;margin:0}
+    .reminder-count{flex-shrink:0;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:700}
+    .reminder-list{display:grid;gap:10px}
+    .reminder-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 15px;border:1px solid #edf0f5;border-radius:13px;background:#fcfdff}
+    .reminder-person{display:flex;align-items:center;gap:12px;min-width:0}
+    .reminder-avatar{width:38px;height:38px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:14px;font-weight:800}
+    .reminder-name{font-size:13px;font-weight:700;color:#1e293b;margin:0 0 3px}
+    .reminder-email{font-size:12px;color:#94a3b8;margin:0;overflow-wrap:anywhere}
+    .reminder-action{flex-shrink:0}
+    .reminder-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:10px;padding:9px 13px;background:#2563eb;color:#fff;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer;transition:background .18s ease}
+    .reminder-btn:hover{background:#1d4ed8}
+    .reminder-btn.sent{background:#dcfce7;color:#15803d;cursor:default}
+    .reminder-empty{padding:22px 14px;text-align:center;border:1px dashed #cbd5e1;border-radius:13px;color:#64748b;font-size:13px}
+    .reminder-feedback{padding:11px 13px;border-radius:10px;font-size:13px;margin-bottom:14px}
+    .reminder-feedback.success{background:#ecfdf5;color:#047857}
+    .reminder-feedback.error{background:#fff1f2;color:#be123c}
+    @media(max-width:640px){.reminder-panel{padding:16px}.reminder-head{flex-direction:column}.reminder-item{align-items:flex-start;flex-direction:column}.reminder-action,.reminder-btn{width:100%}}
+</style>
+
 <h1>Monitoring Absensi</h1>
 <p class="guru-intro">Pantau catatan kehadiran siswa bimbingan.</p>
 
@@ -11,44 +35,55 @@
     <div class="guru-card"><div class="guru-stat-label">Belum Absen Hari Ini</div><div class="guru-stat-value">{{ $belumAbsen }}</div></div>
 </div>
 
-<div class="guru-panel" style="margin-bottom:22px;padding:20px">
-    <h2 style="margin:0 0 6px">Pengingat Absensi</h2>
-    <p class="guru-muted" style="margin:0 0 16px">Siswa berikut belum tercatat melakukan absensi hari ini. Kamu bisa mengirimkan pengingat kepada mereka.</p>
+<section class="reminder-panel">
+    <div class="reminder-head">
+        <div>
+            <p class="reminder-kicker">Tindak lanjut kehadiran</p>
+            <h2 class="reminder-title">Pengingat Absensi</h2>
+            <p class="reminder-desc">Daftar ini hanya berisi siswa yang menjadi bimbinganmu dan belum melakukan absensi hari ini.</p>
+        </div>
+        <span class="reminder-count">{{ $siswaBelumAbsen->count() }} siswa belum absen</span>
+    </div>
+
     @if(session('success'))
-        <div class="guru-alert" style="margin-bottom:14px">{{ session('success') }}</div>
+        <div class="reminder-feedback success">{{ session('success') }}</div>
     @endif
     @if(session('error'))
-        <div class="guru-alert" style="margin-bottom:14px;background:#fff1f2;color:#be123c">{{ session('error') }}</div>
+        <div class="reminder-feedback error">{{ session('error') }}</div>
     @endif
+
     @if($siswaBelumAbsen->isEmpty())
-        <p class="guru-muted" style="margin:0">Semua siswa bimbingan sudah memiliki catatan absensi hari ini.</p>
+        <div class="reminder-empty">Semua siswa bimbinganmu sudah tercatat melakukan absensi hari ini.</div>
     @else
-        <div class="guru-table-wrap">
-            <table>
-                <thead><tr><th>Nama Siswa</th><th>Email Akun</th><th>Aksi</th></tr></thead>
-                <tbody>
-                    @foreach($siswaBelumAbsen as $siswa)
-                        <tr>
-                            <td>{{ $siswa->nama_lengkap }}</td>
-                            <td>{{ $siswa->user->email ?? '-' }}</td>
-                            <td>
-                                @if($siswa->user)
-                                    <form method="POST" action="{{ route('guru.pengingat.store', $siswa) }}" onsubmit="return confirm('Kirim pengingat absensi kepada {{ addslashes($siswa->nama_lengkap) }}?')">
-                                        @csrf
-                                        <input type="hidden" name="jenis" value="absensi">
-                                        <button type="submit" class="guru-btn">Ingatkan Absen</button>
-                                    </form>
-                                @else
-                                    <span class="guru-muted">Akun siswa tidak ditemukan</span>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="reminder-list">
+            @foreach($siswaBelumAbsen as $siswa)
+                @php($sudahDiingatkan = $siswa->user?->notifications?->isNotEmpty() ?? false)
+                <div class="reminder-item">
+                    <div class="reminder-person">
+                        <div class="reminder-avatar">{{ strtoupper(substr($siswa->nama_lengkap, 0, 1)) }}</div>
+                        <div style="min-width:0">
+                            <p class="reminder-name">{{ $siswa->nama_lengkap }}</p>
+                            <p class="reminder-email">{{ $siswa->user->email ?? 'Akun siswa tidak ditemukan' }}</p>
+                        </div>
+                    </div>
+                    <div class="reminder-action">
+                        @if(!$siswa->user)
+                            <button type="button" class="reminder-btn sent" disabled>Akun tidak tersedia</button>
+                        @elseif($sudahDiingatkan)
+                            <button type="button" class="reminder-btn sent" disabled>✓ Sudah Diingatkan</button>
+                        @else
+                            <form method="POST" action="{{ route('guru.pengingat.store', $siswa) }}" onsubmit="return confirm('Kirim pengingat absensi kepada {{ addslashes($siswa->nama_lengkap) }}?')">
+                                @csrf
+                                <input type="hidden" name="jenis" value="absensi">
+                                <button type="submit" class="reminder-btn">Kirim Pengingat <span aria-hidden="true">→</span></button>
+                            </form>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
         </div>
     @endif
-</div>
+</section>
 
 <form class="guru-form" method="GET">
     <input type="date" name="tanggal" value="{{ request('tanggal') }}">
