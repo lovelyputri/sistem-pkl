@@ -36,25 +36,23 @@ class MonitoringAbsensiHelper
             $status = '';
         }
 
-        // Hanya siswa yang ditugaskan kepada guru yang sedang login.
-        // Status pengingat diambil agar tombol berubah setelah pengingat dikirim.
-        $siswaBelumAbsen = Siswa::with(['user.notifications' => function ($builder) {
-                $builder->where('data->reminder_type', 'absensi')
-                    ->where('data->reminder_date', today()->toDateString());
-            }])
+        // Semua siswa bimbingan ditampilkan dalam satu daftar dengan status absensi hari ini.
+        $siswaBelumAbsen = Siswa::with([
+                'user.notifications' => function ($builder) {
+                    $builder->where('data->reminder_type', 'absensi')
+                        ->where('data->reminder_date', today()->toDateString());
+                },
+                'absensis' => function ($builder) {
+                    $builder->whereDate('tanggal', today());
+                },
+            ])
             ->where('guru_id', $guru->id)
-            ->whereDoesntHave('absensis', function ($builder) {
-                $builder->whereDate('tanggal', today());
-            })
             ->orderBy('nama_lengkap')
             ->get();
 
-        $siswaMonitoring = Siswa::with(['absensis' => function ($builder) {
-                $builder->whereDate('tanggal', today());
-            }])
-            ->where('guru_id', $guru->id)
-            ->orderBy('nama_lengkap')
-            ->get();
+        $jumlahBelumAbsen = $siswaBelumAbsen->filter(
+            fn ($siswa) => $siswa->absensis->isEmpty()
+        )->count();
 
         return [
             'guru' => $guru,
@@ -66,7 +64,7 @@ class MonitoringAbsensiHelper
             'totalSiswa' => $totalSiswa,
             'belumAbsen' => max(0, $totalSiswa - $sudahAbsen),
             'siswaBelumAbsen' => $siswaBelumAbsen,
-            'siswaMonitoring' => $siswaMonitoring,
+            'jumlahBelumAbsen' => $jumlahBelumAbsen,
             'tanggal' => $tanggal,
             'status' => $status,
         ];
