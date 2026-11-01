@@ -13,4 +13,14 @@
 <div class="siswa-actions"><button class="siswa-btn">Simpan Perubahan</button></div>
 </form></div>
 <div class="siswa-panel"><h2>Informasi Pendidikan dan PKL</h2><div class="siswa-grid-2"><div><div class="siswa-muted">Sekolah</div><strong>{{ $siswa->sekolah?->nama_sekolah ?? '-' }}</strong></div><div><div class="siswa-muted">Jurusan / Kelas</div><strong>{{ $siswa->jurusan?->nama_jurusan ?? '-' }} / {{ $siswa->kelas?->nama_kelas ?? '-' }}</strong></div><div><div class="siswa-muted">Guru Pembimbing</div><strong>{{ $siswa->guru?->nama_lengkap ?? 'Belum ditentukan' }}</strong></div><div><div class="siswa-muted">Periode PKL</div><strong>{{ $siswa->tanggal_mulai_pkl?->format('d M Y') ?? '-' }} — {{ $siswa->tanggal_selesai_pkl?->format('d M Y') ?? '-' }}</strong></div></div></div>
+
+<div class="siswa-panel"><h2>Ganti Password</h2>
+@if(session('password_success'))<div class="siswa-alert success">{{ session('password_success') }}</div>@endif
+<form method="POST" action="{{ route('siswa.profil.password.update') }}" class="siswa-form">@csrf @method('PUT')
+<div class="siswa-grid-2">
+<div class="siswa-field"><label for="current_password">Password lama *</label><input id="current_password" name="current_password" type="password" autocomplete="current-password" required></div>
+<div class="siswa-field"><label for="password">Password baru *</label><input id="password" name="password" type="password" minlength="8" autocomplete="new-password" required></div>
+<div class="siswa-field"><label for="password_confirmation">Konfirmasi password baru *</label><input id="password_confirmation" name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required></div>
+</div><div class="siswa-actions"><button class="siswa-btn">Perbarui Password</button></div>
+</form></div>
 @endsection
