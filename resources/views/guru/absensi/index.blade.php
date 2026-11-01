@@ -12,7 +12,7 @@
     .reminder-list{display:grid;gap:9px}
     .reminder-item{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;border:1px solid #e8edf5;border-radius:13px;background:#fff;transition:border-color .18s ease,box-shadow .18s ease}.reminder-item:hover{border-color:#cbd8f4;box-shadow:0 3px 12px rgba(30,64,175,.05)}
     .reminder-person{display:flex;align-items:center;gap:12px;min-width:0}
-    .reminder-avatar{width:38px;height:38px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;background:#eef2ff;color:#3730a3;font-size:14px;font-weight:800}
+    .reminder-avatar{width:42px;height:42px;display:grid;place-items:center;flex-shrink:0;overflow:hidden;border-radius:50%;background:#eef2ff;color:#3730a3;font-size:14px;font-weight:800;border:1px solid #e2e8f0}.reminder-avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}.reminder-avatar-fallback{width:100%;height:100%;display:grid;place-items:center}
     .reminder-name{font-size:13px;font-weight:700;color:#1e293b;margin:0 0 3px}
     .reminder-email{font-size:12px;color:#94a3b8;margin:0;overflow-wrap:anywhere}
     .reminder-action{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-shrink:0;flex-wrap:wrap}.reminder-action form{margin:0}
@@ -65,7 +65,14 @@
                 @php($sudahDiingatkan = $siswa->user?->notifications?->isNotEmpty() ?? false)
                 <div class="reminder-item">
                     <div class="reminder-person">
-                        <div class="reminder-avatar">{{ strtoupper(substr($siswa->nama_lengkap, 0, 1)) }}</div>
+                        <div class="reminder-avatar">
+                            @if($siswa->foto_profil)
+                                <img src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto {{ $siswa->nama_lengkap }}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+                                <span class="reminder-avatar-fallback" style="display:none">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</span>
+                            @else
+                                <span class="reminder-avatar-fallback">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</span>
+                            @endif
+                        </div>
                         <div style="min-width:0">
                             <p class="reminder-name">{{ $siswa->nama_lengkap }}</p>
                             <p class="reminder-email">{{ $siswa->user->email ?? 'Akun siswa tidak ditemukan' }}</p>
