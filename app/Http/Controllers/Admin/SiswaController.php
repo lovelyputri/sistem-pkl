@@ -4,10 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\Admin\SiswaHelper;
-use App\Models\Guru;
-use App\Models\Jurusan;
-use App\Models\Kelas;
-use App\Models\Sekolah;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
