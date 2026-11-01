@@ -34,7 +34,11 @@ class JurnalHelper
             $query->whereDate('tanggal', $tanggal);
         }
 
-        $siswaBelumMengisiJurnal = Siswa::with('user')
+        // Daftar dan status pengingat dibatasi hanya untuk siswa bimbingan guru ini.
+        $siswaBelumMengisiJurnal = Siswa::with(['user.notifications' => function ($builder) {
+                $builder->where('data->reminder_type', 'jurnal')
+                    ->where('data->reminder_date', today()->toDateString());
+            }])
             ->where('guru_id', $guru->id)
             ->whereDoesntHave('jurnals', function ($builder) {
                 $builder->whereDate('tanggal', today());
