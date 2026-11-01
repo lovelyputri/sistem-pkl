@@ -50,7 +50,11 @@
                 @forelse ($siswa as $item)
                     <tr style="border-top:1px solid #e5eaf2">
                         <td style="padding:12px;color:#64748b">{{ $siswa->firstItem() + $loop->index }}</td>
-                        <td style="padding:12px"><div style="display:flex;align-items:center;gap:10px"><div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8efff;color:#244a9b;font-weight:700">{{ mb_strtoupper(mb_substr($item->nama_lengkap, 0, 1)) }}</div><div><strong>{{ $item->nama_lengkap }}</strong><div style="font-size:11px;color:#64748b;margin-top:4px">{{ $item->kelas?->nama_kelas ? 'Kelas '.$item->kelas->nama_kelas : 'Kelas belum diatur' }}</div></div></div></td>
+                        <td style="padding:12px"><div style="display:flex;align-items:center;gap:10px">@if ($item->foto_profil)
+    <img src="{{ asset('storage/' . $item->foto_profil) }}" alt="Foto {{ $item->nama_lengkap }}" loading="lazy" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid #e2e8f0;flex-shrink:0">
+@else
+    <div style="width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8efff;color:#244a9b;font-weight:700;flex-shrink:0">{{ mb_strtoupper(mb_substr($item->nama_lengkap, 0, 1)) }}</div>
+@endif<div><strong>{{ $item->nama_lengkap }}</strong><div style="font-size:11px;color:#64748b;margin-top:4px">{{ $item->kelas?->nama_kelas ? 'Kelas '.$item->kelas->nama_kelas : 'Kelas belum diatur' }}</div></div></div></td>
                         <td style="padding:12px">{{ $item->nisn }}</td>
                         <td style="padding:12px">{{ $item->user?->email ?? '-' }}</td>
                         <td style="padding:12px">{{ $item->sekolah?->nama_sekolah ?? '-' }}</td>
