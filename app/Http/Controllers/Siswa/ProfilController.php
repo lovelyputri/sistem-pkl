@@ -49,3 +49,4 @@ class ProfilController extends Controller
         return redirect()->route('siswa.profil')->with('success','Profil berhasil diperbarui.');
     }
 }
+
