@@ -87,7 +87,7 @@ class JurnalController extends Controller
             'keterangan' => ['nullable','string','max:2000'],
             'image' => ['nullable','image','mimes:jpg,jpeg,png,webp','max:4096'],
         ]);
-        $duplikat = Jurnal::where('siswa_id',$jurnal->siswa_id)->whereDate('tanggal',$data['tanggal'])->whereKeyNot($jurnal->id)->exists();
+        $duplikat = Jurnal::where('siswa_id',$jurnal->siswa_id)->whereDate('tanggal',$data['tanggal'])->where('id', '!=', $jurnal->id)->exists();
         if ($duplikat) return back()->withInput()->withErrors(['tanggal'=>'Jurnal untuk tanggal tersebut sudah tersedia.']);
 
         $fotoLama = $jurnal->image;
