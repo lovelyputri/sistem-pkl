@@ -47,6 +47,7 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->grou
 
     Route::get('/profil', [SiswaProfilController::class, 'index'])->name('profil');
     Route::put('/profil', [SiswaProfilController::class, 'update'])->name('profil.update');
+    Route::put('/profil/password', [SiswaProfilController::class, 'updatePassword'])->name('profil.password.update');
 
     Route::get('/absensi', [SiswaAbsensiController::class, 'index'])->name('absensi.index');
     Route::post('/absensi', [SiswaAbsensiController::class, 'store'])->name('absensi.store');
