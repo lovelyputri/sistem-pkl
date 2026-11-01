@@ -21,6 +21,9 @@
 .profile-alert{padding:13px 15px;border-radius:9px;margin-bottom:16px;font-size:13px}
 .profile-success{background:#ecfdf5;color:#166534}
 .profile-error{background:#fff1f2;color:#9f1239}
+.password-card{margin-top:22px}
+.password-card h2{font-size:16px;color:#172554;margin:0 0 7px}
+.password-card>p{font-size:12px;color:#64748b;margin:0 0 20px}
 @media(max-width:640px){.profile-card{padding:17px}.profile-grid{grid-template-columns:1fr}.profile-head{align-items:flex-start}}
 </style>
 @endpush
@@ -98,6 +101,51 @@
 
         <div class="profile-actions">
             <button type="submit" class="profile-save">Simpan Perubahan</button>
+        </div>
+    </form>
+
+    <form method="POST" action="{{ route('guru.profil.password.update') }}" class="profile-card password-card">
+        @csrf
+        @method('PUT')
+
+        <h2>Ganti Password</h2>
+        <p>Gunakan password lama untuk mengonfirmasi perubahan password akun.</p>
+
+        @if(session('password_success'))
+            <div class="profile-alert profile-success">{{ session('password_success') }}</div>
+        @endif
+
+        @if($errors->passwordUpdate->any())
+            <div class="profile-alert profile-error">
+                <strong>Password belum berhasil diperbarui:</strong>
+                <ul style="margin:8px 0 0;padding-left:20px">
+                    @foreach($errors->passwordUpdate->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="profile-grid">
+            <div class="profile-field">
+                <label for="current_password">Password lama *</label>
+                <input id="current_password" name="current_password" type="password" autocomplete="current-password" required>
+            </div>
+
+            <div class="profile-field">
+                <label for="password">Password baru *</label>
+                <input id="password" name="password" type="password" minlength="8" autocomplete="new-password" required>
+                <small>Password baru minimal 8 karakter.</small>
+            </div>
+
+            <div class="profile-field">
+                <label for="password_confirmation">Konfirmasi password baru *</label>
+                <input id="password_confirmation" name="password_confirmation" type="password" minlength="8" autocomplete="new-password" required>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button type="submit" class="profile-save">Perbarui Password</button>
         </div>
     </form>
 </div>
