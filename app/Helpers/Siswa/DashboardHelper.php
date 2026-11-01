@@ -10,16 +10,22 @@ class DashboardHelper
 {
     public static function getData(): array
     {
-        $siswa = SiswaModel::with(['user','guru.user','sekolah','jurusan','kelas'])
+        $siswa = SiswaModel::with(['user', 'guru.user', 'sekolah', 'jurusan', 'kelas'])
             ->where('user_id', auth()->id())->firstOrFail();
+
+        $absensi = Absensi::where('siswa_id', $siswa->id);
+        $jurnal = Jurnal::where('siswa_id', $siswa->id);
+        $bulanIni = now();
 
         return [
             'siswa' => $siswa,
-            'absensiHariIni' => Absensi::where('siswa_id', $siswa->id)->whereDate('tanggal', today())->first(),
-            'jurnalHariIni' => Jurnal::where('siswa_id', $siswa->id)->whereDate('tanggal', today())->first(),
-            'totalAbsensi' => Absensi::where('siswa_id', $siswa->id)->count(),
-            'totalJurnal' => Jurnal::where('siswa_id', $siswa->id)->count(),
-            'jurnalTerbaru' => Jurnal::where('siswa_id', $siswa->id)->latest('tanggal')->latest('id')->take(5)->get(),
+            'absensiHariIni' => (clone $absensi)->whereDate('tanggal', today())->first(),
+            'jurnalHariIni' => (clone $jurnal)->whereDate('tanggal', today())->first(),
+            'totalAbsensi' => (clone $absensi)->count(),
+            'totalJurnal' => (clone $jurnal)->count(),
+            'absensiBulanIni' => (clone $absensi)->whereMonth('tanggal', $bulanIni->month)->whereYear('tanggal', $bulanIni->year)->count(),
+            'jurnalBulanIni' => (clone $jurnal)->whereMonth('tanggal', $bulanIni->month)->whereYear('tanggal', $bulanIni->year)->count(),
+            'totalTerlambat' => (clone $absensi)->where('status', 'Terlambat')->count(),
             'notifikasiBelumDibaca' => auth()->user()->unreadNotifications()->count(),
         ];
     }
