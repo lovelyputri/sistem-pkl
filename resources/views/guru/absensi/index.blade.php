@@ -17,6 +17,9 @@
     @if(session('success'))
         <div class="guru-alert" style="margin-bottom:14px">{{ session('success') }}</div>
     @endif
+    @if(session('error'))
+        <div class="guru-alert" style="margin-bottom:14px;background:#fff1f2;color:#be123c">{{ session('error') }}</div>
+    @endif
     @if($siswaBelumAbsen->isEmpty())
         <p class="guru-muted" style="margin:0">Semua siswa bimbingan sudah memiliki catatan absensi hari ini.</p>
     @else
