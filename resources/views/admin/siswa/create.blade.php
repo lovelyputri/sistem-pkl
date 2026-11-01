@@ -45,6 +45,7 @@
         <div class="field"><label for="tanggal_lahir">Tanggal lahir <span class="required">*</span></label><input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required max="{{ now()->format('Y-m-d') }}"></div>
         <div class="field"><label for="jenis_kelamin">Jenis kelamin <span class="required">*</span></label><select id="jenis_kelamin" name="jenis_kelamin" required><option value="">Pilih jenis kelamin</option><option value="Laki-laki" @selected(old('jenis_kelamin') === 'Laki-laki')>Laki-laki</option><option value="Perempuan" @selected(old('jenis_kelamin') === 'Perempuan')>Perempuan</option></select></div>
         <div class="field"><label for="no_telepon">Nomor telepon <span class="required">*</span></label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08xxxxxxxxxx" required maxlength="30" inputmode="tel"></div>
+        <div class="field"><label for="foto_profil">Foto profil</label><input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Opsional. JPG, JPEG, PNG, atau WEBP, maksimal 2 MB.</small></div>
     </div>
 </section>
 <section class="form-section">
