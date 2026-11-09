@@ -13,8 +13,6 @@ class DashboardHelper
     public static function getSummary(): array
     {
         $hariIni = today()->toDateString();
-        $jamBatas = '08:00:00';
-
         $siswaAktifQuery = DB::table('siswas')
             ->where(function ($query) use ($hariIni) {
                 $query->whereNull('tanggal_selesai_pkl')
@@ -40,10 +38,7 @@ class DashboardHelper
         $jumlahIzin = (int) ($statusAbsensi['Izin'] ?? 0);
         $jumlahSakit = (int) ($statusAbsensi['Sakit'] ?? 0);
         $jumlahAlpa = (int) ($statusAbsensi['Alpa'] ?? 0);
-        $jumlahTerlambat = (clone $absensiHariIni)
-            ->where('status', 'Hadir')
-            ->whereTime('created_at', '>', $jamBatas)
-            ->count();
+        $jumlahTerlambat = (int) ($statusAbsensi['Terlambat'] ?? 0);
 
         $jurnalHariIni = DB::table('jurnals')->whereDate('tanggal', $hariIni);
         $siswaIsiJurnal = (clone $jurnalHariIni)->distinct('siswa_id')->count('siswa_id');
