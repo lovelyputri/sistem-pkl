@@ -1,8 +1,8 @@
 <?php
 
-namespace App\\Helpers\\Admin;
+namespace App\Helpers\Admin;
 
-use Illuminate\\Support\\Facades\\DB;
+use Illuminate\Support\Facades\DB;
 
 class DashboardHelper
 {
