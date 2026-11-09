@@ -5,11 +5,12 @@
 
 @section('content')
 @php
-    $totalPresensi = max(1, $jumlahHadir + $jumlahIzin + $jumlahSakit + $jumlahAlpa);
+    $totalPresensi = max(1, $jumlahHadir + $jumlahTerlambat + $jumlahIzin + $jumlahSakit + $jumlahAlpa);
     $hadirPersen = round(($jumlahHadir / $totalPresensi) * 100);
+    $terlambatPersen = round(($jumlahTerlambat / $totalPresensi) * 100);
     $izinPersen = round(($jumlahIzin / $totalPresensi) * 100);
     $sakitPersen = round(($jumlahSakit / $totalPresensi) * 100);
-    $alpaPersen = max(0, 100 - $hadirPersen - $izinPersen - $sakitPersen);
+    $alpaPersen = max(0, 100 - $hadirPersen - $terlambatPersen - $izinPersen - $sakitPersen);
 @endphp
 
 <div class="dashboard-admin">
@@ -83,13 +84,14 @@
                 <a href="{{ route('admin.absensi.index') }}" class="panel-link">Detail <span>↗</span></a>
             </div>
             <div class="attendance-content">
-                <div class="donut-chart" style="--hadir: {{ $hadirPersen }}%; --izin: {{ $izinPersen }}%; --sakit: {{ $sakitPersen }}%; --alpa: {{ $alpaPersen }}%">
+                <div class="donut-chart" style="--hadir: {{ $hadirPersen }}%; --terlambat: {{ $terlambatPersen }}%; --izin: {{ $izinPersen }}%; --sakit: {{ $sakitPersen }}%; --alpa: {{ $alpaPersen }}%">
                     <div class="donut-center"><strong>{{ $absensiHariIni }}</strong><span>Presensi</span></div>
                 </div>
                 <div class="attendance-legend">
                     <div><span class="legend-label"><i class="legend-green"></i> Hadir</span><strong>{{ $jumlahHadir }}</strong></div>
+                    <div><span class="legend-label"><i class="legend-orange"></i> Terlambat</span><strong>{{ $jumlahTerlambat }}</strong></div>
                     <div><span class="legend-label"><i class="legend-blue"></i> Izin</span><strong>{{ $jumlahIzin }}</strong></div>
-                    <div><span class="legend-label"><i class="legend-orange"></i> Sakit</span><strong>{{ $jumlahSakit }}</strong></div>
+                    <div><span class="legend-label"><i class="legend-yellow"></i> Sakit</span><strong>{{ $jumlahSakit }}</strong></div>
                     <div><span class="legend-label"><i class="legend-red"></i> Alpa</span><strong>{{ $jumlahAlpa }}</strong></div>
                 </div>
             </div>
@@ -228,13 +230,13 @@
 .panel-link{white-space:nowrap}
 .panel-link span{font-size:13px;margin-left:3px}
 .attendance-content{display:flex;align-items:center;justify-content:space-around;gap:20px;padding:14px 4px 12px}
-.donut-chart{width:145px;height:145px;flex:0 0 145px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#18833c 0 var(--hadir),#3869e9 var(--hadir) calc(var(--hadir) + var(--izin)),#ed9d24 calc(var(--hadir) + var(--izin)) calc(var(--hadir) + var(--izin) + var(--sakit)),#e34b4b calc(var(--hadir) + var(--izin) + var(--sakit)) 100%)}
+.donut-chart{width:145px;height:145px;flex:0 0 145px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#18833c 0 var(--hadir),#ed9d24 var(--hadir) calc(var(--hadir) + var(--terlambat)),#3869e9 calc(var(--hadir) + var(--terlambat)) calc(var(--hadir) + var(--terlambat) + var(--izin)),#e5b84b calc(var(--hadir) + var(--terlambat) + var(--izin)) calc(var(--hadir) + var(--terlambat) + var(--izin) + var(--sakit)),#e34b4b calc(var(--hadir) + var(--terlambat) + var(--izin) + var(--sakit)) 100%)}
 .donut-center{width:105px;height:105px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .donut-center strong{font-size:27px;color:#1b3269;line-height:1.1}.donut-center span{font-size:9px;color:#8591a5;margin-top:3px}
 .attendance-legend{flex:1;display:flex;flex-direction:column;gap:13px;min-width:115px}
 .attendance-legend>div{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:10px;color:#33466d}
 .legend-label{display:flex;align-items:center;gap:8px}.legend-label i{width:10px;height:10px;border-radius:3px;display:inline-block}
-.legend-green{background:#18833c}.legend-blue{background:#3869e9}.legend-orange{background:#ed9d24}.legend-red{background:#e34b4b}
+.legend-green{background:#18833c}.legend-blue{background:#3869e9}.legend-orange{background:#ed9d24}.legend-yellow{background:#e5b84b}.legend-red{background:#e34b4b}
 .attendance-legend strong{font-size:11px;color:#1e3261}
 .panel-footnote{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:7px;background:#f1f5ff;color:#5d7199;font-size:9px}
 .panel-footnote span{font-size:13px;color:#3769d2}
