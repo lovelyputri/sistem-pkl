@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Helpers\Admin;
+namespace App\\Helpers\\Admin;
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\\Support\\Facades\\DB;
 
 class DashboardHelper
 {
+    /**
+     * Menyiapkan data ringkasan untuk Dashboard Admin.
+     */
     public static function getSummary(): array
     {
+        $hariIni = today()->toDateString();
+
         return [
             'totalSiswa' => DB::table('siswas')->count(),
             'totalGuru' => DB::table('gurus')->count(),
@@ -16,8 +21,9 @@ class DashboardHelper
                 ->where('status', 'pending')
                 ->count(),
             'absensiHariIni' => DB::table('absensis')
-                ->whereDate('tanggal', today())
+                ->whereDate('tanggal', $hariIni)
                 ->count(),
+            'tanggalDashboard' => today()->format('d/m/Y'),
         ];
     }
 }
