@@ -84,7 +84,7 @@
             </div>
             <div class="attendance-content">
                 <div class="donut-chart" style="--hadir: {{ $hadirPersen }}%; --izin: {{ $izinPersen }}%; --sakit: {{ $sakitPersen }}%; --alpa: {{ $alpaPersen }}%">
-                    <div class="donut-center"><strong>{{ $jumlahAbsensi ?? $absensiHariIni }}</strong><span>Presensi</span></div>
+                    <div class="donut-center"><strong>{{ $absensiHariIni }}</strong><span>Presensi</span></div>
                 </div>
                 <div class="attendance-legend">
                     <div><span class="legend-label"><i class="legend-green"></i> Hadir</span><strong>{{ $jumlahHadir }}</strong></div>
@@ -228,7 +228,7 @@
 .panel-link{white-space:nowrap}
 .panel-link span{font-size:13px;margin-left:3px}
 .attendance-content{display:flex;align-items:center;justify-content:space-around;gap:20px;padding:14px 4px 12px}
-.donut-chart{width:145px;height:145px;flex:0 0 145px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#18833c 0 var(--hadir),#3869e9 var(--hadir) calc(var(--hadir) + var(--izin)),#ed9d24 calc(var(--hadir) + var(--izin)) calc(var(--hadir) + var(--izin) + var(--sakit)),#e34b4b 0 100%)}
+.donut-chart{width:145px;height:145px;flex:0 0 145px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#18833c 0 var(--hadir),#3869e9 var(--hadir) calc(var(--hadir) + var(--izin)),#ed9d24 calc(var(--hadir) + var(--izin)) calc(var(--hadir) + var(--izin) + var(--sakit)),#e34b4b calc(var(--hadir) + var(--izin) + var(--sakit)) 100%)}
 .donut-center{width:105px;height:105px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .donut-center strong{font-size:27px;color:#1b3269;line-height:1.1}.donut-center span{font-size:9px;color:#8591a5;margin-top:3px}
 .attendance-legend{flex:1;display:flex;flex-direction:column;gap:13px;min-width:115px}
