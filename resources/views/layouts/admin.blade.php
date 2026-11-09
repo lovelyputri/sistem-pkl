@@ -49,13 +49,13 @@
         <a class="admin-brand" href="{{ route('admin.dashboard') }}">GUSPELOR.NET<small>Sistem Informasi PKL</small></a>
         <div class="admin-nav-title">Menu Admin</div>
         <a class="admin-nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Dashboard</a>
-        <a class="admin-nav-link" href="{{ route('admin.siswa.approval.index') }}">Persetujuan Siswa</a>
-        <a class="admin-nav-link {{ request()->routeIs('admin.siswa.index', 'admin.siswa.show', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">Data Siswa</a>
+        <a class="admin-nav-link" href="{{ route('admin.siswa.approval.index') }}">Approval</a>
+        <a class="admin-nav-link {{ request()->routeIs('admin.siswa.index', 'admin.siswa.show', 'admin.siswa.edit') ? 'active' : '' }}" href="{{ route('admin.siswa.index') }}">Siswa</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}" href="{{ route('admin.guru.index') }}">Guru Pembimbing</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.sekolah-jurusan.*') ? 'active' : '' }}" href="{{ route('admin.sekolah-jurusan.index') }}">Sekolah & Jurusan</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.absensi.index') ? 'active' : '' }}" href="{{ route('admin.absensi.index') }}">Absensi</a>
         <a class="admin-nav-link {{ request()->routeIs('admin.jurnal.index') ? 'active' : '' }}" href="{{ route('admin.jurnal.index') }}">Jurnal Harian</a>
-        <a class="admin-nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.edit') }}">Pengaturan Admin</a>
+        <a class="admin-nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}" href="{{ route('admin.settings.edit') }}">Pengaturan</a>
         <div class="admin-sidebar-footer">GUSPELOR.NET<br>Pengelolaan Praktik Kerja Lapangan</div>
     </aside>
     <main class="admin-main">
