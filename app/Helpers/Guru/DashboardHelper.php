@@ -12,7 +12,12 @@ class DashboardHelper
     public static function getData(): array
     {
         $guru = Guru::where('user_id', auth()->id())->firstOrFail();
-        $siswaIds = Siswa::where('guru_id', $guru->id)->select('id');
+        $siswaIds = Siswa::where('guru_id', $guru->id)
+            ->where(function ($query) {
+                $query->whereNull('tanggal_selesai_pkl')
+                    ->orWhereDate('tanggal_selesai_pkl', '>=', today());
+            })
+            ->select('id');
 
         $absensiHariIni = Absensi::whereIn('siswa_id', clone $siswaIds)
             ->whereDate('tanggal', today());
