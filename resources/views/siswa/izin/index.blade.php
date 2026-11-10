@@ -2,6 +2,12 @@
 @section('title', 'Pengajuan Izin')
 @section('page-heading', 'Pengajuan Izin')
 @section('content')
+@if (session('success'))
+    <div role="status" style="margin-bottom:16px;padding:13px 15px;border:1px solid #bbf7d0;border-radius:9px;background:#f0fdf4;color:#166534;font-size:13px">{{ session('success') }}</div>
+@endif
+@if (session('error'))
+    <div role="alert" style="margin-bottom:16px;padding:13px 15px;border:1px solid #fecaca;border-radius:9px;background:#fef2f2;color:#991b1b;font-size:13px">{{ session('error') }}</div>
+@endif
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap">
     <div><h1>Pengajuan Izin</h1><p class="siswa-intro">Ajukan izin PKL dan pantau keputusan Guru Pembimbing.</p></div>
     <a href="{{ route('siswa.izin.create') }}" class="siswa-btn">+ Ajukan Izin</a>
