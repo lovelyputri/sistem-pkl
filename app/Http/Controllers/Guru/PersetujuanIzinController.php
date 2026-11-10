@@ -33,6 +33,9 @@ class PersetujuanIzinController extends Controller
         $guru = Guru::where('user_id', $request->user()->id)->firstOrFail();
         abort_unless((int) $izin->guru_id === (int) $guru->id, 404);
         $izin->load('siswa.sekolah', 'siswa.jurusan');
+        $request->user()->unreadNotifications()
+            ->where('data->url', route('guru.izin.show', $izin->id))
+            ->get()->each->markAsRead();
 
         return view('guru.izin.show', compact('izin'));
     }
