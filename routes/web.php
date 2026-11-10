@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
+use App\Http\Controllers\Admin\IzinController as AdminIzinController;
 
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\SiswaBimbinganController;
@@ -15,12 +16,14 @@ use App\Http\Controllers\Guru\MonitoringAbsensiController;
 use App\Http\Controllers\Guru\JurnalController;
 use App\Http\Controllers\Guru\ProfilController;
 use App\Http\Controllers\Guru\PengingatController;
+use App\Http\Controllers\Guru\PersetujuanIzinController;
 
 use App\Http\Controllers\Siswa\DashboardController as SiswaDashboardController;
 use App\Http\Controllers\Siswa\ProfilController as SiswaProfilController;
 use App\Http\Controllers\Siswa\AbsensiController as SiswaAbsensiController;
 use App\Http\Controllers\Siswa\JurnalController as SiswaJurnalController;
 use App\Http\Controllers\Siswa\NotifikasiController as SiswaNotifikasiController;
+use App\Http\Controllers\Siswa\IzinController as SiswaIzinController;
 
 use Illuminate\Support\Facades\Route;
 
