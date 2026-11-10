@@ -25,6 +25,14 @@
                     <option value="rejected" @selected($status === 'rejected')>Ditolak</option>
                 </select>
             </div>
+            <div style="min-width:165px">
+                <label for="status_magang" style="display:block;font-size:13px;font-weight:600;margin-bottom:7px">Status magang</label>
+                <select id="status_magang" name="status_magang" style="width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;background:#fff">
+                    <option value="" @selected($statusMagang === '')>Semua status</option>
+                    <option value="aktif" @selected($statusMagang === 'aktif')>Aktif</option>
+                    <option value="alumni" @selected($statusMagang === 'alumni')>Alumni</option>
+                </select>
+            </div>
             <div style="min-width:180px">
                 <label for="sekolah_id" style="display:block;font-size:13px;font-weight:600;margin-bottom:7px">Sekolah</label>
                 <select id="sekolah_id" name="sekolah_id" style="width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px;background:#fff">
@@ -35,16 +43,16 @@
                 </select>
             </div>
             <button type="submit" style="padding:11px 16px;background:#17357f;color:#fff;border:0;border-radius:8px;cursor:pointer">Terapkan</button>
-            @if ($cari !== '' || $status !== '' || $sekolahId !== '')
+            @if ($cari !== '' || $status !== '' || $statusMagang !== '' || $sekolahId !== '')
                 <a href="{{ route('admin.siswa.index') }}" style="padding:11px 14px;color:#475569;text-decoration:none;border:1px solid #cbd5e1;border-radius:8px">Reset</a>
             @endif
         </form>
 
         <p style="margin:0 0 12px;color:#64748b;font-size:13px">Menampilkan {{ $siswa->firstItem() ?? 0 }}–{{ $siswa->lastItem() ?? 0 }} dari {{ $siswa->total() }} siswa</p>
         <div style="overflow-x:auto">
-            <table style="width:100%;border-collapse:collapse;min-width:950px">
+            <table style="width:100%;border-collapse:collapse;min-width:1200px">
                 <thead><tr style="background:#f8fafc;text-align:left">
-                    <th style="padding:12px;width:55px">No.</th><th style="padding:12px">Profil Siswa</th><th style="padding:12px">NISN</th><th style="padding:12px">Email</th><th style="padding:12px">Sekolah</th><th style="padding:12px">Guru Pembimbing</th><th style="padding:12px">Status</th><th style="padding:12px">Aksi</th>
+                    <th style="padding:12px;width:55px">No.</th><th style="padding:12px">Profil Siswa</th><th style="padding:12px">NISN</th><th style="padding:12px">Email</th><th style="padding:12px">Sekolah</th><th style="padding:12px">Guru Pembimbing</th><th style="padding:12px">Periode PKL</th><th style="padding:12px">Status Magang</th><th style="padding:12px">Status Akun</th><th style="padding:12px">Aksi</th>
                 </tr></thead>
                 <tbody>
                 @forelse ($siswa as $item)
@@ -59,6 +67,8 @@
                         <td style="padding:12px">{{ $item->user?->email ?? '-' }}</td>
                         <td style="padding:12px">{{ $item->sekolah?->nama_sekolah ?? '-' }}</td>
                         <td style="padding:12px">{{ $item->guru?->nama_lengkap ?? 'Belum ditetapkan' }}</td>
+                        <td style="padding:12px;white-space:nowrap"><div>{{ $item->tanggal_mulai_pkl?->format('d-m-Y') ?? 'Belum diatur' }}</div><div style="font-size:11px;color:#64748b;margin-top:4px">s.d. {{ $item->tanggal_selesai_pkl?->format('d-m-Y') ?? 'Belum diatur' }}</div></td>
+                        <td style="padding:12px">@if ($item->status_magang === 'Alumni')<span style="padding:5px 9px;border-radius:999px;background:#e2e8f0;color:#475569;font-size:12px;font-weight:600">Alumni</span>@else<span style="padding:5px 9px;border-radius:999px;background:#dcfce7;color:#166534;font-size:12px;font-weight:600">Aktif</span>@endif</td>
                         <td style="padding:12px">
                             @if ($item->user?->status === 'approved')
                                 <span style="padding:5px 9px;border-radius:999px;background:#dcfce7;color:#166534;font-size:12px">Disetujui</span>
@@ -74,7 +84,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" style="padding:24px;text-align:center;color:#64748b">Tidak ada data siswa yang cocok dengan pencarian atau filter.</td></tr>
+                    <tr><td colspan="10" style="padding:24px;text-align:center;color:#64748b">Tidak ada data siswa yang cocok dengan pencarian atau filter.</td></tr>
                 @endforelse
                 </tbody>
             </table>
