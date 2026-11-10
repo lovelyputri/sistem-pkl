@@ -136,6 +136,9 @@ class GuruController extends Controller
         if ($students->contains(fn ($s) => (string) $s->sekolah_id !== (string) $guru->sekolah_id)) {
             return back()->withErrors(['siswa_ids' => 'Siswa yang ditugaskan harus berasal dari sekolah yang sama.'])->withInput();
         }
+        if ($students->contains(fn ($s) => $s->tanggal_selesai_pkl && $s->tanggal_selesai_pkl->lt(today()))) {
+            return back()->withErrors(['siswa_ids' => 'Siswa yang sudah Alumni tidak dapat ditugaskan sebagai siswa bimbingan.'])->withInput();
+        }
         if ($students->contains(fn ($s) => $s->guru_id && (int) $s->guru_id !== (int) $guru->id)) {
             return back()->withErrors(['siswa_ids' => 'Ada siswa yang sudah ditugaskan ke guru lain. Lepaskan penugasan sebelumnya terlebih dahulu.'])->withInput();
         }
