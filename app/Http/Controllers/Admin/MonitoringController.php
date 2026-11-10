@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Helpers\Admin\MonitoringHelper;
+use App\Models\PengajuanIzin;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -25,4 +27,11 @@ class MonitoringController extends Controller
         return view('admin.monitoring.jurnal-show', compact('jurnal'));
     }
 
+    public function suratIzin(PengajuanIzin $izin)
+    {
+        abort_unless($izin->surat_path, 404);
+        abort_unless(Storage::disk('public')->exists($izin->surat_path), 404);
+
+        return Storage::disk('public')->response($izin->surat_path);
+    }
 }
