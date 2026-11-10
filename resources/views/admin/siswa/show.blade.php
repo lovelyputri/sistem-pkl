@@ -63,7 +63,11 @@
     </div>
 </div>
 <div class="profile-panel">
-    <h2>Periode Praktik Kerja Lapangan</h2>
+    <h2>Status dan Periode Praktik Kerja Lapangan</h2>
+    <div style="padding:13px 15px;border-radius:10px;background:{{ $siswa->status_magang === 'Alumni' ? '#f1f5f9' : '#ecfdf5' }};color:{{ $siswa->status_magang === 'Alumni' ? '#475569' : '#166534' }};font-size:13px;font-weight:700;margin-bottom:18px">
+        Status Magang: {{ $siswa->status_magang }}
+        <div style="font-size:11px;font-weight:400;margin-top:5px;color:inherit">{{ $siswa->status_magang === 'Alumni' ? 'Masa PKL telah berakhir berdasarkan tanggal selesai yang tercatat.' : 'Siswa masih dalam masa PKL atau tanggal selesai belum ditentukan.' }}</div>
+    </div>
     <div class="profile-grid">
         <div class="profile-item"><label>Tanggal mulai PKL</label><div>{{ $siswa->tanggal_mulai_pkl?->format('d F Y') ?? 'Belum ditentukan' }}</div></div>
         <div class="profile-item"><label>Tanggal selesai PKL</label><div>{{ $siswa->tanggal_selesai_pkl?->format('d F Y') ?? 'Belum ditentukan' }}</div></div>
