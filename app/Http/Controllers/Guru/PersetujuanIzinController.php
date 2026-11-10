@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Guru;
 
 use App\Http\Controllers\Controller;
+use App\Models\Absensi;
 use App\Models\Guru;
 use App\Models\PengajuanIzin;
 use App\Notifications\PengajuanIzinNotification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Carbon\CarbonPeriod;
 use Illuminate\View\View;
 
 class PersetujuanIzinController extends Controller
