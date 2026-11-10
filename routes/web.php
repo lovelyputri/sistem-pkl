@@ -137,6 +137,7 @@ Route::prefix('admin/sekolah-jurusan')->name('admin.sekolah-jurusan.')
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])
     ->controller(MonitoringController::class)->group(function () {
         Route::get('/absensi', 'absensi')->name('absensi.index');
+        Route::get('/pengajuan-izin/{izin}/surat', 'suratIzin')->name('izin.surat');
         Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
         Route::get('/jurnal-harian/{jurnal}', 'showJurnal')->name('jurnal.show');
     });
