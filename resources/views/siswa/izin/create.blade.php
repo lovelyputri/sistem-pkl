@@ -5,6 +5,17 @@
 <h1>Form Pengajuan Izin</h1>
 <p class="siswa-intro">Lengkapi informasi izin dan unggah surat atau bukti pendukung untuk diperiksa Guru Pembimbing.</p>
 <div class="siswa-panel" style="max-width:760px">
+@if ($errors->any())
+    <div role="alert" style="margin-bottom:16px;padding:13px 15px;border:1px solid #fecaca;border-radius:9px;background:#fef2f2;color:#991b1b;font-size:13px">
+        <strong>Pengajuan belum berhasil dikirim.</strong>
+        <ul style="margin:8px 0 0;padding-left:20px">
+            @foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach
+        </ul>
+    </div>
+@endif
+@if (session('error'))
+    <div role="alert" style="margin-bottom:16px;padding:13px 15px;border:1px solid #fecaca;border-radius:9px;background:#fef2f2;color:#991b1b;font-size:13px">{{ session('error') }}</div>
+@endif
 <form method="POST" action="{{ route('siswa.izin.store') }}" enctype="multipart/form-data" class="siswa-form">
     @csrf
     <div class="siswa-grid-2">
