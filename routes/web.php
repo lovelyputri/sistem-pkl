@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\GuruController;
 use App\Http\Controllers\Admin\MonitoringController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SekolahJurusanController;
-use App\Http\Controllers\Admin\IzinController as AdminIzinController;
 
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
 use App\Http\Controllers\Guru\SiswaBimbinganController;
@@ -141,11 +140,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])
         Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
         Route::get('/jurnal-harian/{jurnal}', 'showJurnal')->name('jurnal.show');
     });
-
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/pengajuan-izin', [AdminIzinController::class, 'index'])->name('izin.index');
-    Route::get('/pengajuan-izin/{izin}/surat', [AdminIzinController::class, 'surat'])->name('izin.surat');
-});
 
 Route::prefix('admin')->name('admin.settings.')->middleware(['auth', 'role:admin'])
     ->controller(SettingsController::class)->group(function () {
