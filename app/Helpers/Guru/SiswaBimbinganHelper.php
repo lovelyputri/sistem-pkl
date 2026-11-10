@@ -45,7 +45,11 @@ class SiswaBimbinganHelper
     public static function getDataShow(Siswa $siswa, Request $request): array
     {
         $guru = Guru::where('user_id', auth()->id())->firstOrFail();
-        abort_unless((int) $siswa->guru_id === (int) $guru->id, 404);
+        abort_unless(
+            (int) $siswa->guru_id === (int) $guru->id
+            && (! $siswa->tanggal_selesai_pkl || ! $siswa->tanggal_selesai_pkl->lt(today())),
+            404
+        );
 
         $bulan = $request->query('bulan', now()->format('Y-m'));
         if (!preg_match('/^\d{4}-\d{2}$/', $bulan)) $bulan = now()->format('Y-m');
