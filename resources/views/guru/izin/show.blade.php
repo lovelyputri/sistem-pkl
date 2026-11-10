@@ -5,6 +5,7 @@
 <h1>Detail Pengajuan Izin</h1>
 <p class="guru-intro">Periksa identitas siswa, alasan, dan dokumen pendukung sebelum menentukan keputusan.</p>
 @if(session('success'))<div style="padding:12px 14px;background:#ecfdf5;color:#047857;border-radius:9px;margin-bottom:16px;font-size:13px">{{ session('success') }}</div>@endif
+@if(session('error'))<div style="padding:12px 14px;background:#fff1f2;color:#be123c;border-radius:9px;margin-bottom:16px;font-size:13px">{{ session('error') }}</div>@endif
 <div class="guru-panel">
     <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><h2 style="margin:0">Informasi Pengajuan</h2><strong>{{ $izin->status }}</strong></div>
     <div class="guru-table-wrap" style="margin-top:14px"><table><tbody>
