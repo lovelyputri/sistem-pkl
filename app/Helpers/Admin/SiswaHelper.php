@@ -17,6 +17,11 @@ class SiswaHelper
         $cari = trim((string) $request->query('cari', ''));
         $status = $request->query('status', '');
         $sekolahId = $request->query('sekolah_id', '');
+        $statusMagang = $request->query('status_magang', '');
+
+        if (! in_array($statusMagang, ['', 'aktif', 'alumni'], true)) {
+            $statusMagang = '';
+        }
 
         if (! in_array($status, ['', 'pending', 'approved', 'rejected'], true)) {
             $status = '';
@@ -26,6 +31,8 @@ class SiswaHelper
             ->with(['user', 'sekolah', 'jurusan', 'kelas', 'guru'])
             ->when($status !== '', fn ($q) => $q->whereHas('user', fn ($userQuery) => $userQuery->where('status', $status)))
             ->when($sekolahId !== '' && ctype_digit((string) $sekolahId), fn ($q) => $q->where('sekolah_id', $sekolahId))
+            ->when($statusMagang === 'alumni', fn ($q) => $q->whereDate('tanggal_selesai_pkl', '<', today()))
+            ->when($statusMagang === 'aktif', fn ($q) => $q->where(fn ($subQuery) => $subQuery->whereNull('tanggal_selesai_pkl')->orWhereDate('tanggal_selesai_pkl', '>=', today())))
             ->when($cari !== '', function ($q) use ($cari) {
                 $q->where(function ($subQuery) use ($cari) {
                     $subQuery->where('nama_lengkap', 'like', "%{$cari}%")
@@ -40,6 +47,7 @@ class SiswaHelper
             'cari' => $cari,
             'status' => $status,
             'sekolahId' => $sekolahId,
+            'statusMagang' => $statusMagang,
             'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
         ];
     }
