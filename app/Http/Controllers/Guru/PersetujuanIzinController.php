@@ -60,12 +60,37 @@ class PersetujuanIzinController extends Controller
             'catatan_guru' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        $izin->update([
-            'status' => $data['keputusan'],
-            'catatan_guru' => $data['catatan_guru'] ?? null,
-            'diproses_oleh' => $request->user()->id,
-            'diproses_pada' => now(),
-        ]);
+        if ($data['keputusan'] === 'Disetujui') {
+            foreach (CarbonPeriod::create($izin->tanggal_mulai, $izin->tanggal_selesai) as $tanggal) {
+                $sudahAbsen = Absensi::where('siswa_id', $izin->siswa_id)
+                    ->whereDate('tanggal', $tanggal->toDateString())->exists();
+                if ($sudahAbsen) {
+                    return back()->with('error', 'Pengajuan tidak dapat disetujui karena siswa sudah memiliki catatan absensi pada salah satu tanggal tersebut.');
+                }
+            }
+        }
+
+        DB::transaction(function () use ($izin, $data, $request) {
+            $izin->update([
+                'status' => $data['keputusan'],
+                'catatan_guru' => $data['catatan_guru'] ?? null,
+                'diproses_oleh' => $request->user()->id,
+                'diproses_pada' => now(),
+            ]);
+
+            if ($data['keputusan'] === 'Disetujui') {
+                foreach (CarbonPeriod::create($izin->tanggal_mulai, $izin->tanggal_selesai) as $tanggal) {
+                    Absensi::create([
+                        'siswa_id' => $izin->siswa_id,
+                        'tanggal' => $tanggal->toDateString(),
+                        'status' => 'Izin',
+                        'keterangan' => 'Pengajuan izin disetujui: ' . $izin->jenis_izin,
+                        'latitude' => null,
+                        'longitude' => null,
+                    ]);
+                }
+            }
+        });
 
         $izin->loadMissing('siswa.user');
         if ($izin->siswa?->user) {
