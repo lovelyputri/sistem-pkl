@@ -17,7 +17,9 @@ class GuruHelper
 
         $query = Guru::query()
             ->with(['user', 'sekolah'])
-            ->withCount('siswas')
+            ->withCount(['siswas as siswas_count' => fn ($q) => $q->where(function ($query) {
+                $query->whereNull('tanggal_selesai_pkl')->orWhereDate('tanggal_selesai_pkl', '>=', today());
+            })])
             ->when($sekolahId !== '' && ctype_digit((string) $sekolahId), fn ($q) => $q->where('sekolah_id', $sekolahId))
             ->when($cari !== '', function ($q) use ($cari) {
                 $q->where(function ($subQuery) use ($cari) {
