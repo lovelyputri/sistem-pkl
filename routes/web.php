@@ -51,6 +51,10 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->grou
 
     Route::get('/absensi', [SiswaAbsensiController::class, 'index'])->name('absensi.index');
     Route::post('/absensi', [SiswaAbsensiController::class, 'store'])->name('absensi.store');
+    Route::get('/izin', [SiswaIzinController::class, 'index'])->name('izin.index');
+    Route::get('/izin/ajukan', [SiswaIzinController::class, 'create'])->name('izin.create');
+    Route::post('/izin', [SiswaIzinController::class, 'store'])->name('izin.store');
+    Route::get('/izin/{izin}/surat', [SiswaIzinController::class, 'surat'])->name('izin.surat');
 
     Route::get('/jurnal', [SiswaJurnalController::class, 'index'])->name('jurnal.index');
     Route::get('/jurnal/tulis', [SiswaJurnalController::class, 'create'])->name('jurnal.create');
@@ -70,6 +74,10 @@ Route::prefix('guru')->name('guru.')->middleware(['auth', 'role:guru'])->group(f
     Route::get('/siswa', [SiswaBimbinganController::class, 'index'])->name('siswa.index');
     Route::get('/siswa/{siswa}', [SiswaBimbinganController::class, 'show'])->name('siswa.show');
     Route::get('/absensi', [MonitoringAbsensiController::class, 'index'])->name('absensi.index');
+    Route::get('/izin', [PersetujuanIzinController::class, 'index'])->name('izin.index');
+    Route::get('/izin/{izin}', [PersetujuanIzinController::class, 'show'])->name('izin.show');
+    Route::get('/izin/{izin}/surat', [PersetujuanIzinController::class, 'surat'])->name('izin.surat');
+    Route::patch('/izin/{izin}', [PersetujuanIzinController::class, 'update'])->name('izin.update');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('jurnal.index');
     Route::get('/jurnal/{jurnal}', [JurnalController::class, 'show'])->name('jurnal.show');
     Route::post('/siswa/{siswa}/ingatkan', [PengingatController::class, 'store'])->name('pengingat.store');
@@ -130,6 +138,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])
         Route::get('/jurnal-harian', 'jurnal')->name('jurnal.index');
         Route::get('/jurnal-harian/{jurnal}', 'showJurnal')->name('jurnal.show');
     });
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/pengajuan-izin', [AdminIzinController::class, 'index'])->name('izin.index');
+    Route::get('/pengajuan-izin/{izin}/surat', [AdminIzinController::class, 'surat'])->name('izin.surat');
+});
 
 Route::prefix('admin')->name('admin.settings.')->middleware(['auth', 'role:admin'])
     ->controller(SettingsController::class)->group(function () {
