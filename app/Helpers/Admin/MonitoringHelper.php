@@ -33,9 +33,9 @@ class MonitoringHelper
             ->latest();
 
         return [
-            'absensis' => PaginateHelper::paginate($query, 15),
+            'absensis' => PaginateHelper::paginate($query, 15, 'absensi_page'),
             'statusFilter' => in_array($status, $allowed, true) ? $status : '',
-            'pengajuans' => PaginateHelper::paginate($pengajuanQuery, 10),
+            'pengajuans' => PaginateHelper::paginate($pengajuanQuery, 10, 'izin_page'),
             'totalIzinMenunggu' => PengajuanIzin::where('status', 'Menunggu')->count(),
             'totalIzinDisetujui' => PengajuanIzin::where('status', 'Disetujui')->count(),
             'totalIzinDitolak' => PengajuanIzin::where('status', 'Ditolak')->count(),
