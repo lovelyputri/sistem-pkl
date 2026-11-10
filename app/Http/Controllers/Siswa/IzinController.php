@@ -41,7 +41,10 @@ class IzinController extends Controller
             'surat.max' => 'Ukuran berkas maksimal 5 MB.',
         ]);
 
-        $siswa = Siswa::where('user_id', $request->user()->id)->firstOrFail();
+        $siswa = Siswa::with('guru.user')->where('user_id', $request->user()->id)->firstOrFail();
+        if (!$siswa->guru?->user) {
+            return back()->withInput()->with('error', 'Pengajuan belum dapat dikirim karena Guru Pembimbing belum ditetapkan. Hubungi Admin sekolah.');
+        }
 
         $masihMenunggu = PengajuanIzin::where('siswa_id', $siswa->id)
             ->where('status', 'Menunggu')
