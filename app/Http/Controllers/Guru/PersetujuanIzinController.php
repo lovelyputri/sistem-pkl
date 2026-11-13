@@ -65,6 +65,7 @@ class PersetujuanIzinController extends Controller
 
         if ($data['keputusan'] === 'Disetujui') {
             foreach (CarbonPeriod::create($izin->tanggal_mulai, $izin->tanggal_selesai) as $tanggal) {
+                if ($tanggal->isSunday()) continue;
                 $sudahAbsen = Absensi::where('siswa_id', $izin->siswa_id)
                     ->whereDate('tanggal', $tanggal->toDateString())->exists();
                 if ($sudahAbsen) {
@@ -83,10 +84,11 @@ class PersetujuanIzinController extends Controller
 
             if ($data['keputusan'] === 'Disetujui') {
                 foreach (CarbonPeriod::create($izin->tanggal_mulai, $izin->tanggal_selesai) as $tanggal) {
+                    if ($tanggal->isSunday()) continue;
                     Absensi::create([
                         'siswa_id' => $izin->siswa_id,
                         'tanggal' => $tanggal->toDateString(),
-                        'status' => 'Izin',
+                        'status' => $izin->jenis_izin === 'Sakit' ? 'Sakit' : 'Izin',
                         'keterangan' => 'Pengajuan izin disetujui: ' . $izin->jenis_izin,
                         'latitude' => null,
                         'longitude' => null,
