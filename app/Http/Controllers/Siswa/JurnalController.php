@@ -31,7 +31,6 @@ class JurnalController extends Controller
             'judul' => ['required', 'string', 'max:255'],
             'tanggal' => ['required', 'date', 'before_or_equal:today'],
             'kegiatan' => ['required', 'string', 'min:200', 'max:10000'],
-            'keterangan' => ['nullable', 'string', 'max:2000'],
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], [
             'tanggal.before_or_equal' => 'Tanggal jurnal tidak boleh melebihi hari ini.',
@@ -53,7 +52,6 @@ class JurnalController extends Controller
                     'judul' => $data['judul'],
                     'tanggal' => $data['tanggal'],
                     'kegiatan' => $data['kegiatan'],
-                    'keterangan' => $data['keterangan'] ?? null,
                     'image' => $path,
                 ]);
             });
@@ -84,7 +82,6 @@ class JurnalController extends Controller
             'judul' => ['required', 'string', 'max:255'],
             'tanggal' => ['required', 'date', 'before_or_equal:today'],
             'kegiatan' => ['required', 'string', 'min:200', 'max:10000'],
-            'keterangan' => ['nullable', 'string', 'max:2000'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], ['kegiatan.min' => 'Deskripsi kegiatan minimal 200 karakter.']);
 
