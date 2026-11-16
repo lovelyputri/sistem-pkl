@@ -30,7 +30,7 @@
         .admin-sidebar-caption{text-align:center;padding:0 0 4px;position:relative;z-index:1}
         .admin-sidebar-caption strong{display:block;font-size:13px;font-weight:800;letter-spacing:-.3px}
         .admin-sidebar-caption span{display:block;margin-top:4px;font-size:8px;color:#d9e6ff}
-        .admin-main{min-width:0;flex:1}
+        .admin-main{min-width:0;min-height:100vh;flex:1;overflow-x:hidden}
         .admin-topbar{min-height:54px;height:54px;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid #e5eaf2;padding:7px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
         .topbar-left{display:flex;align-items:center;gap:12px;min-width:0}
         .admin-topbar strong{font-size:13px}
@@ -54,21 +54,57 @@
         .admin-menu-toggle{display:none;width:38px;height:38px;border:1px solid #e1e7f0;border-radius:9px;background:#fff;color:#17377f;align-items:center;justify-content:center;cursor:pointer}
         .admin-menu-toggle svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
         .admin-sidebar-overlay{display:none}
-        @media(max-width:1050px){:root{--sidebar-width:200px}.admin-sidebar{padding-left:13px;padding-right:13px}.admin-brand{gap:9px}.brand-name{font-size:17px}.admin-sidebar-art{min-height:180px;flex-basis:180px}.admin-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-shortcuts{grid-template-columns:1fr}}
+        @media(max-width:1050px){.admin-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-shortcuts{grid-template-columns:1fr}}
         @media(max-width:760px){
-            .admin-layout{display:block}
-            .admin-sidebar{position:fixed;left:0;top:0;bottom:0;height:100dvh;width:min(285px,84vw);max-width:100%;transform:translateX(-105%);transition:transform .25s ease;box-shadow:12px 0 35px rgba(7,20,54,.22);padding-top:20px}
+            .admin-layout{display:block;width:100%;min-height:100vh}
+            .admin-sidebar{position:fixed;inset:0 auto 0 0;height:100dvh;width:min(300px,88vw);max-width:calc(100vw - 42px);transform:translate3d(-105%,0,0);transition:transform .25s ease;box-shadow:14px 0 36px rgba(7,20,54,.24);padding:18px 14px 16px;overflow:hidden;z-index:60}
             body.admin-sidebar-open{overflow:hidden}
-            body.admin-sidebar-open .admin-sidebar{transform:translateX(0)}
-            .admin-sidebar-overlay{position:fixed;inset:0;background:rgba(8,18,43,.48);z-index:40}
-            body.admin-sidebar-open .admin-sidebar-overlay{display:block}
-            .admin-menu-toggle{display:inline-flex;flex:0 0 38px}
-            .admin-topbar{min-height:62px;padding:11px 15px}
-            .admin-content{padding:20px 15px}
+            body.admin-sidebar-open .admin-sidebar{transform:translate3d(0,0,0)}
+            .admin-brand{gap:10px;padding:0 4px 17px;flex:0 0 auto}
+            .brand-mark{width:48px;height:44px;flex-basis:48px}
+            .brand-name{font-size:16px}
+            .brand-subtitle{font-size:10px}
+            .admin-nav-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:16px 0 12px}
+            .admin-nav-title{font-size:10px;padding:0 8px 10px}
+            .admin-nav-link{min-height:46px;padding:10px 11px;margin-bottom:7px;gap:11px;border-radius:9px;font-size:13px}
+            .nav-icon{width:22px;height:22px;flex-basis:22px}
+            .nav-icon svg{width:21px;height:21px}
+            .nav-section-label{margin:15px 7px 9px;padding-top:13px;font-size:9px}
+            .admin-sidebar-art,.admin-sidebar-caption{display:none}
+            .admin-sidebar-overlay{display:block;position:fixed;inset:0;background:rgba(8,18,43,.52);z-index:55;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
+            body.admin-sidebar-open .admin-sidebar-overlay{opacity:1;visibility:visible;pointer-events:auto}
+            .admin-menu-toggle{display:inline-flex;flex:0 0 38px;width:38px;height:38px}
+            .admin-topbar{height:auto;min-height:60px;padding:9px 14px;gap:8px}
+            .topbar-left{gap:10px;flex:1;min-width:0}
+            .admin-topbar strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+            .admin-user{flex:0 0 auto;gap:7px;min-width:0}
+            .admin-user-name{max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+            .admin-content{width:100%;max-width:100%;padding:20px 15px;overflow-x:auto}
             .admin-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
         }
-        @media(max-width:480px){.admin-topbar{padding:10px 12px}.admin-topbar strong{font-size:12px}.admin-user{gap:7px}.admin-user img{width:30px!important;height:30px!important}.admin-user-role{font-size:9px}.admin-logout{padding:7px 9px;font-size:10px}.admin-content{padding:17px 11px}.admin-cards{gap:9px}.admin-card{padding:14px}.admin-card-number{font-size:23px}}
-        @media(max-height:800px){.admin-sidebar-art{min-height:155px;flex-basis:155px;transform:scale(1.08)}.admin-sidebar-caption strong{font-size:14px}.admin-sidebar-caption span{font-size:8px}}\n        @media(prefers-reduced-motion:reduce){.admin-sidebar,.admin-nav-link{transition:none}}
+        @media(max-width:480px){
+            .admin-topbar{padding:8px 10px;min-height:58px}
+            .admin-menu-toggle{width:36px;height:36px;flex-basis:36px}
+            .topbar-left{gap:8px}
+            .admin-topbar strong{font-size:12px}
+            .admin-user{gap:6px}
+            .admin-user img{width:30px!important;height:30px!important}
+            .admin-user-name{display:none}
+            .admin-user-role{display:none}
+            .admin-logout{padding:7px 8px;font-size:10px;white-space:nowrap}
+            .admin-content{padding:17px 11px}
+            .admin-content h1{font-size:21px}
+            .admin-cards{gap:9px}
+            .admin-card{padding:13px}
+            .admin-card-number{font-size:22px}
+        }
+        @media(max-height:620px) and (max-width:760px){
+            .admin-sidebar{padding-top:12px;padding-bottom:10px}
+            .admin-brand{padding-bottom:12px}
+            .admin-nav-scroll{padding-top:11px}
+            .admin-nav-link{min-height:41px;padding-top:8px;padding-bottom:8px}
+        }
+        @media(prefers-reduced-motion:reduce){.admin-sidebar,.admin-nav-link{transition:none}}
     </style>
     @stack('styles')
 </head>
