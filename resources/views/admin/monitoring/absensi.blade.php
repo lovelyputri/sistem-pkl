@@ -26,7 +26,7 @@
     </form>
 </div>
 
-<div class="admin-section" style="overflow-x:auto">
+<div class="admin-section" id="riwayat-absensi" style="overflow-x:auto;scroll-margin-top:90px">
     <h2>Riwayat Absensi</h2>
     <p style="margin-bottom:14px">Daftar kehadiran siswa PKL.</p>
     <table style="width:100%;border-collapse:collapse;font-size:13px">
