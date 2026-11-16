@@ -131,7 +131,8 @@
                             <tr>
                                 <td><div class="student-name">
                                     @if($siswa->foto_profil)
-                                        <img src="{{ asset('storage/'.$siswa->foto_profil) }}" alt="" class="student-avatar">
+                                        <img src="{{ asset('storage/'.$siswa->foto_profil) }}" alt="Foto {{ $siswa->nama_lengkap }}" class="student-avatar" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='grid';">
+                                        <span class="student-avatar student-avatar-fallback" style="display:none">{{ strtoupper(substr($siswa->nama_lengkap, 0, 1)) }}</span>
                                     @else
                                         <span class="student-avatar student-avatar-fallback">{{ strtoupper(substr($siswa->nama_lengkap, 0, 1)) }}</span>
                                     @endif
