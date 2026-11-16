@@ -5,6 +5,7 @@
 
 @push('styles')
 <style>
+.admin-content:has(.student-page){max-width:1440px;padding-left:22px;padding-right:22px}
 .student-page{--student-blue:#17357f;--student-blue-2:#315fc4;--student-ink:#172b4d;--student-muted:#718096;--student-line:#e7ecf4}
 .student-page *{box-sizing:border-box}
 .student-page .page-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
@@ -26,7 +27,7 @@
 .student-page .notice{display:flex;align-items:center;gap:10px;padding:12px 14px;margin-bottom:16px;border:1px solid #dce7fb;background:#f4f7ff;border-radius:10px;color:#31517f;font-size:11px;line-height:1.55}
 .student-page .notice svg{width:17px;height:17px;flex:0 0 17px;stroke:currentColor;fill:none;stroke-width:1.8}
 .student-page .table-panel{background:#fff;border:1px solid var(--student-line);border-radius:13px;box-shadow:0 4px 18px rgba(22,43,82,.035);overflow:hidden}
-.student-page .panel-top{padding:14px 16px 12px;border-bottom:1px solid #edf0f5}
+.student-page .panel-top{padding:12px 13px 10px;border-bottom:1px solid #edf0f5}
 .student-page .panel-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:11px}
 .student-page .panel-title h2{margin:0;color:#1b3157;font-size:14px;font-weight:750}
 .student-page .panel-title p{margin:5px 0 0;color:#8a96a8;font-size:10px}
@@ -37,8 +38,8 @@
 .student-page .filter-control{width:100%;height:36px;padding:0 10px;border:1px solid #dfe5ef;border-radius:7px;background-color:#fff;color:#334155;font:inherit;font-size:11px;outline:none;transition:border-color .15s,box-shadow .15s}
 .student-page .filter-control:focus{border-color:#6386d2;box-shadow:0 0 0 2px rgba(49,95,196,.09)}
 .student-page select.filter-control{appearance:none;-webkit-appearance:none;padding-right:32px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23647791' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer}
-.student-page select.filter-control option{background:#fff;color:#334155}
-.student-page select.filter-control option:checked{background:#eaf0ff;color:#17357f}
+.student-page select.filter-control option{background-color:#eaf1ff;color:#17357f;padding:8px 10px}
+.student-page select.filter-control option:checked{background-color:#17357f;color:#fff}
 .student-page .search-wrap{position:relative}
 .student-page .search-wrap svg{position:absolute;left:11px;top:12px;width:15px;height:15px;stroke:#94a3b8;fill:none;stroke-width:2;pointer-events:none}
 .student-page .search-wrap input{padding-left:33px}
@@ -46,21 +47,21 @@
 .student-page .filter-submit,.student-page .filter-reset{height:36px;display:inline-flex;align-items:center;justify-content:center;padding:0 12px;border-radius:7px;font-size:10px;font-weight:700;white-space:nowrap}
 .student-page .filter-submit{border:0;background:#17357f;color:#fff;cursor:pointer}
 .student-page .filter-reset{border:1px solid #dfe5ef;color:#64748b;background:#fff}
-.student-page .table-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 19px 10px;color:#8490a2;font-size:10px}
+.student-page .table-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 13px 8px;color:#8490a2;font-size:10px}
 .student-page .table-meta strong{color:#405575}
 .student-page .table-scroll{width:100%;overflow-x:auto}
-.student-page table{width:100%;min-width:1080px;border-collapse:separate;border-spacing:0;text-align:left}
-.student-page thead th{padding:11px 13px;background:#f7f9fc;border-top:1px solid #edf0f5;border-bottom:1px solid #e9edf4;color:#718096;font-size:9px;font-weight:750;letter-spacing:.45px;text-transform:uppercase;white-space:nowrap}
-.student-page tbody td{padding:12px 13px;border-bottom:1px solid #eff2f6;color:#536176;font-size:10px;vertical-align:middle}
+.student-page table{width:100%;min-width:1000px;border-collapse:separate;border-spacing:0;table-layout:fixed;text-align:left}
+.student-page thead th{padding:9px 8px;background:#edf3ff;border-top:1px solid #e2eaf8;border-bottom:1px solid #dfe8f7;color:#31517f;font-size:9px;font-weight:750;letter-spacing:.35px;text-transform:uppercase;white-space:nowrap}
+.student-page tbody td{padding:8px 8px;border-bottom:1px solid #eff2f6;color:#536176;font-size:10px;vertical-align:middle;overflow-wrap:anywhere}
 .student-page tbody tr:last-child td{border-bottom:0}
 .student-page tbody tr{transition:background .15s}
 .student-page tbody tr:hover{background:#f9fbff}
 .student-page .number-cell{width:48px;color:#9aa5b5;font-weight:650}
-.student-page .student-person{display:flex;align-items:center;gap:9px;min-width:190px}
+.student-page .student-person{display:flex;align-items:center;gap:7px;min-width:0}
 .student-page .student-avatar{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:10px;background:#eaf0ff;color:#244a9b;font-size:12px;font-weight:800;object-fit:cover}
 .student-page .student-name{display:block;color:#243957;font-size:10px;font-weight:750;line-height:1.4}
 .student-page .student-sub{display:block;margin-top:3px;color:#9aa5b5;font-size:9px}
-.student-page .email-cell{max-width:190px;overflow-wrap:anywhere}
+.student-page .email-cell{max-width:150px;overflow-wrap:anywhere}
 .student-page .period-cell{white-space:nowrap;line-height:1.65}
 .student-page .period-cell small{display:block;color:#9aa5b5;font-size:9px}
 .student-page .status-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap}
@@ -89,7 +90,7 @@
 .student-page .alert-success{display:flex;align-items:center;gap:9px;padding:12px 14px;margin-bottom:16px;border:1px solid #ccebd6;background:#f0fbf4;border-radius:9px;color:#267345;font-size:11px}
 .student-page .alert-success svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 @media(max-width:1100px){.student-page .filter-form{grid-template-columns:repeat(2,minmax(0,1fr))}.student-page .filter-actions{grid-column:1/-1}}
-@media(max-width:760px){.student-page .student-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.student-page .stat-card{padding:13px;gap:9px}.student-page .stat-icon{width:34px;height:34px;flex-basis:34px}.student-page .stat-copy strong{font-size:20px}.student-page .panel-top{padding:13px}.student-page .table-meta,.student-page .pagination-wrap{padding-left:15px;padding-right:15px}}
+@media(max-width:760px){.student-page .student-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.student-page .stat-card{padding:13px;gap:9px}.student-page .stat-icon{width:34px;height:34px;flex-basis:34px}.student-page .stat-copy strong{font-size:20px}.student-page .panel-top{padding:11px}.student-page .table-meta,.student-page .pagination-wrap{padding-left:15px;padding-right:15px}}
 @media(max-width:480px){.student-page .page-heading h1{font-size:20px}.student-page .page-heading{margin-bottom:17px}.student-page .primary-action{width:100%}.student-page .student-stats{gap:8px}.student-page .stat-card{padding:11px 9px;align-items:flex-start}.student-page .stat-icon{width:31px;height:31px;flex-basis:31px;border-radius:8px}.student-page .stat-copy span{font-size:9px}.student-page .stat-copy strong{font-size:19px}.student-page .filter-form{grid-template-columns:1fr}.student-page .filter-actions{grid-column:auto}.student-page .filter-submit,.student-page .filter-reset{flex:1}.student-page .pagination-wrap{align-items:flex-start;flex-direction:column}.student-page .pagination{width:100%}}
 </style>
 @endpush
