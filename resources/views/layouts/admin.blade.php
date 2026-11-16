@@ -14,7 +14,7 @@
         .admin-layout{min-height:100vh;display:flex;align-items:stretch}
         .admin-sidebar{width:var(--sidebar-width);flex:0 0 var(--sidebar-width);height:100vh;position:sticky;top:0;display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(160deg,#10286e 0%,#153a9a 58%,#12358d 100%);color:#fff;padding:24px 15px 17px;z-index:50}
         .admin-brand{display:flex;align-items:center;gap:12px;padding:0 5px 23px;border-bottom:1px solid rgba(255,255,255,.13)}
-        .brand-mark{width:58px;height:48px;flex:0 0 58px;color:#9bbcff}
+        .brand-mark{display:block;width:58px;height:48px;flex:0 0 58px;object-fit:contain;object-position:center}
         .brand-copy{min-width:0}
         .brand-name{font-size:19px;line-height:1.15;font-weight:800;letter-spacing:-.65px;white-space:nowrap}
         .brand-subtitle{display:block;margin-top:5px;font-size:10px;font-weight:400;color:#e0eaff}
@@ -76,12 +76,7 @@
 <div class="admin-layout">
     <aside class="admin-sidebar" id="adminSidebar" aria-label="Navigasi admin">
         <a class="admin-brand" href="{{ route('admin.dashboard') }}">
-            <svg class="brand-mark" viewBox="0 0 64 52" aria-hidden="true">
-                <path d="M5 17C20 2 44 2 59 17" stroke="currentColor" stroke-width="8" stroke-linecap="round" fill="none"/>
-                <path d="M15 28C25 18 39 18 49 28" stroke="currentColor" stroke-width="8" stroke-linecap="round" fill="none"/>
-                <path d="M25 39C29 35 35 35 39 39" stroke="currentColor" stroke-width="8" stroke-linecap="round" fill="none"/>
-                <circle cx="32" cy="47" r="4.5" fill="currentColor"/>
-            </svg>
+            <img class="brand-mark" src="{{ asset('images/logo.png') }}" alt="Logo GUSPELOR.NET">
             <span class="brand-copy"><span class="brand-name">GUSPELOR.NET</span><span class="brand-subtitle">Sistem Pengelolaan PKL</span></span>
         </a>
 
