@@ -26,7 +26,7 @@
         .nav-icon{width:24px;height:24px;flex:0 0 24px;display:grid;place-items:center;color:#fff}
         .nav-icon svg{width:23px;height:23px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
         .nav-section-label{margin:18px 7px 9px;padding-top:13px;border-top:1px solid rgba(255,255,255,.12);font-size:8px;font-weight:700;letter-spacing:1px;color:#9fb8f4;text-transform:uppercase}
-        .admin-sidebar-art{width:calc(100% + 30px);height:190px;flex:0 0 190px;margin:0 -15px -2px;opacity:.96;pointer-events:none}
+        .admin-sidebar-art{display:block;width:calc(100% + 30px);height:190px;flex:0 0 190px;margin:0 -15px -2px;object-fit:contain;object-position:center bottom;opacity:.96;pointer-events:none}
         .admin-sidebar-caption{text-align:center;padding:0 0 4px;position:relative;z-index:1}
         .admin-sidebar-caption strong{display:block;font-size:15px;font-weight:800;letter-spacing:-.3px}
         .admin-sidebar-caption span{display:block;margin-top:5px;font-size:9px;color:#d9e6ff}
@@ -118,42 +118,11 @@
             </a>
         </nav>
 
-        <svg class="admin-sidebar-art" viewBox="0 0 275 190" role="img" aria-label="Ilustrasi gedung dan jaringan GUSPELOR.NET">
-            <defs>
-                <linearGradient id="buildingBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#27c9ff"/><stop offset="1" stop-color="#0755bc"/></linearGradient>
-                <linearGradient id="buildingDark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1264bd"/><stop offset="1" stop-color="#071d55"/></linearGradient>
-                <filter id="artGlow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            <g fill="none" stroke="#159be9" stroke-width="1" opacity=".55"><path d="M0 147 78 102 166 145 245 99 275 116M15 168 91 125 172 166 250 122 275 136M38 184 112 141 192 181 270 137"/></g>
-            <g stroke="#19b8ff" stroke-width="1">
-                <path d="M8 125 8 52 35 38 59 51 59 139 34 154Z" fill="url(#buildingDark)"/>
-                <path d="M35 38 35 12 43 4 43 42" fill="none"/><path d="M39 4v-9" />
-                <path d="M59 70 85 57 109 69 109 132 84 146 59 133Z" fill="url(#buildingDark)"/>
-                <path d="M85 57V38l7-5 7 9v19" fill="none"/>
-                <path d="M13 64h8v8h-8zm0 17h8v8h-8zm0 17h8v8h-8zm17-30h8v8h-8zm0 17h8v8h-8zm0 17h8v8h-8z" fill="#19caff" stroke="none"/>
-                <path d="M67 82h8v7h-8zm0 15h8v7h-8zm15-26h8v7h-8zm0 15h8v7h-8zm0 15h8v7h-8z" fill="#23c9ff" stroke="none"/>
-            </g>
-            <g filter="url(#artGlow)" stroke="#079df5" stroke-width="2" fill="none">
-                <path d="M180 67q19-19 38 0M185 76q14-14 28 0M191 85q8-8 16 0" stroke="#00baff" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="199" cy="93" r="4" fill="#00baff" stroke="none"/>
-            </g>
-            <g transform="translate(83 115)">
-                <path d="M0 24 54-7 112 24 58 56Z" fill="#092b75" stroke="#13aaff" stroke-width="2"/>
-                <path d="M0 24v16l58 33V56Z" fill="#07346e" stroke="#138ee0"/>
-                <path d="M58 56v17l54-33V24Z" fill="#061e55" stroke="#138ee0"/>
-                <path d="M20 24 55 5 91 24 56 44Z" fill="#0a4b9a" stroke="#28caff"/>
-                <path d="M55 5V-20M52 6V-20" stroke="#22baff" stroke-width="2"/>
-                <path d="M48 12h15M46 17h19" stroke="#1bcaff" stroke-width="2"/>
-                <path d="M18 43v5m8-1v5m60 8v-5m8 1v-5" stroke="#32d7ff" stroke-width="2"/>
-            </g>
-            <g transform="translate(213 112)" stroke="#13b5ff" stroke-width="1.5">
-                <path d="M0 12 27-3 55 12 28 28Z" fill="#0b4a9b"/>
-                <path d="M0 12v15l28 16V28Z" fill="#07265d"/>
-                <path d="M28 28v15l27-16V12Z" fill="#061b4b"/>
-                <path d="M14 14 27 7l14 8-14 8Z" fill="#0e6fc0"/>
-                <path d="M27 7V-7" fill="none" stroke-width="2"/>
-            </g>
-        </svg>
+        <img
+            class="admin-sidebar-art"
+            src="{{ asset('images/gedung.png') }}"
+            alt="Ilustrasi gedung dan jaringan GUSPELOR.NET"
+        >
         <div class="admin-sidebar-caption"><strong>GUSPELOR.NET</strong><span>Connecting People, Connecting Future</span></div>
     </aside>
 
