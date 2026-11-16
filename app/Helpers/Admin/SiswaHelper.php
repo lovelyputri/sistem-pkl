@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Helpers\Admin;
+namespace App\\Helpers\\Admin;
 
-use App\Helpers\PaginateHelper;
-use App\Models\Guru;
-use App\Models\Jurusan;
-use App\Models\Kelas;
-use App\Models\Sekolah;
-use App\Models\Siswa;
-use Illuminate\Http\Request;
+use App\\Helpers\\PaginateHelper;
+use App\\Models\\Guru;
+use App\\Models\\Jurusan;
+use App\\Models\\Kelas;
+use App\\Models\\Sekolah;
+use App\\Models\\Siswa;
+use Illuminate\\Http\\Request;
 
 class SiswaHelper
 {
@@ -42,6 +42,8 @@ class SiswaHelper
             })
             ->latest();
 
+        $tanggalHariIni = today();
+
         return [
             'siswa' => PaginateHelper::paginate($query, 10),
             'cari' => $cari,
@@ -49,6 +51,12 @@ class SiswaHelper
             'sekolahId' => $sekolahId,
             'statusMagang' => $statusMagang,
             'sekolahs' => Sekolah::orderBy('nama_sekolah')->get(),
+            'ringkasan' => [
+                'total' => Siswa::count(),
+                'menunggu' => Siswa::whereHas('user', fn ($q) => $q->where('status', 'pending'))->count(),
+                'aktif' => Siswa::where(fn ($q) => $q->whereNull('tanggal_selesai_pkl')->orWhereDate('tanggal_selesai_pkl', '>=', $tanggalHariIni))->count(),
+                'alumni' => Siswa::whereDate('tanggal_selesai_pkl', '<', $tanggalHariIni)->count(),
+            ],
         ];
     }
 
