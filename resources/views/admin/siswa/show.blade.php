@@ -30,7 +30,8 @@
 <div class="profile-head">
     <div style="display:flex;align-items:center;gap:18px;min-width:0">
         @if ($siswa->foto_profil)
-            <img class="profile-avatar" src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto {{ $siswa->nama_lengkap }}">
+            <img class="profile-avatar" src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto {{ $siswa->nama_lengkap }}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="profile-avatar" style="display:none">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</div>
         @else
             <div class="profile-avatar">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</div>
         @endif
