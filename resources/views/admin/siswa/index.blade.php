@@ -37,6 +37,21 @@
 .student-page .filter-field label{display:block;margin:0 0 4px;color:#526078;font-size:10px;font-weight:700}
 .student-page .filter-control{width:100%;height:36px;padding:0 10px;border:1px solid #dfe5ef;border-radius:7px;background-color:#fff;color:#334155;font:inherit;font-size:11px;outline:none;transition:border-color .15s,box-shadow .15s}
 .student-page .filter-control:focus{border-color:#6386d2;box-shadow:0 0 0 2px rgba(49,95,196,.09)}
+.student-page select.filter-control{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.student-page .custom-select{position:relative;width:100%}
+.student-page .custom-select-trigger{width:100%;height:36px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 11px;border:1px solid #d9e3f4;border-radius:7px;background:#f8faff;color:#244579;font:inherit;font-size:11px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.student-page .custom-select-trigger:hover{background:#f0f5ff;border-color:#b7c9eb}
+.student-page .custom-select.open .custom-select-trigger,.student-page .custom-select-trigger:focus-visible{outline:0;border-color:#315fc4;box-shadow:0 0 0 3px rgba(49,95,196,.12);background:#fff}
+.student-page .custom-select-chevron{width:14px;height:14px;flex:0 0 14px;color:#315fc4;transition:transform .18s}
+.student-page .custom-select.open .custom-select-chevron{transform:rotate(180deg)}
+.student-page .custom-select-menu{position:absolute;z-index:30;top:calc(100% + 6px);left:0;right:0;display:none;padding:5px;border:1px solid #dbe5f5;border-radius:9px;background:#fff;box-shadow:0 12px 28px rgba(20,48,100,.16)}
+.student-page .custom-select.open .custom-select-menu{display:block}
+.student-page .custom-select-option{width:100%;display:flex;align-items:center;gap:8px;padding:8px 9px;border:0;border-radius:6px;background:transparent;color:#405675;font:inherit;font-size:11px;text-align:left;cursor:pointer}
+.student-page .custom-select-option:hover,.student-page .custom-select-option:focus-visible{outline:0;background:#edf3ff;color:#17357f}
+.student-page .custom-select-option[aria-selected=true]{background:#17357f;color:#fff;font-weight:700}
+.student-page .custom-select-option[aria-selected=true]::before{content:'✓';font-size:10px}
+.student-page .custom-select-option:not([aria-selected=true])::before{content:'';width:10px;flex:0 0 10px}
+
 .student-page select.filter-control{appearance:none;-webkit-appearance:none;padding-right:32px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23647791' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer}
 .student-page select.filter-control option{background-color:#eaf1ff;color:#17357f;padding:8px 10px}
 .student-page select.filter-control option:checked{background-color:#17357f;color:#fff}
@@ -50,13 +65,14 @@
 .student-page .table-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 13px 8px;color:#8490a2;font-size:10px}
 .student-page .table-meta strong{color:#405575}
 .student-page .table-scroll{width:100%;overflow-x:auto}
-.student-page table{width:100%;min-width:1000px;border-collapse:separate;border-spacing:0;table-layout:fixed;text-align:left}
+.student-page table{width:100%;min-width:1080px;border-collapse:separate;border-spacing:0;table-layout:fixed;text-align:left}
+.student-page table col:nth-child(1){width:4%}.student-page table col:nth-child(2){width:15%}.student-page table col:nth-child(3){width:9%}.student-page table col:nth-child(4){width:11%}.student-page table col:nth-child(5){width:11%}.student-page table col:nth-child(6){width:11%}.student-page table col:nth-child(7){width:12%}.student-page table col:nth-child(8){width:8%}.student-page table col:nth-child(9){width:9%}.student-page table col:nth-child(10){width:10%}
 .student-page thead th{padding:9px 8px;background:#edf3ff;border-top:1px solid #e2eaf8;border-bottom:1px solid #dfe8f7;color:#31517f;font-size:9px;font-weight:750;letter-spacing:.35px;text-transform:uppercase;white-space:nowrap}
 .student-page tbody td{padding:8px 8px;border-bottom:1px solid #eff2f6;color:#536176;font-size:10px;vertical-align:middle;overflow-wrap:anywhere}
 .student-page tbody tr:last-child td{border-bottom:0}
 .student-page tbody tr{transition:background .15s}
 .student-page tbody tr:hover{background:#f9fbff}
-.student-page .number-cell{width:48px;color:#9aa5b5;font-weight:650}
+.student-page .number-cell{width:48px;padding-left:16px!important;color:#7185a5;font-weight:700}
 .student-page .student-person{display:flex;align-items:center;gap:7px;min-width:0}
 .student-page .student-avatar{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:10px;background:#eaf0ff;color:#244a9b;font-size:12px;font-weight:800;object-fit:cover}
 .student-page .student-name{display:block;color:#243957;font-size:10px;font-weight:750;line-height:1.4}
@@ -198,6 +214,7 @@
 
         <div class="table-scroll">
             <table>
+                <colgroup><col><col><col><col><col><col><col><col><col><col></colgroup>
                 <thead>
                     <tr>
                         <th>No.</th>
@@ -290,4 +307,92 @@
         @endif
     </section>
 </div>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const page = document.querySelector('.student-page');
+    if (!page) return;
+
+    const closeMenus = (except = null) => {
+        page.querySelectorAll('.custom-select.open').forEach((wrapper) => {
+            if (wrapper !== except) {
+                wrapper.classList.remove('open');
+                wrapper.querySelector('.custom-select-trigger')?.setAttribute('aria-expanded', 'false');
+            }
+        });
+    };
+
+    page.querySelectorAll('select.filter-control').forEach((select) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'custom-select';
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'custom-select-trigger';
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        const label = document.createElement('span');
+        label.textContent = select.options[select.selectedIndex]?.text || 'Pilih';
+        const chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        chevron.setAttribute('viewBox', '0 0 24 24');
+        chevron.setAttribute('fill', 'none');
+        chevron.setAttribute('stroke', 'currentColor');
+        chevron.setAttribute('stroke-width', '2');
+        chevron.setAttribute('stroke-linecap', 'round');
+        chevron.setAttribute('stroke-linejoin', 'round');
+        chevron.classList.add('custom-select-chevron');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'm6 9 6 6 6-6');
+        chevron.appendChild(path);
+        trigger.append(label, chevron);
+
+        const menu = document.createElement('div');
+        menu.className = 'custom-select-menu';
+        menu.setAttribute('role', 'listbox');
+        select.parentNode.insertBefore(wrapper, select);
+        wrapper.append(trigger, menu, select);
+
+        const renderOptions = () => {
+            menu.replaceChildren();
+            Array.from(select.options).forEach((option) => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'custom-select-option';
+                item.textContent = option.text;
+                item.setAttribute('role', 'option');
+                item.setAttribute('aria-selected', option.value === select.value ? 'true' : 'false');
+                item.addEventListener('click', () => {
+                    select.value = option.value;
+                    select.dispatchEvent(new Event('change', { bubbles: true }));
+                    label.textContent = option.text;
+                    renderOptions();
+                    wrapper.classList.remove('open');
+                    trigger.setAttribute('aria-expanded', 'false');
+                });
+                menu.appendChild(item);
+            });
+        };
+        renderOptions();
+        trigger.addEventListener('click', () => {
+            const willOpen = !wrapper.classList.contains('open');
+            closeMenus(wrapper);
+            wrapper.classList.toggle('open', willOpen);
+            trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+        select.addEventListener('change', () => {
+            label.textContent = select.options[select.selectedIndex]?.text || 'Pilih';
+            renderOptions();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!page.contains(event.target)) closeMenus();
+        else if (!event.target.closest('.custom-select')) closeMenus();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenus();
+    });
+});
+</script>
+@endpush
+
 @endsection
