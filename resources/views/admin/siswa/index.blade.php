@@ -215,7 +215,8 @@
                             <td>
                                 <div class="student-person">
                                     @if ($item->foto_profil)
-                                        <img class="student-avatar" src="{{ asset('storage/' . $item->foto_profil) }}" alt="Foto {{ $item->nama_lengkap }}" loading="lazy" onerror="this.onerror=null;this.replaceWith(Object.assign(document.createElement('span'),{className:'student-avatar',textContent:'{{ mb_strtoupper(mb_substr($item->nama_lengkap, 0, 1)) }}'}))">
+                                        <img class="student-avatar" src="{{ asset('storage/' . $item->foto_profil) }}" alt="Foto {{ $item->nama_lengkap }}" loading="lazy" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='grid'">
+                                        <span class="student-avatar" style="display:none">{{ mb_strtoupper(mb_substr($item->nama_lengkap, 0, 1)) }}</span>
                                     @else
                                         <span class="student-avatar">{{ mb_strtoupper(mb_substr($item->nama_lengkap, 0, 1)) }}</span>
                                     @endif
