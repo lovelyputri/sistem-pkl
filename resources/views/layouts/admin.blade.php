@@ -31,13 +31,13 @@
         .admin-sidebar-caption strong{display:block;font-size:13px;font-weight:800;letter-spacing:-.3px}
         .admin-sidebar-caption span{display:block;margin-top:4px;font-size:8px;color:#d9e6ff}
         .admin-main{min-width:0;flex:1}
-        .admin-topbar{min-height:68px;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid #e5eaf2;padding:13px 25px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+        .admin-topbar{min-height:54px;height:54px;position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid #e5eaf2;padding:7px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
         .topbar-left{display:flex;align-items:center;gap:12px;min-width:0}
-        .admin-topbar strong{font-size:14px}
-        .admin-user{display:flex;align-items:center;gap:10px}
+        .admin-topbar strong{font-size:13px}
+        .admin-user{display:flex;align-items:center;gap:8px}
         .admin-user-name{font-size:11px;font-weight:700}
         .admin-user-role{color:#64748b;font-size:10px;margin-top:3px}
-        .admin-logout{background:#fff;border:1px solid #d9e1ef;border-radius:7px;padding:8px 12px;color:#334155;cursor:pointer;font:inherit;font-size:11px}
+        .admin-logout{background:#fff;border:1px solid #d9e1ef;border-radius:7px;padding:6px 10px;color:#334155;cursor:pointer;font:inherit;font-size:11px}
         .admin-content{max-width:1200px;padding:28px;margin:auto}
         .admin-content h1{font-size:24px;margin:0}
         .admin-intro{color:#64748b;font-size:13px;line-height:1.6;margin:8px 0 24px}
