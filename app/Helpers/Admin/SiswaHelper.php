@@ -1,14 +1,14 @@
 <?php
 
-namespace App\\Helpers\\Admin;
+namespace App\Helpers\Admin;
 
-use App\\Helpers\\PaginateHelper;
-use App\\Models\\Guru;
-use App\\Models\\Jurusan;
-use App\\Models\\Kelas;
-use App\\Models\\Sekolah;
-use App\\Models\\Siswa;
-use Illuminate\\Http\\Request;
+use App\Helpers\PaginateHelper;
+use App\Models\Guru;
+use App\Models\Jurusan;
+use App\Models\Kelas;
+use App\Models\Sekolah;
+use App\Models\Siswa;
+use Illuminate\Http\Request;
 
 class SiswaHelper
 {
