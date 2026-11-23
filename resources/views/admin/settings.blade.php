@@ -4,6 +4,7 @@
 @section('page-heading', 'Pengaturan Akun')
 
 @push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 <style>
     .settings-page{max-width:1040px}
     .settings-heading{margin-bottom:24px}
@@ -49,6 +50,24 @@
     .settings-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:0 16px;border:0;border-radius:8px;background:#234da7;color:#fff;font:inherit;font-size:12px;font-weight:650;cursor:pointer;transition:background .15s,transform .15s}
     .settings-submit:hover{background:#193d8e;transform:translateY(-1px)}
     .settings-submit:focus-visible{outline:3px solid rgba(49,95,196,.25);outline-offset:2px}
+
+    .crop-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.66);backdrop-filter:blur(4px)}
+    .crop-modal.is-open{display:flex}
+    .crop-dialog{width:min(100%,620px);max-height:calc(100vh - 40px);overflow:auto;border-radius:16px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.25)}
+    .crop-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:19px 22px;border-bottom:1px solid #edf0f5}
+    .crop-dialog-head h3{margin:0;color:#172554;font-size:15px;font-weight:750}
+    .crop-dialog-head p{margin:5px 0 0;color:#718096;font-size:11px;line-height:1.5}
+    .crop-close{width:32px;height:32px;border:0;border-radius:8px;background:#f1f5f9;color:#475569;font-size:20px;cursor:pointer}
+    .crop-workspace{height:360px;margin:18px 22px 12px;overflow:hidden;background:#f1f4f8;border-radius:10px}
+    .crop-workspace img{display:block;max-width:100%;max-height:100%}
+    .crop-hint{margin:0 22px;color:#718096;font-size:11px;line-height:1.6}
+    .crop-dialog-actions{display:flex;justify-content:flex-end;gap:9px;padding:17px 22px 20px}
+    .crop-action{min-height:38px;padding:0 15px;border:1px solid #dbe2ec;border-radius:8px;background:#fff;color:#475569;font:inherit;font-size:12px;font-weight:650;cursor:pointer}
+    .crop-action.primary{border-color:#234da7;background:#234da7;color:#fff}
+    .crop-action:disabled{opacity:.55;cursor:not-allowed}
+    .cropper-view-box,.cropper-face{border-radius:50%}
+    .cropper-view-box{outline:2px solid #fff;box-shadow:0 0 0 1px rgba(35,77,167,.5)}
+    @media(max-width:640px){.crop-modal{padding:10px}.crop-dialog{max-height:calc(100vh - 20px)}.crop-workspace{height:300px;margin:14px}.crop-dialog-head{padding:16px}.crop-dialog-actions{padding:14px}.crop-hint{margin:0 14px}}
     @media(max-width:640px){.settings-page{width:100%}.settings-heading h1{font-size:21px}.settings-card-head{padding:16px}.settings-card-body{padding:17px}.settings-grid{grid-template-columns:1fr;gap:15px}.settings-field.full{grid-column:auto}.settings-actions{padding:14px 17px}.settings-submit{width:100%}.settings-profile{align-items:flex-start;gap:15px}.settings-avatar-wrap{width:88px;height:88px;flex-basis:88px}.settings-upload{align-items:flex-start;flex-direction:column}}
 </style>
 @endpush
@@ -203,25 +222,102 @@
     </form>
 </div>
 
+
+<div class="crop-modal" id="profileCropModal" aria-hidden="true">
+    <div class="crop-dialog" role="dialog" aria-modal="true" aria-labelledby="cropDialogTitle">
+        <div class="crop-dialog-head">
+            <div>
+                <h3 id="cropDialogTitle">Atur Foto Profil</h3>
+                <p>Geser foto untuk mengatur posisi. Area lingkaran menunjukkan bagian foto yang akan digunakan.</p>
+            </div>
+            <button type="button" class="crop-close" id="cancelCropTop" aria-label="Tutup">×</button>
+        </div>
+        <div class="crop-workspace">
+            <img id="profileCropImage" alt="Foto yang akan dipangkas">
+        </div>
+        <p class="crop-hint">Gunakan scroll atau gerakan pinch untuk memperbesar dan memperkecil foto. Hasil akhir berbentuk persegi dan ditampilkan bulat sebagai foto profil.</p>
+        <div class="crop-dialog-actions">
+            <button type="button" class="crop-action" id="cancelCrop">Batal</button>
+            <button type="button" class="crop-action primary" id="applyCrop">Gunakan Foto</button>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const photoInput = document.getElementById('foto_profil');
         const photoPreview = document.getElementById('profilePhotoPreview');
         const photoName = document.getElementById('profilePhotoName');
+        const modal = document.getElementById('profileCropModal');
+        const cropImage = document.getElementById('profileCropImage');
+        const applyButton = document.getElementById('applyCrop');
+        const cancelButton = document.getElementById('cancelCrop');
+        const closeButton = document.getElementById('cancelCropTop');
+        let cropper = null;
+        let selectedFile = null;
+        let sourceUrl = null;
+        let previewUrl = null;
 
-        if (!photoInput || !photoPreview || !photoName) return;
+        if (!photoInput || !photoPreview || !photoName || !modal) return;
+
+        function closeCropper(resetInput) {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+            if (sourceUrl) {
+                URL.revokeObjectURL(sourceUrl);
+                sourceUrl = null;
+            }
+            if (resetInput) {
+                photoInput.value = '';
+                selectedFile = null;
+                photoName.textContent = 'Belum ada foto baru dipilih';
+            }
+        }
+
+        function openCropper(file) {
+            selectedFile = file;
+            sourceUrl = URL.createObjectURL(file);
+            cropImage.src = sourceUrl;
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+
+            cropImage.onload = function () {
+                if (cropper) cropper.destroy();
+                cropper = new Cropper(cropImage, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    dragMode: 'move',
+                    autoCropArea: 1,
+                    responsive: true,
+                    background: false,
+                    guides: false,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: false,
+                    cropBoxResizable: false,
+                    toggleDragModeOnDblclick: false,
+                    zoomable: true,
+                    scalable: true,
+                    rotatable: false,
+                    minContainerWidth: 240,
+                    minContainerHeight: 240
+                });
+            };
+        }
 
         photoInput.addEventListener('change', function () {
             const file = this.files && this.files[0];
-
-            if (!file) {
-                photoName.textContent = 'Belum ada foto baru dipilih';
-                return;
-            }
+            if (!file) return;
 
             const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-
             if (!allowedTypes.includes(file.type)) {
                 this.value = '';
                 photoName.textContent = 'Format file tidak didukung';
@@ -234,8 +330,65 @@
                 return;
             }
 
-            photoPreview.src = URL.createObjectURL(file);
-            photoName.textContent = file.name;
+            if (typeof Cropper === 'undefined') {
+                photoName.textContent = 'Fitur pangkas gagal dimuat. Periksa koneksi internet.';
+                this.value = '';
+                return;
+            }
+
+            openCropper(file);
+        });
+
+        applyButton.addEventListener('click', function () {
+            if (!cropper || !selectedFile) return;
+
+            applyButton.disabled = true;
+            const canvas = cropper.getCroppedCanvas({
+                width: 512,
+                height: 512,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high'
+            });
+
+            canvas.toBlob(function (blob) {
+                applyButton.disabled = false;
+                if (!blob) {
+                    photoName.textContent = 'Foto gagal diproses. Silakan coba lagi.';
+                    return;
+                }
+
+                const baseName = selectedFile.name.replace(/\\.[^.]+$/, '') || 'foto-profil';
+                const croppedFile = new File([blob], baseName + '-crop.jpg', {
+                    type: 'image/jpeg',
+                    lastModified: Date.now()
+                });
+
+                const transfer = new DataTransfer();
+                transfer.items.add(croppedFile);
+                photoInput.files = transfer.files;
+
+                if (previewUrl) URL.revokeObjectURL(previewUrl);
+                previewUrl = URL.createObjectURL(croppedFile);
+                photoPreview.src = previewUrl;
+                photoName.textContent = croppedFile.name + ' · sudah dipangkas';
+                closeCropper(false);
+                selectedFile = null;
+            }, 'image/jpeg', 0.92);
+        });
+
+        function cancelSelection() {
+            closeCropper(true);
+        }
+
+        cancelButton.addEventListener('click', cancelSelection);
+        closeButton.addEventListener('click', cancelSelection);
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) cancelSelection();
+        });
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+                cancelSelection();
+            }
         });
     });
 </script>
