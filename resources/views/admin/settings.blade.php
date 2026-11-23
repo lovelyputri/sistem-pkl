@@ -21,10 +21,21 @@
     .settings-card-head h2{margin:0;color:#172554;font-size:14px;font-weight:700}
     .settings-card-head p{margin:4px 0 0;color:#718096;font-size:11px;line-height:1.5}
     .settings-card-body{padding:22px}
-    .settings-profile{display:flex;align-items:center;gap:16px;padding:0 0 21px;margin-bottom:20px;border-bottom:1px solid #edf0f5}
-    .settings-avatar{width:66px;height:66px;flex:0 0 66px;object-fit:cover;border:1px solid #e5eaf2;border-radius:50%;background:#f3f6fb}
-    .settings-profile-copy strong{display:block;color:#1e293b;font-size:13px}
-    .settings-profile-copy span{display:block;margin-top:4px;color:#718096;font-size:11px}
+    .settings-profile{display:flex;align-items:center;gap:22px;padding:2px 0 23px;margin-bottom:21px;border-bottom:1px solid #edf0f5}
+    .settings-avatar-wrap{position:relative;width:112px;height:112px;flex:0 0 112px;padding:5px;border:1px solid #dce5f3;border-radius:50%;background:#f7f9fd}
+    .settings-avatar{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%;background:#eaf0fa}
+    .settings-avatar-status{position:absolute;right:5px;bottom:5px;width:19px;height:19px;border:3px solid #fff;border-radius:50%;background:#22a06b}
+    .settings-profile-copy{min-width:0}
+    .settings-profile-copy strong{display:block;color:#1e293b;font-size:14px;font-weight:700}
+    .settings-profile-copy span{display:block;margin-top:5px;color:#718096;font-size:11px;line-height:1.6}
+    .settings-upload{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:13px}
+    .settings-upload-button{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border:1px solid #d6e0f0;border-radius:8px;background:#fff;color:#234da7;font-size:11px;font-weight:700;cursor:pointer;transition:.15s}
+    .settings-upload-button:hover{background:#f1f5fc;border-color:#9db4dc}
+    .settings-upload-button svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .settings-file-name{color:#8290a3;font-size:10px;overflow-wrap:anywhere}
+    .settings-file-input{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    .settings-upload-button:focus-within{outline:3px solid rgba(49,95,196,.18);outline-offset:2px}
+    .settings-field .settings-upload-help{margin-top:8px}
     .settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
     .settings-field{min-width:0}
     .settings-field.full{grid-column:1/-1}
@@ -38,7 +49,7 @@
     .settings-submit{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:0 16px;border:0;border-radius:8px;background:#234da7;color:#fff;font:inherit;font-size:12px;font-weight:650;cursor:pointer;transition:background .15s,transform .15s}
     .settings-submit:hover{background:#193d8e;transform:translateY(-1px)}
     .settings-submit:focus-visible{outline:3px solid rgba(49,95,196,.25);outline-offset:2px}
-    @media(max-width:640px){.settings-page{width:100%}.settings-heading h1{font-size:21px}.settings-card-head{padding:16px}.settings-card-body{padding:17px}.settings-grid{grid-template-columns:1fr;gap:15px}.settings-field.full{grid-column:auto}.settings-actions{padding:14px 17px}.settings-submit{width:100%}}
+    @media(max-width:640px){.settings-page{width:100%}.settings-heading h1{font-size:21px}.settings-card-head{padding:16px}.settings-card-body{padding:17px}.settings-grid{grid-template-columns:1fr;gap:15px}.settings-field.full{grid-column:auto}.settings-actions{padding:14px 17px}.settings-submit{width:100%}.settings-profile{align-items:flex-start;gap:15px}.settings-avatar-wrap{width:88px;height:88px;flex-basis:88px}.settings-upload{align-items:flex-start;flex-direction:column}}
 </style>
 @endpush
 
@@ -87,14 +98,25 @@
 
             <div class="settings-card-body">
                 <div class="settings-profile">
-                    <img
-                        class="settings-avatar"
-                        src="{{ $admin->foto_profil ? asset('storage/'.$admin->foto_profil) : asset('images/logo.png') }}"
-                        alt="Foto profil admin"
-                    >
+                    <div class="settings-avatar-wrap">
+                        <img
+                            id="profilePhotoPreview"
+                            class="settings-avatar"
+                            src="{{ $admin->foto_profil ? asset('storage/'.$admin->foto_profil) : asset('images/logo.png') }}"
+                            alt="Preview foto profil admin"
+                        >
+                        <span class="settings-avatar-status" aria-hidden="true"></span>
+                    </div>
                     <div class="settings-profile-copy">
                         <strong>{{ old('nama_akun', $admin->nama_akun ?? 'Administrator') }}</strong>
-                        <span>Administrator GUSPELOR.NET</span>
+                        <span>Foto ini akan digunakan sebagai foto profil akun administrator.</span>
+                        <div class="settings-upload">
+                            <label class="settings-upload-button" for="foto_profil">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+                                Pilih Foto
+                            </label>
+                            <span class="settings-file-name" id="profilePhotoName">Belum ada foto baru dipilih</span>
+                        </div>
                     </div>
                 </div>
 
@@ -126,14 +148,15 @@
                     </div>
 
                     <div class="settings-field full">
-                        <label for="foto_profil">Foto profil</label>
                         <input
                             id="foto_profil"
+                            class="settings-file-input"
                             type="file"
                             name="foto_profil"
                             accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                            aria-label="Pilih foto profil"
                         >
-                        <small>Format JPG, JPEG, PNG, atau WEBP. Maksimal 2 MB. Kosongkan jika tidak ingin mengganti foto.</small>
+                        <small class="settings-upload-help">Format JPG, JPEG, PNG, atau WEBP. Maksimal 2 MB. Foto akan langsung ditampilkan sebagai preview setelah dipilih.</small>
                     </div>
                 </div>
             </div>
@@ -179,4 +202,42 @@
         </section>
     </form>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const photoInput = document.getElementById('foto_profil');
+        const photoPreview = document.getElementById('profilePhotoPreview');
+        const photoName = document.getElementById('profilePhotoName');
+
+        if (!photoInput || !photoPreview || !photoName) return;
+
+        photoInput.addEventListener('change', function () {
+            const file = this.files && this.files[0];
+
+            if (!file) {
+                photoName.textContent = 'Belum ada foto baru dipilih';
+                return;
+            }
+
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+            if (!allowedTypes.includes(file.type)) {
+                this.value = '';
+                photoName.textContent = 'Format file tidak didukung';
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                this.value = '';
+                photoName.textContent = 'Ukuran foto melebihi 2 MB';
+                return;
+            }
+
+            photoPreview.src = URL.createObjectURL(file);
+            photoName.textContent = file.name;
+        });
+    });
+</script>
+@endpush
 @endsection
