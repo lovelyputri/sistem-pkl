@@ -19,8 +19,12 @@
 @section('content')
 <div class="settings-page">
     <div class="settings-heading">
-        <h1>Pengaturan Akun Admin</h1>
-        <p>Perbarui informasi profil dan keamanan akun administrator GUSPELOR.NET.</p>
+        <div>
+            <span class="heading-kicker">Account workspace</span>
+            <h1>Pengaturan Akun Admin</h1>
+            <p>Kelola identitas dan keamanan akun administrator GUSPELOR.NET dalam satu tempat.</p>
+        </div>
+        <span class="settings-heading-mark" aria-hidden="true">✳</span>
     </div>
 
     @if (session('success'))
