@@ -284,19 +284,19 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   function renderMonths(){monthGrid.innerHTML='';yearLabel.textContent=panelYear;shortMonths.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.textContent=m;if(i===view.getMonth()&&panelYear===view.getFullYear())b.classList.add('active');b.addEventListener('click',()=>{view=new Date(panelYear,i,1);monthsPanel.classList.remove('active');render()});monthGrid.appendChild(b)})}
   function open(){document.querySelectorAll('.student-date-picker.active').forEach(p=>{p.classList.remove('active');p.closest('.student-date-field')?.classList.remove('is-open')});selected=parse(hidden.value);view=selected?new Date(selected.getFullYear(),selected.getMonth(),1):new Date();picker.classList.add('active');field.classList.add('is-open');monthsPanel.classList.remove('active');render()}
-  display.addEventListener('click',e=>{e.stopPropagation();picker.classList.contains('active')?picker.classList.remove('active');field.classList.remove('is-open'):open()});
+  display.addEventListener('click',e=>{e.stopPropagation();if(picker.classList.contains('active')){picker.classList.remove('active');field.classList.remove('is-open')}else{open()}});
   field.querySelector('.date-prev').addEventListener('click',()=>{view.setMonth(view.getMonth()-1);render()});
   field.querySelector('.date-next').addEventListener('click',()=>{view.setMonth(view.getMonth()+1);render()});
   title.addEventListener('click',()=>{panelYear=view.getFullYear();renderMonths();monthsPanel.classList.toggle('active')});
   field.querySelector('.year-prev').addEventListener('click',()=>{panelYear--;renderMonths()});
   field.querySelector('.year-next').addEventListener('click',()=>{panelYear++;renderMonths()});
-  field.querySelector('.student-date-clear').addEventListener('click',()=>{selected=null;hidden.value='';display.value='';picker.classList.remove('active')});
+  field.querySelector('.student-date-clear').addEventListener('click',()=>{selected=null;hidden.value='';display.value='';picker.classList.remove('active');field.classList.remove('is-open')});
   field.querySelector('.student-date-today').addEventListener('click',()=>{selected=new Date();view=new Date(selected.getFullYear(),selected.getMonth(),1);render()});
   field.querySelector('.student-date-save').addEventListener('click',()=>{if(!selected)return;hidden.value=iso(selected);display.value=fmt(selected);hidden.dispatchEvent(new Event('change',{bubbles:true}));picker.classList.remove('active')});
   const initial=parse(hidden.value);if(initial)display.value=fmt(initial);
   picker.addEventListener('click',e=>e.stopPropagation());
  });
- document.addEventListener('click',()=>document.querySelectorAll('.student-date-picker.active').forEach(p=>p.classList.remove('active')));
+ document.addEventListener('click',()=>document.querySelectorAll('.student-date-picker.active').forEach(p=>{p.classList.remove('active');p.closest('.student-date-field')?.classList.remove('is-open')}));
 });
 </script>
 
