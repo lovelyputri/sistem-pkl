@@ -58,6 +58,35 @@
 .student-profile-page .profile-actions button{font:inherit}
 @media(max-width:600px){.student-profile-page .profile-head{min-height:unset}}
 
+
+/* Redesign halaman profil: ringkasan kuat, detail terkelompok, tidak berupa kotak seragam */
+.student-profile-heading{margin-bottom:20px}
+.student-profile-heading h1{font-size:25px;letter-spacing:-.7px}
+.student-profile-heading p{font-size:12px}
+.student-profile-heading>a{padding:11px 16px!important;border-radius:10px!important;transition:.2s}
+.student-profile-heading>a:hover{background:#edf3ff!important;border-color:#c8d8f4!important;color:#17357f!important}
+.student-profile-page .profile-head{min-height:174px;padding:30px 32px;border-radius:18px;background:radial-gradient(circle at 82% 18%,rgba(129,177,255,.26),transparent 25%),linear-gradient(115deg,#10275f 0%,#1b438e 58%,#3974d2 100%);box-shadow:0 14px 30px rgba(23,53,127,.14)}
+.student-profile-page .profile-avatar{width:100px;height:100px;flex-basis:100px;border-radius:22px;font-size:30px}
+.student-profile-page .profile-head h1{font-size:25px;letter-spacing:-.7px}
+.student-profile-page .profile-head p{color:#dce8ff}
+.student-profile-page .profile-actions{gap:9px}
+.student-profile-page .profile-btn{padding:11px 17px;border-radius:9px;transition:.2s}
+.student-profile-page .profile-actions a:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(0,0,0,.13)}
+.student-profile-page .profile-actions button:hover{background:#bd3547!important;transform:translateY(-2px)}
+.student-profile-page .profile-panel{position:relative;padding:22px 25px 25px;margin-top:17px;border-radius:15px;box-shadow:0 5px 16px rgba(27,53,95,.035)}
+.student-profile-page .profile-panel h2{font-size:15px;margin-bottom:20px}
+.student-profile-page .profile-panel h2:before{width:5px;height:21px;border-radius:5px}
+.student-profile-page .profile-grid{gap:0 22px}
+.student-profile-page .profile-item{padding:15px 4px;border:0;border-bottom:1px solid #edf1f7;border-radius:0;background:transparent}
+.student-profile-page .profile-item:hover{background:transparent;border-color:#dce6f7}
+.student-profile-page .profile-item label{font-size:10px;letter-spacing:.35px;text-transform:uppercase}
+.student-profile-page .profile-item div{font-size:13px;line-height:1.55;color:#243957}
+.student-profile-page .profile-panel:nth-of-type(3) h2:before{background:#168b9b}
+.student-profile-page .profile-panel:nth-of-type(4) h2:before{background:#c18a36}
+.student-profile-page .profile-panel>div[style*="padding:13px"]{border-left:4px solid #2e9b69;border-radius:9px!important;background:#f0faf5!important;color:#176b49!important}
+@media(max-width:720px){.student-profile-page .profile-head{padding:22px}.student-profile-page .profile-panel{padding:18px}.student-profile-page .profile-grid{gap:0 14px}}
+@media(max-width:440px){.student-profile-page .profile-head{padding:18px}.student-profile-page .profile-avatar{width:68px;height:68px;flex-basis:68px;border-radius:17px}.student-profile-page .profile-head h1{font-size:19px}.student-profile-page .profile-panel{padding:16px}.student-profile-page .profile-grid{grid-template-columns:1fr}}
+
 </style>
 @endpush
 
