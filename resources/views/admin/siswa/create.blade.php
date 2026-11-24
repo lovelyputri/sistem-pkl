@@ -17,11 +17,33 @@
 .student-form .field small{display:block;color:#94a3b8;font-size:11px;margin-top:6px;line-height:1.5}
 .student-form .required{color:#dc2626}
 @media(max-width:650px){.student-form .fields{grid-template-columns:1fr}.student-form .form-section{padding:16px}}
+
+.student-create-page{max-width:100%;color:#172033}
+.student-create-head{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding:24px 26px;margin-bottom:20px;border-radius:18px;background:linear-gradient(115deg,#122b68 0%,#214b9d 62%,#3972ce 100%);color:#fff;position:relative;overflow:hidden}
+.student-create-head:after{content:"";position:absolute;width:230px;height:230px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:8%;top:-145px;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 58px rgba(255,255,255,.025)}
+.student-create-head h1{font-size:23px;font-weight:750;letter-spacing:-.5px;margin:0 0 7px;color:#fff}
+.student-create-head p{font-size:12px;color:#dce8ff;margin:0;line-height:1.6}
+.student-create-head a{position:relative;z-index:1;padding:10px 15px;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:12px;font-weight:650}
+.student-create-page .form-section{position:relative;border:1px solid #e5eaf2;border-radius:16px;padding:23px 24px;margin-bottom:15px;background:linear-gradient(145deg,#fff,#fbfcff);box-shadow:0 5px 18px rgba(24,48,91,.035)}
+.student-create-page .section-heading{padding-bottom:15px;border-bottom:1px solid #edf1f7;margin-bottom:19px}
+.student-create-page .section-number{width:39px;height:39px;border-radius:12px;background:#eaf1ff;color:#244a9b;font-size:12px;box-shadow:inset 0 0 0 1px #dce7ff}
+.student-create-page .section-heading h2{font-size:15px;font-weight:750;color:#1d2d49}
+.student-create-page .section-heading p{font-size:11px;color:#8996aa}
+.student-create-page .fields{gap:19px 22px}
+.student-create-page .field label{font-size:11px;font-weight:700;color:#3b4a63}
+.student-create-page .field input,.student-create-page .field select{min-height:44px;padding:11px 13px;border:1px solid #dce3ee;border-radius:10px;background:#fff;font-size:12px;transition:.18s}
+.student-create-page .field input:focus,.student-create-page .field select:focus{border-color:#4775ca;box-shadow:0 0 0 4px rgba(49,95,196,.09)}
+.student-create-page .field small{font-size:10px;color:#8996aa}
+.student-create-page .form-note{padding:15px 17px;border-radius:12px;background:#edf4ff;border:1px solid #d9e6ff;color:#294d8c}
+.student-create-page .form-actions{border-top:1px solid #e8edf5;margin-top:5px;padding:18px 0 28px}
+.student-create-page .form-actions button{padding:12px 20px!important;border-radius:10px!important;background:#214b9d!important;box-shadow:0 5px 12px rgba(33,75,157,.18);font-weight:700!important}
+@media(max-width:650px){.student-create-head{padding:20px;border-radius:14px}.student-create-head h1{font-size:20px}.student-create-page .form-section{padding:17px}.student-create-page .fields{gap:14px}}
+
 </style>
 @endpush
 
 @section('content')
-<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:24px">
+<div class="student-create-head">
     <div><h1>Tambah Siswa</h1><p class="admin-intro" style="margin-bottom:0">Buat data dan akun siswa baru langsung dari panel admin.</p></div>
     <a href="{{ route('admin.siswa.index') }}" style="padding:10px 13px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:12px;color:#475569">← Kembali ke Data Siswa</a>
 </div>
@@ -34,7 +56,7 @@
 <div style="padding:15px 17px;background:#eef4ff;border:1px solid #d9e5ff;border-radius:11px;color:#244a9b;font-size:12px;line-height:1.7;margin-bottom:20px">
     <strong>Akun langsung aktif</strong><br>Setelah disimpan, siswa dapat login menggunakan email dan password yang dibuat di formulir ini. Beri tahu siswa password awalnya secara pribadi.
 </div>
-<form class="student-form" method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.store') }}">
+<div class="student-create-page"><form class="student-form" method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.store') }}">
 @csrf
 <section class="form-section">
     <div class="section-heading"><div class="section-number">01</div><div><h2>Identitas Siswa</h2><p>Informasi dasar untuk mengenali siswa.</p></div></div>
@@ -72,11 +94,11 @@
         <div class="field"><label for="tanggal_selesai_pkl">Tanggal selesai PKL</label><input id="tanggal_selesai_pkl" type="date" name="tanggal_selesai_pkl" value="{{ old('tanggal_selesai_pkl') }}"><small>Tanggal selesai tidak boleh lebih awal dari tanggal mulai.</small></div>
     </div>
 </section>
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0 24px">
+<div class="form-actions" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 0 24px">
     <span style="font-size:11px;color:#64748b"><span class="required">*</span> Wajib diisi</span>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="{{ route('admin.siswa.index') }}" style="padding:12px 16px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:13px;color:#475569">Batal</a><button type="submit" style="padding:12px 18px;border:0;background:#17357f;color:#fff;border-radius:9px;font-size:13px;font-weight:650;cursor:pointer">Simpan Siswa →</button></div>
 </div>
-</form>
+</form></div>
 
 @push('scripts')
 <script>
