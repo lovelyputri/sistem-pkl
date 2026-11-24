@@ -93,6 +93,19 @@
 .student-edit-page .edit-actions a{padding:12px 18px!important;border-radius:10px!important}
 @media(max-width:650px){.student-edit-head{min-height:unset;padding:20px}.student-edit-head h1{font-size:21px}.student-edit-head .edit-avatar{width:54px;height:54px;flex-basis:54px;border-radius:15px}.student-edit-page .edit-card{padding:0 16px 19px}.student-edit-page .edit-card:before{margin:0 -16px 17px}.student-edit-page .edit-grid{gap:15px}}
 
+
+/* Konsistensi layout CRUD siswa dengan dashboard admin */
+.admin-content:has(.student-edit-head){width:100%;max-width:1200px;margin:0 auto;padding:28px}
+.student-edit-head{margin-bottom:22px;border-radius:14px}
+.student-edit-page .edit-card{padding:24px;margin-bottom:17px;border-radius:13px;background:#fff;box-shadow:0 3px 12px rgba(24,48,91,.035)}
+.student-edit-page .edit-card-head{margin-bottom:21px}
+.student-edit-page .edit-grid{gap:20px 24px}
+.student-edit-page .edit-field input,.student-edit-page .edit-field select{min-height:46px}
+.student-edit-page .edit-actions{padding-top:8px}
+@media(max-width:760px){.admin-content:has(.student-edit-head){padding:20px 15px}}
+@media(max-width:650px){.student-edit-page .edit-card{padding:17px}.student-edit-page .edit-grid{gap:15px}}
+@media(max-width:480px){.admin-content:has(.student-edit-head){padding:17px 11px}.student-edit-head{padding:19px 18px}}
+
 </style>
 @endpush
 
