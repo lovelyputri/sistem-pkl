@@ -106,6 +106,11 @@
 @media(max-width:650px){.student-create-page .form-section{padding:17px}.student-create-page .fields{gap:15px}}
 @media(max-width:480px){.admin-content:has(.student-create-head){padding:17px 11px}.student-create-head{padding:20px 18px}}
 
+
+/* Samakan lebar dan padding halaman CRUD Siswa dengan Dashboard Admin. */
+.admin-content:has(.student-create-head){width:100%!important;max-width:none!important;margin:0!important;padding:22px 24px 30px!important}
+@media(max-width:760px){.admin-content:has(.student-create-head){padding:17px 15px!important}}
+@media(max-width:560px){.admin-content:has(.student-create-head){padding:13px 11px 20px!important}}
 </style>
 @endpush
 
