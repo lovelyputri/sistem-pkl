@@ -5,6 +5,11 @@
 
 @push('styles')
 <style>
+/* Samakan lebar dan jarak area konten dengan Dashboard serta Data Siswa */
+.admin-content:has(.student-profile-page){width:100%;max-width:none;margin:0;padding:22px 24px 30px}
+@media(max-width:820px){.admin-content:has(.student-profile-page){padding:17px}}
+@media(max-width:560px){.admin-content:has(.student-profile-page){padding:13px 11px 20px}}
+
 .profile-head{background:linear-gradient(120deg,#17357f,#315fc4);border-radius:16px;padding:26px;color:#fff;display:flex;align-items:center;gap:18px;justify-content:space-between;flex-wrap:wrap}
 .profile-avatar{width:96px;height:96px;flex:0 0 96px;border-radius:50%;background:rgba(255,255,255,.16);border:2px solid rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;object-fit:cover}
 .profile-head h1{font-size:22px;margin:0 0 7px}
