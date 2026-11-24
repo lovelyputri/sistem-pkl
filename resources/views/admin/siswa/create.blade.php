@@ -4,6 +4,7 @@
 @section('page-heading', 'Tambah Siswa')
 
 @push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
 <style>
 /* Samakan lebar dan jarak area konten dengan Dashboard serta Data Siswa */
 .admin-content:has(.student-create-head){width:100%;max-width:none;margin:0;padding:22px 24px 30px}
@@ -379,12 +380,24 @@ document.addEventListener('DOMContentLoaded', function () {
             guruSelect.disabled = false;
         } catch (error) {
             guruSelect.innerHTML = '';
-            guruSelect.add(new Option('Gagal memuat guru. Coba p<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+            guruSelect.add(new Option('Gagal memuat guru. Coba pilih sekolah lagi.', ''));
+            guruSelect.disabled = true;
+            console.error(error);
+        }
+    }
+
+    sekolahSelect.addEventListener('change', function () {
+        muatGuru(this.value);
+    });
+
+    muatGuru(sekolahSelect.value, guruLama);
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('.student-create-page form');
     const photoInput = document.getElementById('foto_profil');
-    const photoPreview = document.querySelector('#profilePhotoPreview img');
     const previewWrap = document.getElementById('profilePhotoPreview');
     const photoName = document.getElementById('profilePhotoName');
     const modal = document.getElementById('profileCropModal');
@@ -392,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const applyButton = document.getElementById('applyCrop');
     const cancelButton = document.getElementById('cancelCrop');
     const closeButton = document.getElementById('cancelCropTop');
-    if (!form || !photoInput || !previewWrap || !modal) return;
+    if (!photoInput || !previewWrap || !modal) return;
 
     let cropper = null;
     let selectedFile = null;
@@ -481,6 +494,143 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('foto_profil');
+    const preview = document.getElementById('profilePhotoPreview');
+    const openButton = document.getElementById('openPhotoCrop');
+    if (!input || !preview || !openButton) return;
+
+    let sourceImage = null;
+    let zoom = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'photo-crop-overlay';
+    overlay.innerHTML = `
+        <div class="photo-crop-dialog" role="dialog" aria-modal="true" aria-labelledby="photoCropTitle">
+            <h3 id="photoCropTitle">Atur Foto Profil</h3>
+            <p>Geser foto untuk mengatur posisi, lalu gunakan zoom agar hasil crop terlihat pas.</p>
+            <div class="photo-crop-canvas-wrap"><canvas class="photo-crop-canvas" width="640" height="640"></canvas></div>
+            <label class="photo-crop-zoom">Zoom <input type="range" min="1" max="3" step="0.01" value="1" id="photoCropZoom"></label>
+            <div class="photo-crop-actions">
+                <button type="button" class="photo-crop-cancel">Batal</button>
+                <button type="button" class="photo-crop-apply">Gunakan Foto</button>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+    const canvas = overlay.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const zoomInput = overlay.querySelector('#photoCropZoom');
+
+    function drawCrop() {
+        if (!sourceImage) return;
+        const baseScale = Math.max(canvas.width / sourceImage.naturalWidth, canvas.height / sourceImage.naturalHeight);
+        const scale = baseScale * zoom;
+        const width = sourceImage.naturalWidth * scale;
+        const height = sourceImage.naturalHeight * scale;
+        const x = (canvas.width - width) / 2 + offsetX;
+        const y = (canvas.height - height) / 2 + offsetY;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#eaf2ff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(sourceImage, x, y, width, height);
+    }
+
+    function closeCrop() {
+        overlay.classList.remove('active');
+        dragging = false;
+    }
+
+    input.addEventListener('change', function () {
+        const file = this.files && this.files[0];
+        if (!file) {
+            openButton.disabled = true;
+            preview.innerHTML = '<span>FOTO</span>';
+            sourceImage = null;
+            return;
+        }
+        if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
+            alert('Pilih foto berformat JPG, PNG, atau WEBP.');
+            this.value = '';
+            openButton.disabled = true;
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Ukuran foto maksimal 2 MB.');
+            this.value = '';
+            openButton.disabled = true;
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const image = new Image();
+            image.onload = function () {
+                sourceImage = image;
+                zoom = 1; offsetX = 0; offsetY = 0;
+                zoomInput.value = '1';
+                drawCrop();
+                overlay.classList.add('active');
+                openButton.disabled = false;
+            };
+            image.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    openButton.addEventListener('click', function () {
+        if (!sourceImage) return;
+        drawCrop();
+        overlay.classList.add('active');
+    });
+    zoomInput.addEventListener('input', function () {
+        zoom = Number(this.value);
+        drawCrop();
+    });
+
+    canvas.addEventListener('pointerdown', function (event) {
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        canvas.setPointerCapture(event.pointerId);
+    });
+    canvas.addEventListener('pointermove', function (event) {
+        if (!dragging) return;
+        const rect = canvas.getBoundingClientRect();
+        offsetX += (event.clientX - lastX) * (canvas.width / rect.width);
+        offsetY += (event.clientY - lastY) * (canvas.height / rect.height);
+        lastX = event.clientX;
+        lastY = event.clientY;
+        drawCrop();
+    });
+    canvas.addEventListener('pointerup', function () { dragging = false; });
+    canvas.addEventListener('pointercancel', function () { dragging = false; });
+    overlay.querySelector('.photo-crop-cancel').addEventListener('click', closeCrop);
+    overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) closeCrop();
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeCrop();
+    });
+
+    overlay.querySelector('.photo-crop-apply').addEventListener('click', function () {
+        if (!sourceImage) return;
+        canvas.toBlob(function (blob) {
+            if (!blob) {
+                alert('Foto gagal diproses. Silakan coba lagi.');
+                return;
+            }
+            const croppedFile = new File([blob], 'foto-profil.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+            const transfer = new DataTransfer();
+            transfer.items.add(croppedFile);
+            input.files = transfer.files;
+            preview.innerHTML = '';
             const image = document.createElement('img');
             image.src = URL.createObjectURL(blob);
             image.alt = 'Pratinjau foto profil';
