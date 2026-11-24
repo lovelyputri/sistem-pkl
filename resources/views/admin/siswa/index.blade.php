@@ -66,7 +66,7 @@
 .student-page .table-meta strong{color:#405575}
 .student-page .table-scroll{width:100%;overflow-x:auto}
 .student-page table{width:100%;min-width:1080px;border-collapse:separate;border-spacing:0;table-layout:fixed;text-align:left}
-.student-page table col:nth-child(1){width:4%}.student-page table col:nth-child(2){width:15%}.student-page table col:nth-child(3){width:9%}.student-page table col:nth-child(4){width:11%}.student-page table col:nth-child(5){width:11%}.student-page table col:nth-child(6){width:11%}.student-page table col:nth-child(7){width:12%}.student-page table col:nth-child(8){width:8%}.student-page table col:nth-child(9){width:9%}.student-page table col:nth-child(10){width:10%}
+.student-page table col:nth-child(1){width:4%}.student-page table col:nth-child(2){width:15%}.student-page table col:nth-child(3){width:9%}.student-page table col:nth-child(4){width:11%}.student-page table col:nth-child(5){width:11%}.student-page table col:nth-child(6){width:11%}.student-page table col:nth-child(7){width:12%}.student-page table col:nth-child(8){width:8%}.student-page table col:nth-child(9){width:9%}.student-page table col:nth-child(10){width:13%}
 .student-page thead th{padding:9px 8px;background:#edf3ff;border-top:1px solid #e2eaf8;border-bottom:1px solid #dfe8f7;color:#31517f;font-size:9px;font-weight:750;letter-spacing:.35px;text-transform:uppercase;white-space:nowrap}
 .student-page tbody td{padding:8px 8px;border-bottom:1px solid #eff2f6;color:#536176;font-size:10px;vertical-align:middle;overflow-wrap:anywhere}
 .student-page tbody tr:last-child td{border-bottom:0}
@@ -90,6 +90,9 @@
 .student-page .row-action{display:inline-flex;align-items:center;justify-content:center;min-height:29px;padding:0 9px;border:1px solid #dce4f1;border-radius:7px;color:#31517f;font-size:9px;font-weight:700;white-space:nowrap;transition:.15s}
 .student-page .row-action:hover{background:#f0f5ff;border-color:#b9cbed}
 .student-page .row-action.edit{border-color:#dbe6fb;background:#edf3ff;color:#2451a0}
+.student-page .row-action.delete{border-color:#f3d4d4;background:#fff5f5;color:#b83b43;cursor:pointer;font-family:inherit}
+.student-page .row-action.delete:hover{border-color:#e7aeb2;background:#ffebec;color:#a52832}
+.student-page .action-delete-form{display:inline-flex;margin:0}
 .student-page .empty-state{padding:42px 20px!important;text-align:center!important;color:#8793a5!important}
 .student-page .empty-state .empty-icon{width:44px;height:44px;display:grid;place-items:center;margin:0 auto 10px;border-radius:13px;background:#f1f5fb;color:#8294b2}
 .student-page .empty-state svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7}
@@ -303,6 +306,11 @@
                                 <div class="action-group">
                                     <a class="row-action" href="{{ route('admin.siswa.show', $item) }}">Profil</a>
                                     <a class="row-action edit" href="{{ route('admin.siswa.edit', $item) }}">Edit</a>
+                                    <form class="action-delete-form" method="POST" action="{{ route('admin.siswa.destroy', $item) }}" onsubmit="return confirm('Yakin ingin menghapus data siswa {{ addslashes($item->nama_lengkap) }}? Akun login siswa juga akan dihapus dan tindakan ini tidak dapat dibatalkan.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="row-action delete" type="submit">Hapus</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
