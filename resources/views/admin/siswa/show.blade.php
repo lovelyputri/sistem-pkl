@@ -98,6 +98,11 @@
 @media(max-width:760px){.admin-content:has(.student-profile-page){padding:20px 15px}.student-profile-page .profile-panel{padding:18px}}
 @media(max-width:480px){.admin-content:has(.student-profile-page){padding:17px 11px}.student-profile-page .profile-head{padding:19px}.student-profile-page .profile-item{padding:12px}}
 
+
+/* Samakan lebar dan padding halaman CRUD Siswa dengan Dashboard Admin. */
+.admin-content:has(.student-profile-page){width:100%!important;max-width:none!important;margin:0!important;padding:22px 24px 30px!important}
+@media(max-width:760px){.admin-content:has(.student-profile-page){padding:17px 15px!important}}
+@media(max-width:560px){.admin-content:has(.student-profile-page){padding:13px 11px 20px!important}}
 </style>
 @endpush
 
