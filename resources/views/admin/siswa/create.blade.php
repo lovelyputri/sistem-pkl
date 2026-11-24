@@ -249,6 +249,24 @@
 .cropper-view-box{outline:2px solid #fff;box-shadow:0 0 0 1px rgba(35,77,167,.5)}
 @media(max-width:480px){.profile-photo-control{align-items:flex-start}.profile-photo-preview{width:64px;height:64px;flex-basis:64px}.photo-crop-dialog{padding:15px}}
 
+
+/* Dropdown custom biru: konsisten dengan dropdown pada daftar siswa */
+.student-form-select{position:relative;width:100%}
+.student-form-select-trigger{width:100%;min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 13px;border:1px solid #cbdcf7;border-radius:9px;background:#f4f8ff;color:#244579;font:inherit;font-size:12px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.student-form-select-trigger:hover{background:#edf4ff;border-color:#b7c9eb}
+.student-form-select.open .student-form-select-trigger,.student-form-select-trigger:focus-visible{outline:0;border-color:#315fc4;box-shadow:0 0 0 3px rgba(49,95,196,.12);background:#fff}
+.student-form-select-chevron{width:15px;height:15px;flex:0 0 15px;color:#315fc4;transition:transform .18s}
+.student-form-select.open .student-form-select-chevron{transform:rotate(180deg)}
+.student-form-select-menu{position:absolute;z-index:80;top:calc(100% + 6px);left:0;right:0;display:none;max-height:230px;overflow-y:auto;padding:5px;border:1px solid #dbe5f5;border-radius:9px;background:#fff;box-shadow:0 12px 28px rgba(20,48,100,.16)}
+.student-form-select.open .student-form-select-menu{display:block}
+.student-form-select-option{width:100%;display:flex;align-items:center;gap:8px;padding:9px;border:0;border-radius:6px;background:transparent;color:#405675;font:inherit;font-size:12px;text-align:left;cursor:pointer}
+.student-form-select-option:hover,.student-form-select-option:focus-visible{outline:0;background:#edf3ff;color:#17357f}
+.student-form-select-option[aria-selected=true]{background:#17357f;color:#fff;font-weight:700}
+.student-form-select-option[aria-selected=true]::before{content:'✓';font-size:10px}
+.student-form-select-option:not([aria-selected=true])::before{content:'';width:10px;flex:0 0 10px}
+.student-form-select select{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+@media(max-width:650px){.student-form-select-trigger{min-height:44px}}
+
 </style>
 @endpush
 
@@ -334,6 +352,95 @@
 </div>
 
 @push('scripts')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('.student-create-page form, .student-edit-page form');
+    if (!form) return;
+
+    const closeMenus = (except = null) => {
+        form.querySelectorAll('.student-form-select.open').forEach((wrapper) => {
+            if (wrapper !== except) {
+                wrapper.classList.remove('open');
+                wrapper.querySelector('.student-form-select-trigger')?.setAttribute('aria-expanded', 'false');
+            }
+        });
+    };
+
+    form.querySelectorAll('select').forEach((select) => {
+        if (select.dataset.customized === 'true') return;
+        select.dataset.customized = 'true';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'student-form-select';
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'student-form-select-trigger';
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        const label = document.createElement('span');
+        label.textContent = select.options[select.selectedIndex]?.text || 'Pilih';
+        const chevron = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        chevron.setAttribute('viewBox', '0 0 24 24');
+        chevron.setAttribute('fill', 'none');
+        chevron.setAttribute('stroke', 'currentColor');
+        chevron.setAttribute('stroke-width', '2');
+        chevron.setAttribute('stroke-linecap', 'round');
+        chevron.setAttribute('stroke-linejoin', 'round');
+        chevron.classList.add('student-form-select-chevron');
+        const iconPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        iconPath.setAttribute('d', 'm6 9 6 6 6-6');
+        chevron.appendChild(iconPath);
+        trigger.append(label, chevron);
+
+        const menu = document.createElement('div');
+        menu.className = 'student-form-select-menu';
+        menu.setAttribute('role', 'listbox');
+        select.parentNode.insertBefore(wrapper, select);
+        wrapper.append(trigger, menu, select);
+
+        const renderOptions = () => {
+            menu.replaceChildren();
+            Array.from(select.options).forEach((option) => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'student-form-select-option';
+                item.textContent = option.text;
+                item.setAttribute('role', 'option');
+                item.setAttribute('aria-selected', option.value === select.value ? 'true' : 'false');
+                item.disabled = option.disabled;
+                item.addEventListener('click', () => {
+                    select.value = option.value;
+                    select.dispatchEvent(new Event('change', { bubbles: true }));
+                    label.textContent = option.text;
+                    renderOptions();
+                    wrapper.classList.remove('open');
+                    trigger.setAttribute('aria-expanded', 'false');
+                });
+                menu.appendChild(item);
+            });
+        };
+        renderOptions();
+        trigger.addEventListener('click', () => {
+            const willOpen = !wrapper.classList.contains('open');
+            closeMenus(wrapper);
+            wrapper.classList.toggle('open', willOpen);
+            trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+        select.addEventListener('change', () => {
+            label.textContent = select.options[select.selectedIndex]?.text || 'Pilih';
+            renderOptions();
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!form.contains(event.target) || !event.target.closest('.student-form-select')) closeMenus();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeMenus();
+    });
+});
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const sekolahSelect = document.getElementById('sekolah_id');
