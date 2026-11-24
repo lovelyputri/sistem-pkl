@@ -41,6 +41,20 @@
 .student-edit-page .edit-actions button{padding:12px 20px!important;border-radius:10px!important;background:#214b9d!important;box-shadow:0 5px 12px rgba(33,75,157,.18);font-weight:700!important}
 @media(max-width:650px){.student-edit-head{padding:18px;border-radius:14px}.student-edit-head h1{font-size:19px}.student-edit-page .edit-card{padding:17px}.student-edit-page .edit-grid{gap:14px}}
 
+
+/* Penyempurnaan tampilan form edit siswa */
+.student-edit-head{min-height:132px;padding:25px 29px;box-shadow:0 12px 28px rgba(23,53,127,.13);position:relative;overflow:hidden}
+.student-edit-head:after{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:12%;top:-150px;box-shadow:0 0 0 28px rgba(255,255,255,.035),0 0 0 56px rgba(255,255,255,.025);pointer-events:none}
+.student-edit-head .edit-intro,.student-edit-head>a{z-index:1}
+.student-edit-page .edit-card{transition:border-color .2s,box-shadow .2s}
+.student-edit-page .edit-card:hover{border-color:#d5e1f5;box-shadow:0 9px 24px rgba(24,48,91,.06)}
+.student-edit-page .edit-field input[type=file]{padding:9px;background:#f8faff;border-style:dashed;cursor:pointer}
+.student-edit-page .edit-field input[type=file]::file-selector-button{border:0;border-radius:7px;padding:7px 11px;margin-right:10px;background:#e8efff;color:#244a9b;font-size:11px;font-weight:700;cursor:pointer}
+.student-edit-page .edit-actions{display:flex;align-items:center}
+.student-edit-page .edit-actions a{transition:.18s}
+.student-edit-page .edit-actions a:hover{background:#f5f7fb!important}
+@media(max-width:650px){.student-edit-head{min-height:unset}}
+
 </style>
 @endpush
 
