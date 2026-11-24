@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
   field.querySelector('.year-next').addEventListener('click',()=>{panelYear++;renderMonths()});
   field.querySelector('.student-date-clear').addEventListener('click',()=>{selected=null;hidden.value='';display.value='';picker.classList.remove('active');field.classList.remove('is-open')});
   field.querySelector('.student-date-today').addEventListener('click',()=>{selected=new Date();view=new Date(selected.getFullYear(),selected.getMonth(),1);render()});
-  field.querySelector('.student-date-save').addEventListener('click',()=>{if(!selected)return;hidden.value=iso(selected);display.value=fmt(selected);hidden.dispatchEvent(new Event('change',{bubbles:true}));picker.classList.remove('active')});
+  field.querySelector('.student-date-save').addEventListener('click',()=>{if(!selected)return;hidden.value=iso(selected);display.value=fmt(selected);hidden.dispatchEvent(new Event('change',{bubbles:true}));picker.classList.remove('active');field.classList.remove('is-open')});
   const initial=parse(hidden.value);if(initial)display.value=fmt(initial);
   picker.addEventListener('click',e=>e.stopPropagation());
  });
