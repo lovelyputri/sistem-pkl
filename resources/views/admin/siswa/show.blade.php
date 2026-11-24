@@ -18,16 +18,39 @@
 .profile-item div{font-size:13px;font-weight:600;color:#243047;overflow-wrap:anywhere}
 @media(max-width:720px){.profile-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.profile-panel{padding:16px}}
 @media(max-width:440px){.profile-grid{grid-template-columns:1fr}}
+
+.student-profile-page{color:#172033}
+.student-profile-heading{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.student-profile-heading h1{font-size:22px;font-weight:750;letter-spacing:-.4px;color:#1d2d49;margin:0 0 5px}
+.student-profile-heading p{font-size:12px;color:#8794a8}
+.student-profile-heading>a{padding:10px 14px!important;border:1px solid #dce4ef!important;background:#fff!important;border-radius:10px!important;color:#425574!important}
+.student-profile-page .profile-head{position:relative;overflow:hidden;padding:27px 28px;border-radius:18px;background:linear-gradient(115deg,#122b68 0%,#214b9d 62%,#3972ce 100%);box-shadow:0 10px 24px rgba(23,53,127,.12)}
+.student-profile-page .profile-head:after{content:"";position:absolute;width:250px;height:250px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:8%;top:-165px;box-shadow:0 0 0 30px rgba(255,255,255,.035),0 0 0 62px rgba(255,255,255,.025);pointer-events:none}
+.student-profile-page .profile-head>div,.student-profile-page .profile-head form{position:relative;z-index:1}
+.student-profile-page .profile-avatar{width:88px;height:88px;flex-basis:88px;border:3px solid rgba(255,255,255,.5);box-shadow:0 5px 16px rgba(0,0,0,.12)}
+.student-profile-page .profile-head h1{font-size:23px;font-weight:750;letter-spacing:-.4px}
+.student-profile-page .profile-head p{font-size:12px}
+.student-profile-page .profile-btn{padding:10px 14px;border-radius:9px;font-size:11px;font-weight:700}
+.student-profile-page .profile-panel{padding:23px 24px;margin-top:15px;border:1px solid #e5eaf2;border-radius:16px;box-shadow:0 5px 18px rgba(24,48,91,.035)}
+.student-profile-page .profile-panel h2{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:750;color:#1d2d49;margin-bottom:19px}
+.student-profile-page .profile-panel h2:before{content:"";width:4px;height:17px;border-radius:5px;background:#3972ce}
+.student-profile-page .profile-grid{gap:20px 24px}
+.student-profile-page .profile-item{padding:12px 13px;border:1px solid #edf1f7;border-radius:11px;background:#fbfcff;min-width:0}
+.student-profile-page .profile-item label{font-size:10px;font-weight:600;color:#8996aa;margin-bottom:6px}
+.student-profile-page .profile-item div{font-size:12px;font-weight:700;color:#2b3b55}
+@media(max-width:720px){.student-profile-page .profile-head{padding:20px}.student-profile-page .profile-panel{padding:17px}.student-profile-page .profile-grid{gap:11px}}
+@media(max-width:440px){.student-profile-page .profile-head{align-items:flex-start}.student-profile-page .profile-head>div:first-child{align-items:flex-start!important;gap:12px!important}.student-profile-page .profile-avatar{width:64px;height:64px;flex-basis:64px;font-size:21px}.student-profile-page .profile-head h1{font-size:18px}.student-profile-page .profile-actions{width:100%}.student-profile-page .profile-actions>*{flex:1}.student-profile-page .profile-actions .profile-btn{justify-content:center;width:100%}}
+
 </style>
 @endpush
 
 @section('content')
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+<div class="student-profile-heading">
     <div><h1>Profil Siswa</h1><p class="admin-intro" style="margin-bottom:0">Ringkasan identitas, akun, sekolah, dan periode PKL.</p></div>
     <a href="{{ route('admin.siswa.index') }}" style="padding:10px 13px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:12px;color:#475569">← Data Siswa</a>
 </div>
 @if (session('success'))<div style="padding:13px 15px;background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:10px;margin-bottom:16px;font-size:13px">{{ session('success') }}</div>@endif
-<div class="profile-head">
+<div class="student-profile-page"><div class="profile-head">
     <div style="display:flex;align-items:center;gap:18px;min-width:0">
         @if ($siswa->foto_profil)
             <img class="profile-avatar" src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto {{ $siswa->nama_lengkap }}" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'">
