@@ -5,7 +5,7 @@
 
 @push('styles')
 <style>
-.admin-content:has(.student-page){max-width:1440px;padding-left:22px;padding-right:22px}
+.admin-content:has(.student-page){max-width:none;width:100%;margin:0;padding:22px 24px 30px}
 .student-page{--student-blue:#17357f;--student-blue-2:#315fc4;--student-ink:#172b4d;--student-muted:#718096;--student-line:#e7ecf4}
 .student-page *{box-sizing:border-box}
 .student-page .page-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
@@ -105,6 +105,8 @@
 .student-page .page-link.disabled{opacity:.4;pointer-events:none}
 .student-page .alert-success{display:flex;align-items:center;gap:9px;padding:12px 14px;margin-bottom:16px;border:1px solid #ccebd6;background:#f0fbf4;border-radius:9px;color:#267345;font-size:11px}
 .student-page .alert-success svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+@media(max-width:820px){.admin-content:has(.student-page){padding:17px}}
+@media(max-width:560px){.admin-content:has(.student-page){padding:13px 11px 20px}}
 @media(max-width:1100px){.student-page .filter-form{grid-template-columns:repeat(2,minmax(0,1fr))}.student-page .filter-actions{grid-column:1/-1}}
 @media(max-width:760px){.student-page .student-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.student-page .stat-card{padding:13px;gap:9px}.student-page .stat-icon{width:34px;height:34px;flex-basis:34px}.student-page .stat-copy strong{font-size:20px}.student-page .panel-top{padding:11px}.student-page .table-meta,.student-page .pagination-wrap{padding-left:15px;padding-right:15px}}
 @media(max-width:480px){.student-page .page-heading h1{font-size:20px}.student-page .page-heading{margin-bottom:17px}.student-page .primary-action{width:100%}.student-page .student-stats{gap:8px}.student-page .stat-card{padding:11px 9px;align-items:flex-start}.student-page .stat-icon{width:31px;height:31px;flex-basis:31px;border-radius:8px}.student-page .stat-copy span{font-size:9px}.student-page .stat-copy strong{font-size:19px}.student-page .filter-form{grid-template-columns:1fr}.student-page .filter-actions{grid-column:auto}.student-page .filter-submit,.student-page .filter-reset{flex:1}.student-page .pagination-wrap{align-items:flex-start;flex-direction:column}.student-page .pagination{width:100%}}
