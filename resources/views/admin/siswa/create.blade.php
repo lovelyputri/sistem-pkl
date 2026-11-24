@@ -111,6 +111,97 @@
 .admin-content:has(.student-create-head){width:100%!important;max-width:none!important;margin:0!important;padding:22px 24px 30px!important}
 @media(max-width:760px){.admin-content:has(.student-create-head){padding:17px 15px!important}}
 @media(max-width:560px){.admin-content:has(.student-create-head){padding:13px 11px 20px!important}}
+
+/* Redesign form tambah siswa: satu panel form yang ringkas dan rapi */
+.student-create-head{
+    min-height:0!important;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+    padding:4px 2px 18px!important;margin:0 0 16px!important;
+    border-radius:0!important;background:transparent!important;
+    box-shadow:none!important;color:#172033!important;overflow:visible!important;
+}
+.student-create-head:before,.student-create-head:after{display:none!important}
+.student-create-head>div{position:static!important}
+.student-create-head h1{font-size:23px!important;font-weight:750!important;letter-spacing:-.55px!important;color:#172b4d!important;margin:0 0 5px!important}
+.student-create-head p{font-size:12px!important;color:#718096!important;line-height:1.6}
+.student-create-head>a{
+    flex:0 0 auto;position:static!important;z-index:auto!important;
+    padding:9px 13px!important;border:1px solid #dce4f0!important;
+    border-radius:8px!important;background:#fff!important;color:#36558c!important;
+    font-size:11px!important;font-weight:650!important;transition:.18s;
+}
+.student-create-head>a:hover{background:#f4f7fc!important;border-color:#b9c9e4!important}
+.student-account-note{
+    display:flex;align-items:flex-start;gap:12px;padding:12px 15px;
+    margin:0 0 16px;border:1px solid #dce7f8;border-left:3px solid #4775ca;
+    border-radius:8px;background:#f7faff;color:#526782;font-size:11px;line-height:1.65;
+}
+.student-account-note strong{flex:0 0 auto;color:#294d8c;font-size:11px}
+.student-create-page .student-form{
+    padding:0 25px;background:#fff;border:1px solid #e3e9f2;
+    border-radius:12px;box-shadow:0 3px 12px rgba(24,48,91,.035);
+}
+.student-create-page .form-section{
+    padding:23px 0!important;margin:0!important;border:0!important;
+    border-radius:0!important;background:transparent!important;
+    box-shadow:none!important;overflow:visible!important;
+}
+.student-create-page .form-section+ .form-section{border-top:1px solid #edf1f6!important}
+.student-create-page .form-section:before{display:none!important}
+.student-create-page .section-heading{
+    display:flex;align-items:center;gap:10px;padding:0!important;
+    margin:0 0 19px!important;border:0!important;
+}
+.student-create-page .section-number{
+    display:grid;place-items:center;width:31px!important;height:31px!important;
+    flex:0 0 31px!important;border-radius:8px!important;
+    background:#f0f4fb!important;color:#315b9e!important;
+    box-shadow:none!important;font-size:10px!important;font-weight:750!important;
+}
+.student-create-page .section-heading h2{font-size:14px!important;font-weight:700!important;color:#243653!important;margin:0 0 3px!important}
+.student-create-page .section-heading p{font-size:10px!important;color:#8793a5!important;margin:0!important}
+.student-create-page .fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 22px!important}
+.student-create-page .field label{display:block;font-size:11px!important;font-weight:650!important;color:#42516a!important;margin:0 0 7px!important}
+.student-create-page .field input,.student-create-page .field select{
+    width:100%;min-height:41px!important;padding:10px 12px!important;
+    border:1px solid #dce3ed!important;border-radius:7px!important;
+    background:#fff!important;color:#26364d!important;font-size:11px!important;
+    box-shadow:none!important;
+}
+.student-create-page .field input:hover,.student-create-page .field select:hover{border-color:#b9c9df!important}
+.student-create-page .field input:focus,.student-create-page .field select:focus{
+    border-color:#4775ca!important;box-shadow:0 0 0 3px rgba(49,95,196,.09)!important;
+}
+.student-create-page .field small{font-size:10px!important;color:#8793a5!important;line-height:1.5}
+.student-create-page .field input[type=file]{min-height:41px!important;padding:7px 9px!important;background:#fafbfd!important;border:1px dashed #cfd9e8!important}
+.student-create-page .field input[type=file]::file-selector-button{border:0;border-radius:5px;padding:6px 9px;margin-right:8px;background:#edf2fb;color:#31558f;font-size:10px;font-weight:650;cursor:pointer}
+.student-create-page .form-actions{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    margin:0!important;padding:17px 0 20px!important;border-top:1px solid #edf1f6!important;
+}
+.student-create-page .form-actions button{
+    padding:10px 17px!important;border:0!important;border-radius:7px!important;
+    background:#2454a5!important;color:#fff!important;font-size:11px!important;
+    font-weight:700!important;box-shadow:none!important;
+}
+.student-create-page .form-actions button:hover{background:#1b4389!important;transform:none!important}
+.student-create-page .form-actions a{padding:10px 15px!important;border:1px solid #dce3ed!important;border-radius:7px!important;background:#fff!important;font-size:11px!important}
+@media(max-width:700px){
+    .student-create-head{align-items:flex-start;flex-direction:column;padding-bottom:14px!important}
+    .student-account-note{display:block}
+    .student-account-note strong{display:block;margin-bottom:3px}
+    .student-create-page .student-form{padding:0 16px}
+    .student-create-page .form-section{padding:19px 0!important}
+    .student-create-page .fields{grid-template-columns:1fr;gap:14px!important}
+}
+@media(max-width:480px){
+    .student-create-head h1{font-size:20px!important}
+    .student-create-page .student-form{padding:0 13px}
+    .student-create-page .form-actions{align-items:stretch;flex-direction:column}
+    .student-create-page .form-actions>div{width:100%}
+    .student-create-page .form-actions>div a,.student-create-page .form-actions>div button{flex:1;text-align:center}
+}
+
 </style>
 @endpush
 
@@ -125,8 +216,9 @@
     <ul style="margin:8px 0 0;padding-left:20px">@foreach ($errors->all() as $error)<li style="margin:3px 0">{{ $error }}</li>@endforeach</ul>
 </div>
 @endif
-<div style="padding:15px 17px;background:#eef4ff;border:1px solid #d9e5ff;border-radius:11px;color:#244a9b;font-size:12px;line-height:1.7;margin-bottom:20px">
-    <strong>Akun langsung aktif</strong><br>Setelah disimpan, siswa dapat login menggunakan email dan password yang dibuat di formulir ini. Beri tahu siswa password awalnya secara pribadi.
+<div class="student-account-note">
+    <strong>Akun langsung aktif</strong>
+    <span>Setelah disimpan, siswa dapat login menggunakan email dan password yang dibuat di formulir ini. Beri tahu siswa password awalnya secara pribadi.</span>
 </div>
 <div class="student-create-page"><form class="student-form" method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.store') }}">
 @csrf
