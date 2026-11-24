@@ -54,6 +54,14 @@
 .sj-pagination{margin-top:13px}.sj-pagination nav{display:flex;justify-content:center}
 @media(max-width:1050px){.sj-columns{grid-template-columns:1fr}.sj-card-body{padding:16px}}
 @media(max-width:600px){.sj-hero{min-height:115px;padding:18px}.sj-hero-art{width:65px;height:65px;flex-basis:65px;border-radius:18px}.sj-hero-art svg{width:34px;height:34px}.sj-summary{gap:8px}.sj-summary-card{padding:12px;gap:9px}.sj-summary-icon{width:36px;height:36px;flex-basis:36px}.sj-summary-value{font-size:17px}.sj-card-head{padding:15px}.sj-card-body{padding:13px}.sj-form-box{padding:12px}.sj-form-grid{grid-template-columns:1fr}.sj-form-grid .wide{grid-column:auto}.sj-item-actions{padding-left:0}.sj-student-count{margin-left:0}}
+
+/* Samakan lebar dan padding halaman dengan Dashboard Admin */
+.admin-content:has(.sj-page){width:100%!important;max-width:none!important;margin:0!important;padding:22px 24px 30px!important}
+.sj-page{width:100%!important;max-width:none!important;margin:0!important;padding:0 0 24px!important;box-sizing:border-box}
+.sj-page *{box-sizing:border-box}
+@media(max-width:820px){.admin-content:has(.sj-page){padding:17px 15px!important}}
+@media(max-width:560px){.admin-content:has(.sj-page){padding:13px 11px 20px!important}}
+
 </style>
 @endpush
 
