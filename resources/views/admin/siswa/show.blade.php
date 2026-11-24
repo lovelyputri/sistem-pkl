@@ -87,6 +87,17 @@
 @media(max-width:720px){.student-profile-page .profile-head{padding:22px}.student-profile-page .profile-panel{padding:18px}.student-profile-page .profile-grid{gap:0 14px}}
 @media(max-width:440px){.student-profile-page .profile-head{padding:18px}.student-profile-page .profile-avatar{width:68px;height:68px;flex-basis:68px;border-radius:17px}.student-profile-page .profile-head h1{font-size:19px}.student-profile-page .profile-panel{padding:16px}.student-profile-page .profile-grid{grid-template-columns:1fr}}
 
+
+/* Konsistensi layout CRUD siswa dengan dashboard admin */
+.admin-content:has(.student-profile-page){width:100%;max-width:1200px;margin:0 auto;padding:28px}
+.student-profile-heading{align-items:center;margin-bottom:22px}
+.student-profile-page .profile-head{padding:28px 30px;border-radius:14px}
+.student-profile-page .profile-panel{padding:24px;margin-top:17px;border-radius:13px;background:#fff;box-shadow:0 3px 12px rgba(24,48,91,.035)}
+.student-profile-page .profile-grid{gap:14px}
+.student-profile-page .profile-item{padding:14px 15px}
+@media(max-width:760px){.admin-content:has(.student-profile-page){padding:20px 15px}.student-profile-page .profile-panel{padding:18px}}
+@media(max-width:480px){.admin-content:has(.student-profile-page){padding:17px 11px}.student-profile-page .profile-head{padding:19px}.student-profile-page .profile-item{padding:12px}}
+
 </style>
 @endpush
 
