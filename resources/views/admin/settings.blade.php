@@ -98,6 +98,14 @@
 @media(max-width:1050px){.settings-workspace{grid-template-columns:250px minmax(0,1fr);gap:14px}.settings-profile-card{min-height:550px;padding:26px 18px}.settings-panel{padding:20px}}
 @media(max-width:760px){.settings-hero{min-height:112px;padding:18px}.settings-hero-icon{width:56px;height:56px;flex-basis:56px;border-radius:17px}.settings-hero-icon svg{width:29px;height:29px}.settings-hero-art{right:1%;width:105px;height:105px;opacity:.45}.settings-workspace{grid-template-columns:1fr}.settings-profile-card{min-height:0;padding:22px}.settings-profile-meta{max-width:380px;margin-top:15px}.settings-profile-quote{margin:12px 0}.settings-avatar-area{margin:13px auto}.settings-avatar-frame{width:105px;height:105px}.settings-panels{gap:13px}.settings-panel{padding:18px}.settings-panel-head{margin-bottom:19px}.settings-panel-icon{width:47px;height:47px;flex-basis:47px;border-radius:15px}.settings-panel-head h2{font-size:16px}}
 @media(max-width:520px){.settings-hero{gap:12px;padding:16px}.settings-hero-copy h1{font-size:21px}.settings-hero-copy p{font-size:11px;max-width:240px}.settings-hero-art{display:none}.settings-grid,.settings-password-grid{grid-template-columns:1fr;gap:14px}.settings-field.full,.settings-password-grid .settings-field:nth-child(3){grid-column:auto}.settings-panel-head{align-items:flex-start}.settings-active{padding:7px 10px;font-size:10px}.settings-panel-title{gap:10px}.settings-panel-icon{width:42px;height:42px;flex-basis:42px}.settings-panel-head h2{font-size:15px}.settings-panel-head p{font-size:10px}.settings-actions{flex-direction:column-reverse;align-items:stretch}.settings-reset,.settings-save{width:100%}.crop-modal{padding:10px}.crop-dialog{max-height:calc(100vh - 20px)}.crop-workspace{height:300px;margin:14px}.crop-dialog-head{padding:16px}.crop-dialog-actions{padding:14px}.crop-hint{margin:0 14px}}
+
+/* Samakan lebar dan padding halaman dengan Dashboard Admin */
+.admin-content:has(.settings-page){width:100%!important;max-width:none!important;margin:0!important;padding:22px 24px 30px!important}
+.settings-page{width:100%!important;max-width:none!important;margin:0!important;padding:0 0 18px!important;box-sizing:border-box}
+.settings-page *{box-sizing:border-box}
+@media(max-width:820px){.admin-content:has(.settings-page){padding:17px 15px!important}}
+@media(max-width:560px){.admin-content:has(.settings-page){padding:13px 11px 20px!important}}
+
 </style>
 @endpush
 
