@@ -5,6 +5,11 @@
 
 @push('styles')
 <style>
+/* Samakan lebar dan jarak area konten dengan Dashboard serta Data Siswa */
+.admin-content:has(.student-create-head){width:100%;max-width:none;margin:0;padding:22px 24px 30px}
+@media(max-width:820px){.admin-content:has(.student-create-head){padding:17px}}
+@media(max-width:560px){.admin-content:has(.student-create-head){padding:13px 11px 20px}}
+
 .student-form .form-section{border:1px solid #e5eaf2;border-radius:13px;padding:22px;margin-bottom:18px;background:#fff}
 .student-form .section-heading{display:flex;gap:12px;align-items:center;margin-bottom:20px}
 .student-form .section-number{width:36px;height:36px;border-radius:10px;background:#eaf0ff;color:#244a9b;display:flex;align-items:center;justify-content:center;font-weight:700}
