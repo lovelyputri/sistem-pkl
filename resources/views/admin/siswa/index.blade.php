@@ -110,6 +110,27 @@
 @media(max-width:1100px){.student-page .filter-form{grid-template-columns:repeat(2,minmax(0,1fr))}.student-page .filter-actions{grid-column:1/-1}}
 @media(max-width:760px){.student-page .student-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.student-page .stat-card{padding:13px;gap:9px}.student-page .stat-icon{width:34px;height:34px;flex-basis:34px}.student-page .stat-copy strong{font-size:20px}.student-page .panel-top{padding:11px}.student-page .table-meta,.student-page .pagination-wrap{padding-left:15px;padding-right:15px}}
 @media(max-width:480px){.student-page .page-heading h1{font-size:20px}.student-page .page-heading{margin-bottom:17px}.student-page .primary-action{width:100%}.student-page .student-stats{gap:8px}.student-page .stat-card{padding:11px 9px;align-items:flex-start}.student-page .stat-icon{width:31px;height:31px;flex-basis:31px;border-radius:8px}.student-page .stat-copy span{font-size:9px}.student-page .stat-copy strong{font-size:19px}.student-page .filter-form{grid-template-columns:1fr}.student-page .filter-actions{grid-column:auto}.student-page .filter-submit,.student-page .filter-reset{flex:1}.student-page .pagination-wrap{align-items:flex-start;flex-direction:column}.student-page .pagination{width:100%}}
+
+/* Konsistensi layout CRUD siswa dengan dashboard admin */
+.admin-content:has(.student-page){width:100%;max-width:1200px;margin:0 auto;padding:28px}
+.student-page .page-heading{align-items:center;margin-bottom:24px}
+.student-page .student-stats{gap:14px;margin-bottom:20px}
+.student-page .stat-card{padding:18px;border-radius:13px}
+.student-page .notice{padding:13px 16px;margin-bottom:18px}
+.student-page .table-panel{border-radius:14px}
+.student-page .panel-top{padding:17px 18px 14px}
+.student-page .table-meta{padding:12px 18px}
+.student-page .pagination-wrap{padding:15px 18px}
+@media(max-width:760px){
+ .admin-content:has(.student-page){padding:20px 15px}
+ .student-page .panel-top{padding:14px}
+}
+@media(max-width:480px){
+ .admin-content:has(.student-page){padding:17px 11px}
+ .student-page .page-heading{align-items:stretch}
+ .student-page .student-stats{gap:9px}
+}
+
 </style>
 @endpush
 
