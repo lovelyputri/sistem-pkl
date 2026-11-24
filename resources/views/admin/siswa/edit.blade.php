@@ -112,6 +112,30 @@
 @media(max-width:760px){.admin-content:has(.student-edit-head){padding:17px 15px!important}}
 @media(max-width:560px){.admin-content:has(.student-edit-head){padding:13px 11px 20px!important}}
 
+/* Aksen biru pada input tanggal, samakan dengan form pendaftaran dan form tambah siswa */
+.student-edit-page .edit-field input[type="date"]{
+    color-scheme:light;
+    accent-color:#2563eb;
+    background:#f4f8ff!important;
+    border-color:#cbdcf7!important;
+    cursor:pointer;
+}
+.student-edit-page .edit-field input[type="date"]:hover{
+    border-color:#9dbcf0!important;
+    background:#edf4ff!important;
+}
+.student-edit-page .edit-field input[type="date"]:focus{
+    border-color:#2563eb!important;
+    background:#fff!important;
+    box-shadow:0 0 0 3px rgba(37,99,235,.12)!important;
+    outline:0;
+}
+.student-edit-page .edit-field input[type="date"]::-webkit-calendar-picker-indicator{
+    opacity:1;
+    cursor:pointer;
+    filter:invert(29%) sepia(89%) saturate(1715%) hue-rotate(205deg) brightness(92%) contrast(94%);
+}
+
 /* Dropdown custom biru: konsisten dengan dropdown pada daftar siswa */
 .student-form-select{position:relative;width:100%}
 .student-form-select-trigger{width:100%;min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 13px;border:1px solid #cbdcf7;border-radius:9px;background:#f4f8ff;color:#244579;font:inherit;font-size:12px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
