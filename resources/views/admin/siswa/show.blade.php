@@ -41,6 +41,18 @@
 @media(max-width:720px){.student-profile-page .profile-head{padding:20px}.student-profile-page .profile-panel{padding:17px}.student-profile-page .profile-grid{gap:11px}}
 @media(max-width:440px){.student-profile-page .profile-head{align-items:flex-start}.student-profile-page .profile-head>div:first-child{align-items:flex-start!important;gap:12px!important}.student-profile-page .profile-avatar{width:64px;height:64px;flex-basis:64px;font-size:21px}.student-profile-page .profile-head h1{font-size:18px}.student-profile-page .profile-actions{width:100%}.student-profile-page .profile-actions>*{flex:1}.student-profile-page .profile-actions .profile-btn{justify-content:center;width:100%}}
 
+
+/* Penyempurnaan tampilan detail siswa */
+.student-profile-heading{padding:3px 0 5px}
+.student-profile-page .profile-head{min-height:154px}
+.student-profile-page .profile-panel{transition:border-color .2s,box-shadow .2s}
+.student-profile-page .profile-panel:hover{border-color:#d5e1f5;box-shadow:0 9px 24px rgba(24,48,91,.06)}
+.student-profile-page .profile-item{transition:background .18s,border-color .18s}
+.student-profile-page .profile-item:hover{background:#f4f7ff;border-color:#dce6f7}
+.student-profile-page .profile-actions form{margin:0}
+.student-profile-page .profile-actions button{font:inherit}
+@media(max-width:600px){.student-profile-page .profile-head{min-height:unset}}
+
 </style>
 @endpush
 
