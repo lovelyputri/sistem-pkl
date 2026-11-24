@@ -39,6 +39,21 @@
 .student-create-page .form-actions button{padding:12px 20px!important;border-radius:10px!important;background:#214b9d!important;box-shadow:0 5px 12px rgba(33,75,157,.18);font-weight:700!important}
 @media(max-width:650px){.student-create-head{padding:20px;border-radius:14px}.student-create-head h1{font-size:20px}.student-create-page .form-section{padding:17px}.student-create-page .fields{gap:14px}}
 
+
+/* Penyempurnaan tampilan form tambah siswa */
+.student-create-head{min-height:142px;padding:27px 30px;box-shadow:0 12px 28px rgba(23,53,127,.13)}
+.student-create-head:before{content:"DATA SISWA / PENDAFTARAN";display:block;position:absolute;left:30px;bottom:17px;color:rgba(255,255,255,.58);font-size:9px;font-weight:800;letter-spacing:1.4px}
+.student-create-head>div{position:relative;z-index:1}
+.student-create-page .form-section{transition:border-color .2s,box-shadow .2s}
+.student-create-page .form-section:hover{border-color:#d5e1f5;box-shadow:0 9px 24px rgba(24,48,91,.06)}
+.student-create-page .section-number{display:grid;place-items:center;flex:0 0 40px;font-size:12px;font-weight:800}
+.student-create-page .field input[type=file]{padding:9px;background:#f8faff;border-style:dashed;cursor:pointer}
+.student-create-page .field input[type=file]::file-selector-button{border:0;border-radius:7px;padding:7px 11px;margin-right:10px;background:#e8efff;color:#244a9b;font-size:11px;font-weight:700;cursor:pointer}
+.student-create-page .form-actions{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.student-create-page .form-actions a{transition:.18s}
+.student-create-page .form-actions a:hover{background:#f5f7fb!important}
+@media(max-width:650px){.student-create-head:before{display:none}.student-create-head{min-height:unset}}
+
 </style>
 @endpush
 
