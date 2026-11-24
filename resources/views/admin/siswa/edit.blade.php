@@ -188,6 +188,30 @@
 .student-date-year-row strong{color:#1e293b}
 @media(max-width:650px){.student-date-picker{width:min(100%,330px);min-width:0;padding:14px}.student-date-day{height:32px}}
 
+
+/* Perapian kalender: tidak terpotong oleh panel form */
+.student-edit-page .edit-card:has(.student-date-field){overflow:visible!important}
+.student-edit-page .edit-card:has(.student-date-field) .edit-grid{overflow:visible}
+.student-date-field{z-index:1}
+.student-date-field.is-open{z-index:150}
+.student-date-picker{width:370px;max-width:min(370px,calc(100vw - 36px));padding:18px 19px 16px;border-radius:14px;box-sizing:border-box}
+.student-date-nav{min-height:34px;margin-bottom:14px}
+.student-date-nav button{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:21px;line-height:1}
+.student-date-title{font-size:13px;letter-spacing:.1px}
+.student-date-grid{gap:5px}
+.student-date-week{font-size:10px;padding:7px 0}
+.student-date-day{height:36px;width:36px;justify-self:center;font-size:12px}
+.student-date-actions{gap:8px;margin-top:15px;padding-top:12px;border-top:1px solid #eef2f8}
+.student-date-actions button{height:36px;font-size:11px;white-space:nowrap}
+.student-date-clear{background:#f8fafc}
+.student-date-clear:hover{background:#f1f5f9}
+.student-date-today:hover,.student-date-save:hover{background:#1d4ed8}
+.student-date-months{inset:50px 12px 12px}
+@media(max-width:650px){
+ .student-date-picker{width:min(350px,calc(100vw - 34px));max-width:calc(100vw - 34px);padding:15px}
+ .student-date-day{height:34px;width:34px}
+}
+
 </style>
 @endpush
 
@@ -259,8 +283,8 @@ document.addEventListener('DOMContentLoaded', function () {
     btn.addEventListener('click',()=>{selected=new Date(view.getFullYear(),view.getMonth(),d);render()});grid.appendChild(btn)}
   }
   function renderMonths(){monthGrid.innerHTML='';yearLabel.textContent=panelYear;shortMonths.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.textContent=m;if(i===view.getMonth()&&panelYear===view.getFullYear())b.classList.add('active');b.addEventListener('click',()=>{view=new Date(panelYear,i,1);monthsPanel.classList.remove('active');render()});monthGrid.appendChild(b)})}
-  function open(){document.querySelectorAll('.student-date-picker.active').forEach(p=>p.classList.remove('active'));selected=parse(hidden.value);view=selected?new Date(selected.getFullYear(),selected.getMonth(),1):new Date();picker.classList.add('active');monthsPanel.classList.remove('active');render()}
-  display.addEventListener('click',e=>{e.stopPropagation();picker.classList.contains('active')?picker.classList.remove('active'):open()});
+  function open(){document.querySelectorAll('.student-date-picker.active').forEach(p=>{p.classList.remove('active');p.closest('.student-date-field')?.classList.remove('is-open')});selected=parse(hidden.value);view=selected?new Date(selected.getFullYear(),selected.getMonth(),1):new Date();picker.classList.add('active');field.classList.add('is-open');monthsPanel.classList.remove('active');render()}
+  display.addEventListener('click',e=>{e.stopPropagation();picker.classList.contains('active')?picker.classList.remove('active');field.classList.remove('is-open'):open()});
   field.querySelector('.date-prev').addEventListener('click',()=>{view.setMonth(view.getMonth()-1);render()});
   field.querySelector('.date-next').addEventListener('click',()=>{view.setMonth(view.getMonth()+1);render()});
   title.addEventListener('click',()=>{panelYear=view.getFullYear();renderMonths();monthsPanel.classList.toggle('active')});
