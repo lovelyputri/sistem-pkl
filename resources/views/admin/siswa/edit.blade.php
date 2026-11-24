@@ -153,6 +153,41 @@
 .student-form-select select{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 @media(max-width:650px){.student-form-select-trigger{min-height:44px}}
 
+
+/* Custom date picker: mengikuti kalender biru pada halaman Register */
+.student-date-field{position:relative}
+.student-date-display{width:100%;min-height:46px;padding:11px 42px 11px 13px!important;border:1px solid #cbdcf7!important;border-radius:9px;background:#f4f8ff!important;color:#244579!important;font:inherit;font-size:12px;cursor:pointer}
+.student-date-display:hover{background:#edf4ff!important;border-color:#9dbcf0!important}
+.student-date-display:focus{outline:0;border-color:#2563eb!important;background:#fff!important;box-shadow:0 0 0 3px rgba(37,99,235,.12)!important}
+.student-date-field:after{content:"";position:absolute;right:14px;top:43px;width:16px;height:16px;pointer-events:none;background-repeat:no-repeat;background-size:contain;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E")}
+.student-date-picker{display:none;position:absolute;top:calc(100% + 8px);left:0;width:min(100%,360px);min-width:290px;background:#fff;border-radius:16px;padding:17px;box-shadow:0 20px 45px rgba(15,23,42,.18);border:1px solid #e2e8f0;z-index:120}
+.student-date-picker.active{display:block;animation:studentDateIn .18s ease}
+@keyframes studentDateIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.student-date-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.student-date-nav button{border:0;background:transparent;color:#2563eb;cursor:pointer;padding:7px;border-radius:8px}
+.student-date-nav button:hover{background:#eff6ff}
+.student-date-title{font-size:14px;font-weight:800;color:#2563eb;cursor:pointer;padding:6px 10px;border-radius:8px}
+.student-date-title:hover{background:#eff6ff}
+.student-date-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.student-date-week{font-size:11px;font-weight:700;color:#64748b;padding:6px 0}
+.student-date-day{height:34px;border:0;border-radius:50%;background:transparent;color:#334155;font-size:12px;font-weight:600;cursor:pointer}
+.student-date-day:hover{background:#eff6ff;color:#2563eb}
+.student-date-day.selected{background:#2563eb;color:#fff;box-shadow:0 3px 9px rgba(37,99,235,.28)}
+.student-date-day.muted{color:#a8b3c4}
+.student-date-actions{display:flex;gap:9px;margin-top:14px}
+.student-date-actions button{flex:1;height:37px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer}
+.student-date-clear{background:#fff;border:1px solid #e2e8f0;color:#475569}
+.student-date-today,.student-date-save{background:#2563eb;border:1px solid #2563eb;color:#fff}
+.student-date-months{display:none;position:absolute;inset:48px 12px 12px;background:#fff;border:1px solid #e2e8f0;border-radius:13px;padding:12px;box-shadow:0 12px 30px rgba(15,23,42,.14);z-index:2}
+.student-date-months.active{display:block}
+.student-date-month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.student-date-month-grid button{border:0;border-radius:8px;padding:10px 4px;background:#f8fafc;color:#334155;font-size:12px;font-weight:700;cursor:pointer}
+.student-date-month-grid button:hover,.student-date-month-grid button.active{background:#2563eb;color:#fff}
+.student-date-year-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.student-date-year-row button{border:0;border-radius:7px;background:#eff6ff;color:#2563eb;padding:6px 10px;cursor:pointer}
+.student-date-year-row strong{color:#1e293b}
+@media(max-width:650px){.student-date-picker{width:min(100%,330px);min-width:0;padding:14px}.student-date-day{height:32px}}
+
 </style>
 @endpush
 
@@ -172,7 +207,7 @@
         <div class="edit-field"><label for="nama_lengkap">Nama lengkap <span class="edit-required">*</span></label><input id="nama_lengkap" name="nama_lengkap" value="{{ old('nama_lengkap', $siswa->nama_lengkap) }}" required maxlength="255"></div>
         <div class="edit-field"><label for="nisn">NISN <span class="edit-required">*</span></label><input id="nisn" name="nisn" value="{{ old('nisn', $siswa->nisn) }}" required maxlength="30"></div>
         <div class="edit-field"><label for="tempat_lahir">Tempat lahir <span class="edit-required">*</span></label><input id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir', $siswa->tempat_lahir) }}" required maxlength="100"></div>
-        <div class="edit-field"><label for="tanggal_lahir">Tanggal lahir</label><input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir?->format('Y-m-d')) }}"></div>
+        <div class="edit-field"><label for="tanggal_lahir_display">Tanggal lahir</label><div class="student-date-field"><input id="tanggal_lahir_display" type="text" class="student-date-display" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir?->format('Y-m-d')) ? \\Carbon\\Carbon::parse(old('tanggal_lahir', $siswa->tanggal_lahir?->format('Y-m-d')))->format('d/m/Y') : '' }}" placeholder="dd/mm/yyyy" readonly aria-label="Pilih tanggal lahir"><input id="tanggal_lahir" type="hidden" name="tanggal_lahir" value="{{ old('tanggal_lahir', $siswa->tanggal_lahir?->format('Y-m-d')) }}"><div class="student-date-picker" role="dialog" aria-label="Kalender"><div class="student-date-nav"><button type="button" class="date-prev" aria-label="Bulan sebelumnya">‹</button><button type="button" class="student-date-title date-title"></button><button type="button" class="date-next" aria-label="Bulan berikutnya">›</button></div><div class="student-date-grid"></div><div class="student-date-actions"><button type="button" class="student-date-clear">Bersihkan</button><button type="button" class="student-date-today">Hari ini</button><button type="button" class="student-date-save">Pilih</button></div><div class="student-date-months"><div class="student-date-year-row"><button type="button" class="year-prev">‹</button><strong class="year-label"></strong><button type="button" class="year-next">›</button></div><div class="student-date-month-grid"></div></div></div></div></div>
         <div class="edit-field"><label for="jenis_kelamin">Jenis kelamin</label><select id="jenis_kelamin" name="jenis_kelamin"><option value="">Pilih jenis kelamin</option><option value="Laki-laki" @selected(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Laki-laki')>Laki-laki</option><option value="Perempuan" @selected(old('jenis_kelamin', $siswa->jenis_kelamin) === 'Perempuan')>Perempuan</option></select></div>
         <div class="edit-field"><label for="no_telepon">Nomor telepon</label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon', $siswa->no_telepon) }}" maxlength="30"></div>
         <div class="edit-field"><label for="foto_profil">Foto profil</label>@if($siswa->foto_profil)<img src="{{ asset('storage/' . $siswa->foto_profil) }}" alt="Foto profil {{ $siswa->nama_lengkap }}" style="width:76px;height:76px;object-fit:cover;border-radius:50%;display:block;margin-bottom:10px">@endif<input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Biarkan kosong jika tidak ingin mengganti foto. Maksimal 2 MB.</small></div>
@@ -194,14 +229,52 @@
 <section class="edit-card">
     <div class="edit-card-head"><div class="num">04</div><div><h2>Periode PKL</h2><p>Atur jadwal praktik kerja lapangan.</p></div></div>
     <div class="edit-grid">
-        <div class="edit-field"><label for="tanggal_mulai_pkl">Tanggal mulai PKL</label><input id="tanggal_mulai_pkl" type="date" name="tanggal_mulai_pkl" value="{{ old('tanggal_mulai_pkl', $siswa->tanggal_mulai_pkl?->format('Y-m-d')) }}"></div>
-        <div class="edit-field"><label for="tanggal_selesai_pkl">Tanggal selesai PKL</label><input id="tanggal_selesai_pkl" type="date" name="tanggal_selesai_pkl" value="{{ old('tanggal_selesai_pkl', $siswa->tanggal_selesai_pkl?->format('Y-m-d')) }}"><small>Tidak boleh sebelum tanggal mulai.</small></div>
+        <div class="edit-field"><label for="tanggal_mulai_pkl_display">Tanggal mulai PKL</label><div class="student-date-field"><input id="tanggal_mulai_pkl_display" type="text" class="student-date-display" value="{{ old('tanggal_mulai_pkl', $siswa->tanggal_mulai_pkl?->format('Y-m-d')) ? \\Carbon\\Carbon::parse(old('tanggal_mulai_pkl', $siswa->tanggal_mulai_pkl?->format('Y-m-d')))->format('d/m/Y') : '' }}" placeholder="dd/mm/yyyy" readonly aria-label="Pilih tanggal mulai pkl"><input id="tanggal_mulai_pkl" type="hidden" name="tanggal_mulai_pkl" value="{{ old('tanggal_mulai_pkl', $siswa->tanggal_mulai_pkl?->format('Y-m-d')) }}"><div class="student-date-picker" role="dialog" aria-label="Kalender"><div class="student-date-nav"><button type="button" class="date-prev" aria-label="Bulan sebelumnya">‹</button><button type="button" class="student-date-title date-title"></button><button type="button" class="date-next" aria-label="Bulan berikutnya">›</button></div><div class="student-date-grid"></div><div class="student-date-actions"><button type="button" class="student-date-clear">Bersihkan</button><button type="button" class="student-date-today">Hari ini</button><button type="button" class="student-date-save">Pilih</button></div><div class="student-date-months"><div class="student-date-year-row"><button type="button" class="year-prev">‹</button><strong class="year-label"></strong><button type="button" class="year-next">›</button></div><div class="student-date-month-grid"></div></div></div></div></div>
+        <div class="edit-field"><label for="tanggal_selesai_pkl_display">Tanggal selesai PKL</label><div class="student-date-field"><input id="tanggal_selesai_pkl_display" type="text" class="student-date-display" value="{{ old('tanggal_selesai_pkl', $siswa->tanggal_selesai_pkl?->format('Y-m-d')) ? \\Carbon\\Carbon::parse(old('tanggal_selesai_pkl', $siswa->tanggal_selesai_pkl?->format('Y-m-d')))->format('d/m/Y') : '' }}" placeholder="dd/mm/yyyy" readonly aria-label="Pilih tanggal selesai pkl"><input id="tanggal_selesai_pkl" type="hidden" name="tanggal_selesai_pkl" value="{{ old('tanggal_selesai_pkl', $siswa->tanggal_selesai_pkl?->format('Y-m-d')) }}"><div class="student-date-picker" role="dialog" aria-label="Kalender"><div class="student-date-nav"><button type="button" class="date-prev" aria-label="Bulan sebelumnya">‹</button><button type="button" class="student-date-title date-title"></button><button type="button" class="date-next" aria-label="Bulan berikutnya">›</button></div><div class="student-date-grid"></div><div class="student-date-actions"><button type="button" class="student-date-clear">Bersihkan</button><button type="button" class="student-date-today">Hari ini</button><button type="button" class="student-date-save">Pilih</button></div><div class="student-date-months"><div class="student-date-year-row"><button type="button" class="year-prev">‹</button><strong class="year-label"></strong><button type="button" class="year-next">›</button></div><div class="student-date-month-grid"></div></div></div></div><small>Tidak boleh sebelum tanggal mulai.</small></div>
     </div>
 </section>
 <div class="edit-actions" style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-bottom:26px"><a href="{{ route('admin.siswa.show', $siswa) }}" style="padding:12px 16px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:13px;color:#475569">Batal</a><button type="submit" style="padding:12px 18px;border:0;background:#17357f;color:#fff;border-radius:9px;font-size:13px;font-weight:650;cursor:pointer">Simpan Perubahan</button></div>
 </form></div>
 
 @push('scripts')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+ const months=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+ const shortMonths=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+ const weekdays=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+ document.querySelectorAll('.student-date-field').forEach(function(field){
+  const display=field.querySelector('.student-date-display'), hidden=field.querySelector('input[type=hidden]'), picker=field.querySelector('.student-date-picker'), grid=field.querySelector('.student-date-grid'), title=field.querySelector('.date-title'), monthsPanel=field.querySelector('.student-date-months'), monthGrid=field.querySelector('.student-date-month-grid'), yearLabel=field.querySelector('.year-label');
+  let view=new Date(), selected=null, panelYear=view.getFullYear();
+  function parse(v){if(!v)return null;const p=v.split('-').map(Number);return p.length===3?new Date(p[0],p[1]-1,p[2]):null}
+  function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function fmt(d){return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear()}
+  function render(){
+   title.textContent=months[view.getMonth()]+' '+view.getFullYear();grid.innerHTML='';
+   weekdays.forEach(w=>{const el=document.createElement('div');el.className='student-date-week';el.textContent=w;grid.appendChild(el)});
+   const first=new Date(view.getFullYear(),view.getMonth(),1).getDay(), count=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+   for(let i=0;i<first;i++){const e=document.createElement('div');grid.appendChild(e)}
+   for(let d=1;d<=count;d++){const btn=document.createElement('button');btn.type='button';btn.className='student-date-day';btn.textContent=d;
+    if(selected&&selected.getFullYear()===view.getFullYear()&&selected.getMonth()===view.getMonth()&&selected.getDate()===d)btn.classList.add('selected');
+    btn.addEventListener('click',()=>{selected=new Date(view.getFullYear(),view.getMonth(),d);render()});grid.appendChild(btn)}
+  }
+  function renderMonths(){monthGrid.innerHTML='';yearLabel.textContent=panelYear;shortMonths.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.textContent=m;if(i===view.getMonth()&&panelYear===view.getFullYear())b.classList.add('active');b.addEventListener('click',()=>{view=new Date(panelYear,i,1);monthsPanel.classList.remove('active');render()});monthGrid.appendChild(b)})}
+  function open(){document.querySelectorAll('.student-date-picker.active').forEach(p=>p.classList.remove('active'));selected=parse(hidden.value);view=selected?new Date(selected.getFullYear(),selected.getMonth(),1):new Date();picker.classList.add('active');monthsPanel.classList.remove('active');render()}
+  display.addEventListener('click',e=>{e.stopPropagation();picker.classList.contains('active')?picker.classList.remove('active'):open()});
+  field.querySelector('.date-prev').addEventListener('click',()=>{view.setMonth(view.getMonth()-1);render()});
+  field.querySelector('.date-next').addEventListener('click',()=>{view.setMonth(view.getMonth()+1);render()});
+  title.addEventListener('click',()=>{panelYear=view.getFullYear();renderMonths();monthsPanel.classList.toggle('active')});
+  field.querySelector('.year-prev').addEventListener('click',()=>{panelYear--;renderMonths()});
+  field.querySelector('.year-next').addEventListener('click',()=>{panelYear++;renderMonths()});
+  field.querySelector('.student-date-clear').addEventListener('click',()=>{selected=null;hidden.value='';display.value='';picker.classList.remove('active')});
+  field.querySelector('.student-date-today').addEventListener('click',()=>{selected=new Date();view=new Date(selected.getFullYear(),selected.getMonth(),1);render()});
+  field.querySelector('.student-date-save').addEventListener('click',()=>{if(!selected)return;hidden.value=iso(selected);display.value=fmt(selected);hidden.dispatchEvent(new Event('change',{bubbles:true}));picker.classList.remove('active')});
+  const initial=parse(hidden.value);if(initial)display.value=fmt(initial);
+  picker.addEventListener('click',e=>e.stopPropagation());
+ });
+ document.addEventListener('click',()=>document.querySelectorAll('.student-date-picker.active').forEach(p=>p.classList.remove('active')));
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
