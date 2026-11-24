@@ -202,6 +202,50 @@
     .student-create-page .form-actions>div a,.student-create-page .form-actions>div button{flex:1;text-align:center}
 }
 
+
+/* Aksen biru pada dropdown dan input tanggal, mengikuti halaman pendaftaran */
+.student-create-page .field select{
+    appearance:none!important;-webkit-appearance:none!important;
+    padding-right:38px!important;
+    background-color:#f4f8ff!important;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")!important;
+    background-repeat:no-repeat!important;background-position:right 13px center!important;background-size:15px!important;
+    border-color:#cbdcf7!important;
+}
+.student-create-page .field select:focus{background-color:#fff!important;border-color:#2563eb!important}
+.student-create-page .field select option{background:#fff;color:#1e3a8a}
+.student-create-page .field input[type=date]{
+    color-scheme:light;background:#f4f8ff!important;border-color:#cbdcf7!important;
+    accent-color:#2563eb;cursor:pointer;
+}
+.student-create-page .field input[type=date]::-webkit-calendar-picker-indicator{
+    opacity:1;cursor:pointer;filter:invert(29%) sepia(89%) saturate(1715%) hue-rotate(205deg) brightness(92%) contrast(94%);
+}
+.profile-photo-control{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid #dce7f8;border-radius:9px;background:#f7faff}
+.profile-photo-preview{width:76px;height:76px;flex:0 0 76px;display:grid;place-items:center;overflow:hidden;border-radius:50%;border:2px solid #c9dcff;background:#eaf2ff;color:#4775b9;font-size:10px;font-weight:800}
+.profile-photo-preview img{width:100%;height:100%;object-fit:cover}
+.profile-photo-upload{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:7px}
+.student-create-page .profile-photo-upload input[type=file]{width:100%;min-height:unset!important;padding:6px 8px!important;background:#fff!important;border:1px dashed #b9cdef!important;border-radius:7px}
+.student-create-page .profile-photo-upload input[type=file]::file-selector-button{background:#e7f0ff!important;color:#1d4ed8!important}
+.photo-crop-button{border:1px solid #b9d1fb;background:#eaf2ff;color:#1d4ed8;border-radius:7px;padding:7px 11px;font-size:10px;font-weight:700;cursor:pointer}
+.photo-crop-button:disabled{opacity:.45;cursor:not-allowed}
+.photo-crop-button:not(:disabled):hover{background:#dbeafe}
+.photo-crop-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(10,25,55,.62)}
+.photo-crop-overlay.active{display:flex}
+.photo-crop-dialog{width:min(440px,100%);padding:20px;border-radius:16px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.25)}
+.photo-crop-dialog h3{margin:0 0 5px;color:#1e3a8a;font-size:16px}
+.photo-crop-dialog p{margin:0 0 14px;color:#64748b;font-size:11px;line-height:1.5}
+.photo-crop-canvas-wrap{width:min(320px,100%);aspect-ratio:1;margin:0 auto 15px;overflow:hidden;border:2px solid #bfdbfe;border-radius:12px;background:#eff6ff;touch-action:none}
+.photo-crop-canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.photo-crop-canvas:active{cursor:grabbing}
+.photo-crop-zoom{display:flex;align-items:center;gap:10px;margin-bottom:16px;color:#31558f;font-size:11px;font-weight:650}
+.photo-crop-zoom input{flex:1;accent-color:#2563eb}
+.photo-crop-actions{display:flex;justify-content:flex-end;gap:8px}
+.photo-crop-actions button{border-radius:8px;padding:9px 13px;font-size:11px;font-weight:700;cursor:pointer}
+.photo-crop-cancel{border:1px solid #dbe3ef;background:#fff;color:#475569}
+.photo-crop-apply{border:1px solid #2563eb;background:#2563eb;color:#fff}
+@media(max-width:480px){.profile-photo-control{align-items:flex-start}.profile-photo-preview{width:64px;height:64px;flex-basis:64px}.photo-crop-dialog{padding:15px}}
+
 </style>
 @endpush
 
@@ -231,7 +275,17 @@
         <div class="field"><label for="tanggal_lahir">Tanggal lahir <span class="required">*</span></label><input id="tanggal_lahir" type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required max="{{ now()->format('Y-m-d') }}"></div>
         <div class="field"><label for="jenis_kelamin">Jenis kelamin <span class="required">*</span></label><select id="jenis_kelamin" name="jenis_kelamin" required><option value="">Pilih jenis kelamin</option><option value="Laki-laki" @selected(old('jenis_kelamin') === 'Laki-laki')>Laki-laki</option><option value="Perempuan" @selected(old('jenis_kelamin') === 'Perempuan')>Perempuan</option></select></div>
         <div class="field"><label for="no_telepon">Nomor telepon <span class="required">*</span></label><input id="no_telepon" name="no_telepon" value="{{ old('no_telepon') }}" placeholder="Contoh: 08xxxxxxxxxx" required maxlength="30" inputmode="tel"></div>
-        <div class="field"><label for="foto_profil">Foto profil</label><input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"><small>Opsional. JPG, JPEG, PNG, atau WEBP, maksimal 2 MB.</small></div>
+        <div class="field profile-photo-field">
+            <label for="foto_profil">Foto profil</label>
+            <div class="profile-photo-control">
+                <div class="profile-photo-preview" id="profilePhotoPreview"><span>FOTO</span></div>
+                <div class="profile-photo-upload">
+                    <input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                    <small>Pilih foto, lalu atur posisi dan potong agar pas. JPG, PNG, atau WEBP, maksimal 2 MB.</small>
+                    <button type="button" id="openPhotoCrop" class="photo-crop-button" disabled>Atur &amp; Crop Foto</button>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 <section class="form-section">
@@ -324,6 +378,152 @@ document.addEventListener('DOMContentLoaded', function () {
     muatGuru(sekolahSelect.value, guruLama);
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('foto_profil');
+    const preview = document.getElementById('profilePhotoPreview');
+    const openButton = document.getElementById('openPhotoCrop');
+    if (!input || !preview || !openButton) return;
+
+    let sourceImage = null;
+    let zoom = 1;
+    let offsetX = 0;
+    let offsetY = 0;
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'photo-crop-overlay';
+    overlay.innerHTML = `
+        <div class="photo-crop-dialog" role="dialog" aria-modal="true" aria-labelledby="photoCropTitle">
+            <h3 id="photoCropTitle">Atur Foto Profil</h3>
+            <p>Geser foto untuk mengatur posisi, lalu gunakan zoom agar hasil crop terlihat pas.</p>
+            <div class="photo-crop-canvas-wrap"><canvas class="photo-crop-canvas" width="640" height="640"></canvas></div>
+            <label class="photo-crop-zoom">Zoom <input type="range" min="1" max="3" step="0.01" value="1" id="photoCropZoom"></label>
+            <div class="photo-crop-actions">
+                <button type="button" class="photo-crop-cancel">Batal</button>
+                <button type="button" class="photo-crop-apply">Gunakan Foto</button>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+    const canvas = overlay.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const zoomInput = overlay.querySelector('#photoCropZoom');
+
+    function drawCrop() {
+        if (!sourceImage) return;
+        const baseScale = Math.max(canvas.width / sourceImage.naturalWidth, canvas.height / sourceImage.naturalHeight);
+        const scale = baseScale * zoom;
+        const width = sourceImage.naturalWidth * scale;
+        const height = sourceImage.naturalHeight * scale;
+        const x = (canvas.width - width) / 2 + offsetX;
+        const y = (canvas.height - height) / 2 + offsetY;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#eaf2ff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(sourceImage, x, y, width, height);
+    }
+
+    function closeCrop() {
+        overlay.classList.remove('active');
+        dragging = false;
+    }
+
+    input.addEventListener('change', function () {
+        const file = this.files && this.files[0];
+        if (!file) {
+            openButton.disabled = true;
+            preview.innerHTML = '<span>FOTO</span>';
+            sourceImage = null;
+            return;
+        }
+        if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
+            alert('Pilih foto berformat JPG, PNG, atau WEBP.');
+            this.value = '';
+            openButton.disabled = true;
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Ukuran foto maksimal 2 MB.');
+            this.value = '';
+            openButton.disabled = true;
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const image = new Image();
+            image.onload = function () {
+                sourceImage = image;
+                zoom = 1; offsetX = 0; offsetY = 0;
+                zoomInput.value = '1';
+                drawCrop();
+                overlay.classList.add('active');
+                openButton.disabled = false;
+            };
+            image.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    openButton.addEventListener('click', function () {
+        if (!sourceImage) return;
+        drawCrop();
+        overlay.classList.add('active');
+    });
+    zoomInput.addEventListener('input', function () {
+        zoom = Number(this.value);
+        drawCrop();
+    });
+
+    canvas.addEventListener('pointerdown', function (event) {
+        dragging = true;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        canvas.setPointerCapture(event.pointerId);
+    });
+    canvas.addEventListener('pointermove', function (event) {
+        if (!dragging) return;
+        const rect = canvas.getBoundingClientRect();
+        offsetX += (event.clientX - lastX) * (canvas.width / rect.width);
+        offsetY += (event.clientY - lastY) * (canvas.height / rect.height);
+        lastX = event.clientX;
+        lastY = event.clientY;
+        drawCrop();
+    });
+    canvas.addEventListener('pointerup', function () { dragging = false; });
+    canvas.addEventListener('pointercancel', function () { dragging = false; });
+    overlay.querySelector('.photo-crop-cancel').addEventListener('click', closeCrop);
+    overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) closeCrop();
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeCrop();
+    });
+
+    overlay.querySelector('.photo-crop-apply').addEventListener('click', function () {
+        if (!sourceImage) return;
+        canvas.toBlob(function (blob) {
+            if (!blob) {
+                alert('Foto gagal diproses. Silakan coba lagi.');
+                return;
+            }
+            const croppedFile = new File([blob], 'foto-profil.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+            const transfer = new DataTransfer();
+            transfer.items.add(croppedFile);
+            input.files = transfer.files;
+            preview.innerHTML = '';
+            const image = document.createElement('img');
+            image.src = URL.createObjectURL(blob);
+            image.alt = 'Pratinjau foto profil';
+            preview.appendChild(image);
+            closeCrop();
+        }, 'image/jpeg', 0.92);
+    });
+});
+</script>
+
 @endpush
 
 @endsection
