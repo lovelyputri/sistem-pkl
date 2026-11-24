@@ -60,6 +60,39 @@
 .student-edit-page .edit-actions a:hover{background:#f5f7fb!important}
 @media(max-width:650px){.student-edit-head{min-height:unset}}
 
+
+/* Redesign visual form edit agar tidak monoton dan tetap konsisten dengan halaman tambah */
+.student-edit-head{min-height:154px;padding:28px 32px;border-radius:18px;background:radial-gradient(circle at 82% 18%,rgba(129,177,255,.26),transparent 25%),linear-gradient(115deg,#10275f 0%,#1b438e 58%,#3974d2 100%);box-shadow:0 14px 30px rgba(23,53,127,.14)}
+.student-edit-head h1{font-size:26px;letter-spacing:-.7px}
+.student-edit-head p{font-size:13px}
+.student-edit-head .edit-avatar{width:66px;height:66px;border-radius:18px;font-size:25px;background:rgba(255,255,255,.17);box-shadow:0 5px 16px rgba(4,20,60,.16)}
+.student-edit-head>a{padding:11px 16px!important;transition:.2s}
+.student-edit-head>a:hover{background:#fff!important;color:#17357f!important;transform:translateY(-2px)}
+.student-edit-page .edit-card{position:relative;padding:0 25px 25px;margin-bottom:17px;border-radius:15px;background:#fff;box-shadow:0 5px 16px rgba(27,53,95,.035);overflow:hidden}
+.student-edit-page .edit-card:before{content:"";display:block;height:4px;margin:0 -25px 21px;background:linear-gradient(90deg,#315fc4,#8bb4ff 65%,#edf3ff)}
+.student-edit-page .edit-card:nth-of-type(2):before{background:linear-gradient(90deg,#168b9b,#7ed3d5 65%,#edfafa)}
+.student-edit-page .edit-card:nth-of-type(3):before{background:linear-gradient(90deg,#6c63bd,#aaa4f1 65%,#f2f0ff)}
+.student-edit-page .edit-card:nth-of-type(4):before{background:linear-gradient(90deg,#c18a36,#f0c779 65%,#fff8e9)}
+.student-edit-page .edit-card-head{padding-bottom:16px;margin-bottom:21px}
+.student-edit-page .edit-card-head .num{width:42px;height:42px;border-radius:13px;background:#eaf1ff;color:#2452a6;box-shadow:none;font-size:13px}
+.student-edit-page .edit-card:nth-of-type(2) .num{background:#e7f7f7;color:#147b87}
+.student-edit-page .edit-card:nth-of-type(3) .num{background:#f0efff;color:#6258ad}
+.student-edit-page .edit-card:nth-of-type(4) .num{background:#fff5e2;color:#a87520}
+.student-edit-page .edit-card-head h2{font-size:16px;letter-spacing:-.25px}
+.student-edit-page .edit-card-head p{line-height:1.6}
+.student-edit-page .edit-grid{gap:21px 25px}
+.student-edit-page .edit-field label{font-size:11px;margin-bottom:8px}
+.student-edit-page .edit-field input,.student-edit-page .edit-field select{min-height:46px;border-radius:9px;background:#fbfcff;padding:12px 14px}
+.student-edit-page .edit-field input:hover,.student-edit-page .edit-field select:hover{border-color:#b9c9e4;background:#fff}
+.student-edit-page .edit-field input:focus,.student-edit-page .edit-field select:focus{background:#fff}
+.student-edit-page .edit-field small{line-height:1.55}
+.student-edit-page .edit-field input[type=file]{min-height:46px;background:#f7f9fd}
+.student-edit-page .edit-actions{padding:18px 0 30px;border-top:1px solid #e8edf5}
+.student-edit-page .edit-actions button{padding:13px 22px!important;background:linear-gradient(120deg,#17357f,#315fc4)!important;transition:.2s}
+.student-edit-page .edit-actions button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(33,75,157,.24)}
+.student-edit-page .edit-actions a{padding:12px 18px!important;border-radius:10px!important}
+@media(max-width:650px){.student-edit-head{min-height:unset;padding:20px}.student-edit-head h1{font-size:21px}.student-edit-head .edit-avatar{width:54px;height:54px;flex-basis:54px;border-radius:15px}.student-edit-page .edit-card{padding:0 16px 19px}.student-edit-page .edit-card:before{margin:0 -16px 17px}.student-edit-page .edit-grid{gap:15px}}
+
 </style>
 @endpush
 
