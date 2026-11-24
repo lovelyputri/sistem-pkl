@@ -93,6 +93,19 @@
 .student-create-page .form-actions a{padding:12px 18px!important;border-radius:10px!important}
 @media(max-width:650px){.student-create-head{min-height:unset;padding:23px 20px}.student-create-head:before{display:none}.student-create-head h1{font-size:22px}.student-create-page .form-section{padding:0 16px 19px}.student-create-page .form-section:before{margin:0 -16px 17px}.student-create-page .section-heading{gap:10px}.student-create-page .fields{gap:15px}}
 
+
+/* Konsistensi layout CRUD siswa dengan dashboard admin */
+.admin-content:has(.student-create-head){width:100%;max-width:1200px;margin:0 auto;padding:28px}
+.student-create-head{margin-bottom:22px;border-radius:14px}
+.student-create-page .form-section{padding:24px;margin-bottom:17px;border-radius:13px;background:#fff;box-shadow:0 3px 12px rgba(24,48,91,.035)}
+.student-create-page .section-heading{margin-bottom:21px}
+.student-create-page .fields{gap:20px 24px}
+.student-create-page .field input,.student-create-page .field select{min-height:46px}
+.student-create-page .form-actions{padding-top:17px}
+@media(max-width:760px){.admin-content:has(.student-create-head){padding:20px 15px}}
+@media(max-width:650px){.student-create-page .form-section{padding:17px}.student-create-page .fields{gap:15px}}
+@media(max-width:480px){.admin-content:has(.student-create-head){padding:17px 11px}.student-create-head{padding:20px 18px}}
+
 </style>
 @endpush
 
