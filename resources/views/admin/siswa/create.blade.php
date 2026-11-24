@@ -59,6 +59,40 @@
 .student-create-page .form-actions a:hover{background:#f5f7fb!important}
 @media(max-width:650px){.student-create-head:before{display:none}.student-create-head{min-height:unset}}
 
+
+/* Redesign visual form: hierarki lebih tegas, variasi section, dan field lebih nyaman */
+.student-create-head{min-height:168px;padding:30px 34px;margin-bottom:22px;border-radius:18px;background:radial-gradient(circle at 82% 18%,rgba(129,177,255,.28),transparent 25%),linear-gradient(115deg,#10275f 0%,#1b438e 58%,#3974d2 100%);box-shadow:0 14px 30px rgba(23,53,127,.14)}
+.student-create-head:before{left:34px;bottom:20px;font-size:9px;letter-spacing:1.8px;color:#bcd1ff}
+.student-create-head h1{font-size:27px;letter-spacing:-.8px}
+.student-create-head p{font-size:13px;max-width:520px}
+.student-create-head>a{padding:11px 16px!important;border-radius:10px!important;background:rgba(255,255,255,.13)!important;border-color:rgba(255,255,255,.28)!important;color:#fff!important;transition:.2s}
+.student-create-head>a:hover{background:#fff!important;color:#17357f!important;transform:translateY(-2px)}
+.student-create-page .form-section{padding:0 25px 25px;margin-bottom:17px;border:1px solid #e1e8f3;border-radius:15px;background:#fff;box-shadow:0 5px 16px rgba(27,53,95,.035);overflow:hidden}
+.student-create-page .form-section:before{content:"";display:block;height:4px;margin:0 -25px 21px;background:linear-gradient(90deg,#315fc4,#8bb4ff 65%,#edf3ff)}
+.student-create-page .form-section:nth-of-type(2):before{background:linear-gradient(90deg,#168b9b,#7ed3d5 65%,#edfafa)}
+.student-create-page .form-section:nth-of-type(3):before{background:linear-gradient(90deg,#6c63bd,#aaa4f1 65%,#f2f0ff)}
+.student-create-page .form-section:nth-of-type(4):before{background:linear-gradient(90deg,#c18a36,#f0c779 65%,#fff8e9)}
+.student-create-page .section-heading{padding:0 0 16px;margin-bottom:21px;border-bottom:1px solid #edf1f7}
+.student-create-page .section-number{width:42px;height:42px;flex-basis:42px;border-radius:13px;background:#eaf1ff;color:#2452a6;font-size:13px;box-shadow:none}
+.student-create-page .form-section:nth-of-type(2) .section-number{background:#e7f7f7;color:#147b87}
+.student-create-page .form-section:nth-of-type(3) .section-number{background:#f0efff;color:#6258ad}
+.student-create-page .form-section:nth-of-type(4) .section-number{background:#fff5e2;color:#a87520}
+.student-create-page .section-heading h2{font-size:16px;letter-spacing:-.25px}
+.student-create-page .section-heading p{font-size:11px;line-height:1.6}
+.student-create-page .fields{gap:21px 25px}
+.student-create-page .field label{font-size:11px;margin-bottom:8px}
+.student-create-page .field input,.student-create-page .field select{min-height:46px;border-radius:9px;background:#fbfcff;padding:12px 14px}
+.student-create-page .field input:hover,.student-create-page .field select:hover{border-color:#b9c9e4;background:#fff}
+.student-create-page .field input:focus,.student-create-page .field select:focus{background:#fff}
+.student-create-page .field small{line-height:1.55}
+.student-create-page .field input[type=file]{min-height:46px;background:#f7f9fd}
+.student-create-page .form-note{box-shadow:inset 3px 0 #3972ce}
+.student-create-page .form-actions{padding:17px 0 30px;border-top:1px solid #e8edf5}
+.student-create-page .form-actions button{padding:13px 22px!important;background:linear-gradient(120deg,#17357f,#315fc4)!important;transition:.2s}
+.student-create-page .form-actions button:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(33,75,157,.24)}
+.student-create-page .form-actions a{padding:12px 18px!important;border-radius:10px!important}
+@media(max-width:650px){.student-create-head{min-height:unset;padding:23px 20px}.student-create-head:before{display:none}.student-create-head h1{font-size:22px}.student-create-page .form-section{padding:0 16px 19px}.student-create-page .form-section:before{margin:0 -16px 17px}.student-create-page .section-heading{gap:10px}.student-create-page .fields{gap:15px}}
+
 </style>
 @endpush
 
