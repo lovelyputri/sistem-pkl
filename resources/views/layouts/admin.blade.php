@@ -39,9 +39,9 @@
         .admin-user-role{color:#64748b;font-size:10px;margin-top:3px}
         .admin-logout{background:#fff;border:1px solid #d9e1ef;border-radius:7px;padding:6px 10px;color:#334155;cursor:pointer;font:inherit;font-size:11px}
         /* Spacing utama diseragamkan untuk seluruh halaman role Admin. */
-        .admin-content{width:100%;max-width:none;padding:22px 24px 30px;margin:0 auto}
-        @media(max-width:760px){.admin-content{width:100%;max-width:none;padding:17px 15px}}
-        @media(max-width:560px){.admin-content{padding:13px 11px 20px}}
+        .admin-content{width:100% !important;max-width:none !important;padding:22px 24px 30px !important;margin:0 auto !important}
+        @media(max-width:760px){.admin-content{width:100% !important;max-width:none !important;padding:17px 15px !important}}
+        @media(max-width:560px){.admin-content{padding:13px 11px 20px !important}}
         .admin-content h1{font-size:24px;margin:0}
         .admin-intro{color:#64748b;font-size:13px;line-height:1.6;margin:8px 0 24px}
         .admin-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
