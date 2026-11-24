@@ -19,18 +19,40 @@
 .edit-field small{display:block;color:#94a3b8;font-size:11px;margin-top:6px}
 .edit-required{color:#dc2626}
 @media(max-width:650px){.edit-grid{grid-template-columns:1fr}.edit-card{padding:16px}}
+
+.student-edit-page{max-width:100%;color:#172033}
+.student-edit-head{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px 25px;margin-bottom:20px;border-radius:17px;background:linear-gradient(115deg,#122b68,#214b9d 65%,#3972ce);color:#fff}
+.student-edit-head .edit-intro{gap:14px}
+.student-edit-head .edit-avatar{width:58px;height:58px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.16);color:#fff;overflow:hidden}
+.student-edit-head h1{font-size:22px;font-weight:750;letter-spacing:-.4px;margin:0 0 5px;color:#fff}
+.student-edit-head p{font-size:12px;color:#dce8ff}
+.student-edit-head>a{padding:10px 14px!important;border:1px solid rgba(255,255,255,.32)!important;background:rgba(255,255,255,.12)!important;color:#fff!important;border-radius:10px!important;position:relative}
+.student-edit-page .edit-card{border:1px solid #e5eaf2;border-radius:16px;padding:23px 24px;background:linear-gradient(145deg,#fff,#fbfcff);box-shadow:0 5px 18px rgba(24,48,91,.035);margin-bottom:15px}
+.student-edit-page .edit-card-head{padding-bottom:15px;border-bottom:1px solid #edf1f7;margin-bottom:19px}
+.student-edit-page .edit-card-head .num{width:38px;height:38px;border-radius:12px;background:#eaf1ff;color:#244a9b;box-shadow:inset 0 0 0 1px #dce7ff}
+.student-edit-page .edit-card-head h2{font-size:15px;font-weight:750;color:#1d2d49}
+.student-edit-page .edit-card-head p{font-size:11px;color:#8996aa}
+.student-edit-page .edit-grid{gap:19px 22px}
+.student-edit-page .edit-field label{font-size:11px;font-weight:700;color:#3b4a63}
+.student-edit-page .edit-field input,.student-edit-page .edit-field select{min-height:44px;padding:11px 13px;border:1px solid #dce3ee;border-radius:10px;font-size:12px;transition:.18s}
+.student-edit-page .edit-field input:focus,.student-edit-page .edit-field select:focus{outline:none;border-color:#4775ca;box-shadow:0 0 0 4px rgba(49,95,196,.09)}
+.student-edit-page .edit-field small{font-size:10px;color:#8996aa}
+.student-edit-page .edit-actions{border-top:1px solid #e8edf5;margin-top:5px;padding:18px 0 28px}
+.student-edit-page .edit-actions button{padding:12px 20px!important;border-radius:10px!important;background:#214b9d!important;box-shadow:0 5px 12px rgba(33,75,157,.18);font-weight:700!important}
+@media(max-width:650px){.student-edit-head{padding:18px;border-radius:14px}.student-edit-head h1{font-size:19px}.student-edit-page .edit-card{padding:17px}.student-edit-page .edit-grid{gap:14px}}
+
 </style>
 @endpush
 
 @section('content')
-<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:24px">
+<div class="student-edit-head">
     <div class="edit-intro"><div class="edit-avatar">{{ mb_strtoupper(mb_substr($siswa->nama_lengkap, 0, 1)) }}</div><div><h1>Edit Profil Siswa</h1><p class="admin-intro" style="margin:6px 0 0">Perbarui informasi milik {{ $siswa->nama_lengkap }}.</p></div></div>
     <a href="{{ route('admin.siswa.show', $siswa) }}" style="padding:10px 13px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:12px;color:#475569">← Kembali ke Profil</a>
 </div>
 @if ($errors->any())
 <div style="padding:14px 16px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;border-radius:10px;margin-bottom:18px;font-size:13px"><strong>Data belum bisa disimpan.</strong><ul style="margin:8px 0 0;padding-left:20px">@foreach ($errors->all() as $error)<li style="margin:3px 0">{{ $error }}</li>@endforeach</ul></div>
 @endif
-<form method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.update', $siswa) }}">
+<div class="student-edit-page"><form method="POST" enctype="multipart/form-data" action="{{ route('admin.siswa.update', $siswa) }}">
 @csrf @method('PUT')
 <section class="edit-card">
     <div class="edit-card-head"><div class="num">01</div><div><h2>Identitas Pribadi</h2><p>Pastikan data sesuai dengan identitas siswa.</p></div></div>
@@ -64,8 +86,8 @@
         <div class="edit-field"><label for="tanggal_selesai_pkl">Tanggal selesai PKL</label><input id="tanggal_selesai_pkl" type="date" name="tanggal_selesai_pkl" value="{{ old('tanggal_selesai_pkl', $siswa->tanggal_selesai_pkl?->format('Y-m-d')) }}"><small>Tidak boleh sebelum tanggal mulai.</small></div>
     </div>
 </section>
-<div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-bottom:26px"><a href="{{ route('admin.siswa.show', $siswa) }}" style="padding:12px 16px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:13px;color:#475569">Batal</a><button type="submit" style="padding:12px 18px;border:0;background:#17357f;color:#fff;border-radius:9px;font-size:13px;font-weight:650;cursor:pointer">Simpan Perubahan</button></div>
-</form>
+<div class="edit-actions" style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-bottom:26px"><a href="{{ route('admin.siswa.show', $siswa) }}" style="padding:12px 16px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:13px;color:#475569">Batal</a><button type="submit" style="padding:12px 18px;border:0;background:#17357f;color:#fff;border-radius:9px;font-size:13px;font-weight:650;cursor:pointer">Simpan Perubahan</button></div>
+</form></div>
 
 @push('scripts')
 <script>
