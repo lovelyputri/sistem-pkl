@@ -230,20 +230,22 @@
 .photo-crop-button{border:1px solid #b9d1fb;background:#eaf2ff;color:#1d4ed8;border-radius:7px;padding:7px 11px;font-size:10px;font-weight:700;cursor:pointer}
 .photo-crop-button:disabled{opacity:.45;cursor:not-allowed}
 .photo-crop-button:not(:disabled):hover{background:#dbeafe}
-.photo-crop-overlay{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(10,25,55,.62)}
-.photo-crop-overlay.active{display:flex}
-.photo-crop-dialog{width:min(440px,100%);padding:20px;border-radius:16px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.25)}
-.photo-crop-dialog h3{margin:0 0 5px;color:#1e3a8a;font-size:16px}
-.photo-crop-dialog p{margin:0 0 14px;color:#64748b;font-size:11px;line-height:1.5}
-.photo-crop-canvas-wrap{width:min(320px,100%);aspect-ratio:1;margin:0 auto 15px;overflow:hidden;border:2px solid #bfdbfe;border-radius:12px;background:#eff6ff;touch-action:none}
-.photo-crop-canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
-.photo-crop-canvas:active{cursor:grabbing}
-.photo-crop-zoom{display:flex;align-items:center;gap:10px;margin-bottom:16px;color:#31558f;font-size:11px;font-weight:650}
-.photo-crop-zoom input{flex:1;accent-color:#2563eb}
-.photo-crop-actions{display:flex;justify-content:flex-end;gap:8px}
-.photo-crop-actions button{border-radius:8px;padding:9px 13px;font-size:11px;font-weight:700;cursor:pointer}
-.photo-crop-cancel{border:1px solid #dbe3ef;background:#fff;color:#475569}
-.photo-crop-apply{border:1px solid #2563eb;background:#2563eb;color:#fff}
+.crop-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(15,23,42,.66);backdrop-filter:blur(4px)}
+.crop-modal.is-open{display:flex}
+.crop-dialog{width:min(100%,620px);max-height:calc(100vh - 40px);overflow:auto;border-radius:16px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.25)}
+.crop-dialog-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:19px 22px;border-bottom:1px solid #edf0f5}
+.crop-dialog-head h3{margin:0;color:#172554;font-size:15px;font-weight:750}
+.crop-dialog-head p{margin:5px 0 0;color:#718096;font-size:11px;line-height:1.5}
+.crop-close{width:32px;height:32px;border:0;border-radius:8px;background:#f1f5f9;color:#475569;font-size:20px;cursor:pointer}
+.crop-workspace{height:360px;margin:18px 22px 12px;overflow:hidden;background:#f1f4f8;border-radius:10px}
+.crop-workspace img{display:block;max-width:100%;max-height:100%}
+.crop-hint{margin:0 22px;color:#718096;font-size:11px;line-height:1.6}
+.crop-dialog-actions{display:flex;justify-content:flex-end;gap:9px;padding:17px 22px 20px}
+.crop-action{min-height:38px;padding:0 15px;border:1px solid #dbe2ec;border-radius:8px;background:#fff;color:#475569;font:inherit;font-size:12px;font-weight:650;cursor:pointer}
+.crop-action.primary{border-color:#234da7;background:#234da7;color:#fff}
+.crop-action:disabled{opacity:.55;cursor:not-allowed}
+.cropper-view-box,.cropper-face{border-radius:50%}
+.cropper-view-box{outline:2px solid #fff;box-shadow:0 0 0 1px rgba(35,77,167,.5)}
 @media(max-width:480px){.profile-photo-control{align-items:flex-start}.profile-photo-preview{width:64px;height:64px;flex-basis:64px}.photo-crop-dialog{padding:15px}}
 
 </style>
@@ -281,8 +283,8 @@
                 <div class="profile-photo-preview" id="profilePhotoPreview"><span>FOTO</span></div>
                 <div class="profile-photo-upload">
                     <input id="foto_profil" type="file" name="foto_profil" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
-                    <small>Pilih foto, lalu atur posisi dan potong agar pas. JPG, PNG, atau WEBP, maksimal 2 MB.</small>
-                    <button type="button" id="openPhotoCrop" class="photo-crop-button" disabled>Atur &amp; Crop Foto</button>
+                    <small id="profilePhotoName">Belum ada foto yang dipilih</small>
+                    <small>Format JPG, PNG, atau WEBP. Maksimal 2 MB.</small>
                 </div>
             </div>
         </div>
@@ -317,6 +319,18 @@
     <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="{{ route('admin.siswa.index') }}" style="padding:12px 16px;border:1px solid #d7deea;background:#fff;border-radius:9px;font-size:13px;color:#475569">Batal</a><button type="submit" style="padding:12px 18px;border:0;background:#17357f;color:#fff;border-radius:9px;font-size:13px;font-weight:650;cursor:pointer">Simpan Siswa →</button></div>
 </div>
 </form></div>
+
+<div class="crop-modal" id="profileCropModal" aria-hidden="true">
+    <div class="crop-dialog" role="dialog" aria-modal="true" aria-labelledby="cropDialogTitle">
+        <div class="crop-dialog-head">
+            <div><h3 id="cropDialogTitle">Atur Foto Profil</h3><p>Geser foto untuk mengatur posisi. Area lingkaran menunjukkan bagian foto yang akan digunakan.</p></div>
+            <button type="button" class="crop-close" id="cancelCropTop" aria-label="Tutup">×</button>
+        </div>
+        <div class="crop-workspace"><img id="profileCropImage" alt="Foto yang akan dipangkas"></div>
+        <p class="crop-hint">Gunakan scroll atau gerakan pinch untuk memperbesar dan memperkecil foto.</p>
+        <div class="crop-dialog-actions"><button type="button" class="crop-action" id="cancelCrop">Batal</button><button type="button" class="crop-action primary" id="applyCrop">Gunakan Foto</button></div>
+    </div>
+</div>
 
 @push('scripts')
 <script>
@@ -365,155 +379,108 @@ document.addEventListener('DOMContentLoaded', function () {
             guruSelect.disabled = false;
         } catch (error) {
             guruSelect.innerHTML = '';
-            guruSelect.add(new Option('Gagal memuat guru. Coba pilih sekolah lagi.', ''));
-            guruSelect.disabled = true;
-            console.error(error);
-        }
-    }
-
-    sekolahSelect.addEventListener('change', function () {
-        muatGuru(this.value);
-    });
-
-    muatGuru(sekolahSelect.value, guruLama);
-});
-</script>
-
+            guruSelect.add(new Option('Gagal memuat guru. Coba p<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const input = document.getElementById('foto_profil');
-    const preview = document.getElementById('profilePhotoPreview');
-    const openButton = document.getElementById('openPhotoCrop');
-    if (!input || !preview || !openButton) return;
+    const form = document.querySelector('.student-create-page form');
+    const photoInput = document.getElementById('foto_profil');
+    const photoPreview = document.querySelector('#profilePhotoPreview img');
+    const previewWrap = document.getElementById('profilePhotoPreview');
+    const photoName = document.getElementById('profilePhotoName');
+    const modal = document.getElementById('profileCropModal');
+    const cropImage = document.getElementById('profileCropImage');
+    const applyButton = document.getElementById('applyCrop');
+    const cancelButton = document.getElementById('cancelCrop');
+    const closeButton = document.getElementById('cancelCropTop');
+    if (!form || !photoInput || !previewWrap || !modal) return;
 
-    let sourceImage = null;
-    let zoom = 1;
-    let offsetX = 0;
-    let offsetY = 0;
-    let dragging = false;
-    let lastX = 0;
-    let lastY = 0;
+    let cropper = null;
+    let selectedFile = null;
+    let sourceUrl = null;
+    let previewUrl = null;
 
-    const overlay = document.createElement('div');
-    overlay.className = 'photo-crop-overlay';
-    overlay.innerHTML = `
-        <div class="photo-crop-dialog" role="dialog" aria-modal="true" aria-labelledby="photoCropTitle">
-            <h3 id="photoCropTitle">Atur Foto Profil</h3>
-            <p>Geser foto untuk mengatur posisi, lalu gunakan zoom agar hasil crop terlihat pas.</p>
-            <div class="photo-crop-canvas-wrap"><canvas class="photo-crop-canvas" width="640" height="640"></canvas></div>
-            <label class="photo-crop-zoom">Zoom <input type="range" min="1" max="3" step="0.01" value="1" id="photoCropZoom"></label>
-            <div class="photo-crop-actions">
-                <button type="button" class="photo-crop-cancel">Batal</button>
-                <button type="button" class="photo-crop-apply">Gunakan Foto</button>
-            </div>
-        </div>`;
-    document.body.appendChild(overlay);
-    const canvas = overlay.querySelector('canvas');
-    const ctx = canvas.getContext('2d');
-    const zoomInput = overlay.querySelector('#photoCropZoom');
-
-    function drawCrop() {
-        if (!sourceImage) return;
-        const baseScale = Math.max(canvas.width / sourceImage.naturalWidth, canvas.height / sourceImage.naturalHeight);
-        const scale = baseScale * zoom;
-        const width = sourceImage.naturalWidth * scale;
-        const height = sourceImage.naturalHeight * scale;
-        const x = (canvas.width - width) / 2 + offsetX;
-        const y = (canvas.height - height) / 2 + offsetY;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#eaf2ff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(sourceImage, x, y, width, height);
-    }
-
-    function closeCrop() {
-        overlay.classList.remove('active');
-        dragging = false;
-    }
-
-    input.addEventListener('change', function () {
-        const file = this.files && this.files[0];
-        if (!file) {
-            openButton.disabled = true;
-            preview.innerHTML = '<span>FOTO</span>';
-            sourceImage = null;
-            return;
+    function closeCropper(resetInput) {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (cropper) { cropper.destroy(); cropper = null; }
+        if (sourceUrl) { URL.revokeObjectURL(sourceUrl); sourceUrl = null; }
+        if (resetInput) {
+            photoInput.value = '';
+            selectedFile = null;
+            photoName.textContent = 'Belum ada foto yang dipilih';
+            previewWrap.innerHTML = '<span>FOTO</span>';
         }
-        if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
-            alert('Pilih foto berformat JPG, PNG, atau WEBP.');
-            this.value = '';
-            openButton.disabled = true;
-            return;
+    }
+
+    function openCropper(file) {
+        selectedFile = file;
+        sourceUrl = URL.createObjectURL(file);
+        cropImage.onload = function () {
+            if (cropper) cropper.destroy();
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            cropper = new Cropper(cropImage, {
+                aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 1,
+                responsive: true, background: false, guides: false, center: true,
+                highlight: false, cropBoxMovable: false, cropBoxResizable: false,
+                toggleDragModeOnDblclick: false, zoomable: true, scalable: true, rotatable: false
+            });
+        };
+        cropImage.src = sourceUrl;
+    }
+
+    photoInput.addEventListener('change', function () {
+        const file = this.files && this.files[0];
+        if (!file) return;
+        if (!['image/jpeg','image/png','image/webp'].includes(file.type)) {
+            this.value = ''; photoName.textContent = 'Format foto tidak didukung'; return;
         }
         if (file.size > 2 * 1024 * 1024) {
-            alert('Ukuran foto maksimal 2 MB.');
-            this.value = '';
-            openButton.disabled = true;
-            return;
+            this.value = ''; photoName.textContent = 'Ukuran foto melebihi 2 MB'; return;
         }
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            const image = new Image();
-            image.onload = function () {
-                sourceImage = image;
-                zoom = 1; offsetX = 0; offsetY = 0;
-                zoomInput.value = '1';
-                drawCrop();
-                overlay.classList.add('active');
-                openButton.disabled = false;
-            };
-            image.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
+        if (typeof Cropper === 'undefined') {
+            photoName.textContent = 'Fitur pangkas gagal dimuat. Periksa koneksi internet.';
+            this.value = ''; return;
+        }
+        openCropper(file);
     });
 
-    openButton.addEventListener('click', function () {
-        if (!sourceImage) return;
-        drawCrop();
-        overlay.classList.add('active');
-    });
-    zoomInput.addEventListener('input', function () {
-        zoom = Number(this.value);
-        drawCrop();
-    });
-
-    canvas.addEventListener('pointerdown', function (event) {
-        dragging = true;
-        lastX = event.clientX;
-        lastY = event.clientY;
-        canvas.setPointerCapture(event.pointerId);
-    });
-    canvas.addEventListener('pointermove', function (event) {
-        if (!dragging) return;
-        const rect = canvas.getBoundingClientRect();
-        offsetX += (event.clientX - lastX) * (canvas.width / rect.width);
-        offsetY += (event.clientY - lastY) * (canvas.height / rect.height);
-        lastX = event.clientX;
-        lastY = event.clientY;
-        drawCrop();
-    });
-    canvas.addEventListener('pointerup', function () { dragging = false; });
-    canvas.addEventListener('pointercancel', function () { dragging = false; });
-    overlay.querySelector('.photo-crop-cancel').addEventListener('click', closeCrop);
-    overlay.addEventListener('click', function (event) {
-        if (event.target === overlay) closeCrop();
-    });
-    document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') closeCrop();
-    });
-
-    overlay.querySelector('.photo-crop-apply').addEventListener('click', function () {
-        if (!sourceImage) return;
+    applyButton.addEventListener('click', function () {
+        if (!cropper || !selectedFile) return;
+        applyButton.disabled = true;
+        const canvas = cropper.getCroppedCanvas({width:512,height:512,imageSmoothingEnabled:true,imageSmoothingQuality:'high'});
         canvas.toBlob(function (blob) {
-            if (!blob) {
-                alert('Foto gagal diproses. Silakan coba lagi.');
-                return;
-            }
-            const croppedFile = new File([blob], 'foto-profil.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+            applyButton.disabled = false;
+            if (!blob) return;
+            const baseName = selectedFile.name.replace(/\\.[^.]+$/, '') || 'foto-profil';
+            const croppedFile = new File([blob], baseName + '-crop.jpg', {type:'image/jpeg',lastModified:Date.now()});
             const transfer = new DataTransfer();
             transfer.items.add(croppedFile);
-            input.files = transfer.files;
-            preview.innerHTML = '';
+            photoInput.files = transfer.files;
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+            previewUrl = URL.createObjectURL(croppedFile);
+            previewWrap.innerHTML = '';
+            const imagePreview = document.createElement('img');
+            imagePreview.src = previewUrl;
+            imagePreview.alt = 'Pratinjau foto profil';
+            previewWrap.appendChild(imagePreview);
+            photoName.textContent = croppedFile.name + ' · sudah dipangkas';
+            closeCropper(false);
+            selectedFile = null;
+        }, 'image/jpeg', 0.92);
+    });
+
+    function cancelSelection() { closeCropper(true); }
+    cancelButton.addEventListener('click', cancelSelection);
+    closeButton.addEventListener('click', cancelSelection);
+    modal.addEventListener('click', function (event) { if (event.target === modal) cancelSelection(); });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) cancelSelection();
+    });
+});
+</script>
             const image = document.createElement('img');
             image.src = URL.createObjectURL(blob);
             image.alt = 'Pratinjau foto profil';
