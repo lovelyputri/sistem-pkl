@@ -131,6 +131,11 @@
  .student-page .student-stats{gap:9px}
 }
 
+
+/* Samakan lebar dan padding halaman CRUD Siswa dengan Dashboard Admin. */
+.admin-content:has(.student-page){width:100%!important;max-width:none!important;margin:0!important;padding:22px 24px 30px!important}
+@media(max-width:760px){.admin-content:has(.student-page){padding:17px 15px!important}}
+@media(max-width:560px){.admin-content:has(.student-page){padding:13px 11px 20px!important}}
 </style>
 @endpush
 
