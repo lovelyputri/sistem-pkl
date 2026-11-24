@@ -5,6 +5,11 @@
 
 @push('styles')
 <style>
+/* Samakan lebar dan jarak area konten dengan Dashboard serta Data Siswa */
+.admin-content:has(.student-edit-head){width:100%;max-width:none;margin:0;padding:22px 24px 30px}
+@media(max-width:820px){.admin-content:has(.student-edit-head){padding:17px}}
+@media(max-width:560px){.admin-content:has(.student-edit-head){padding:13px 11px 20px}}
+
 .edit-intro{display:flex;align-items:center;gap:14px}
 .edit-avatar{width:52px;height:52px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8efff;color:#244a9b;font-size:20px;font-weight:700}
 .edit-card{background:#fff;border:1px solid #e5eaf2;border-radius:13px;padding:22px;margin-bottom:18px}
